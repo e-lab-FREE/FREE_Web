@@ -7,8 +7,10 @@
   "license": "All rights reserved",
   "private": true,
   "dependencies": {
+    "moment-timezone": "^0.5.33",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-semantic-ui-range": "^0.7.1",
     "semantic-ui-react": "^0.88.2"
   },
   "devDependencies": {

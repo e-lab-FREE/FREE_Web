@@ -1,10 +1,16 @@
 from rest_framework import generics, serializers, views
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework import generics, status
+from datetime import datetime, timezone
+from django.forms.models import model_to_dict
 from free.models import *
 from jsonschema import validate, ValidationError as JSONValidationError
-
+from rest_framework.serializers import ModelSerializer
+from rest_framework.response import Response
+from django.utils.timezone import get_current_timezone  
 from free.views.permissions import ApparatusOnlyAccess
+from django.contrib.auth.models import User
 
 # Experiment
 class ExperimentSerializer(serializers.ModelSerializer):
@@ -23,6 +29,7 @@ class ExperimentListAPI(generics.ListAPIView):
 # Execution API
 
 class ExecutionConfigSerializer(serializers.ModelSerializer):
+    # user = User.objects.get(id=4)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     status = serializers.HiddenField(default='C')
 
@@ -64,6 +71,8 @@ class ExecutionConfigure(generics.CreateAPIView):
     serializer_class = ExecutionConfigSerializer
     queryset = Execution.objects.all()
 
+
+
 class ExecutionUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieves or updates a given execution
@@ -98,6 +107,34 @@ class ExecutionSerializer(serializers.ModelSerializer):
         model = Execution
         fields = '__all__'
 
+class ExecutionStatusAPIView(generics.UpdateAPIView): 
+    queryset = Execution
+    serializer_class = ExecutionSerializer
+
+    def patch(self, request, execution_id):
+        try:
+            option = request.data.get('status', None)
+            start = request.data.get('start', None)
+            end = request.data.get('end', None)
+            optionExists = option in dict(EXECUTION_STATUS_CHOICES)
+            print('execute :', option, end, start, optionExists, execution_id)
+            if optionExists:
+                execution = None
+                if start:                 # Enqueued / Start
+                    execution = self.queryset.objects.filter(pk=execution_id).update(status=option, start=start, end=None)
+                if end:                   # Completed / Error
+                    execution = self.queryset.objects.filter(pk=execution_id).update(status=option, end=end)
+                if not start and not end: # Pause / Running
+                    execution = self.queryset.objects.filter(pk=execution_id).update(status=option)
+
+                print('execution :', execution)
+                return Response({ 'id' : execution_id, 'status':option, 'updated': execution }, status=status.HTTP_200_OK)
+
+            return Response({ 'error': 'Invalid status !!'}, status=status.HTTP_400_BAD_REQUEST) 
+        except Exception as e:
+            print('ExecutionRunAPIView Exception : ', e) 
+            return Response({ 'error': str(e) }, status=status.HTTP_400_BAD_REQUEST) 
+
 class ExecutionView(generics.RetrieveAPIView):
     """
     Returns the current status of an execution with a given id.
@@ -106,12 +143,46 @@ class ExecutionView(generics.RetrieveAPIView):
     queryset = Execution.objects.all()
     lookup_field='id'
 
+class ExecutionStatusSubmitAPI(generics.ListAPIView): 
+    queryset = Execution
+    serializer_class = ExecutionSerializer
+
+    def get(self, request, apparatus_id):
+        try:
+            execution = self.queryset.objects.filter(apparatus_id=apparatus_id,status='Q').first()
+            if execution == None: 
+                return Response( {} , status=status.HTTP_200_OK) 
+            else:
+                data = model_to_dict(execution)
+                print(data)
+                print(data["config"])
+                execution.status='R'
+                execution.save()
+                return Response( {"execution_id":data["id"],"config_params":data["config"]} , status=status.HTTP_200_OK)
+
+            # return Response({ 'error': 'Invalid status !!'}, status=status.HTTP_400_BAD_REQUEST) 
+        except Exception as e:
+            print('ExecutionRunAPIView Exception : ', e) 
+            return Response({ 'error': str(e) }, status=status.HTTP_400_BAD_REQUEST) 
 
 class ProtocolSerializer(serializers.ModelSerializer):
     read_only = True
     class Meta:
         model = Protocol
         fields = ['name', 'config']
+
+class ApparatusSerializer(serializers.ModelSerializer):
+    read_only = True
+    protocols = ProtocolSerializer(many=True)
+    experiment = ExperimentSerializer()
+    class Meta:
+        model = Apparatus
+        fields = ['experiment', 'protocols', 'location', 'owner']
+
+class AppratusView(generics.RetrieveAPIView):
+    serializer_class = ApparatusSerializer
+    queryset = Apparatus.objects.all()
+    lookup_field = 'id'
 
 class ProtocolList(generics.ListAPIView):
     """

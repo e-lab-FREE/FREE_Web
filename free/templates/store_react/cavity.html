@@ -1,0 +1,43 @@
+{% extends 'free/base.html' %}
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+{% load react_component from django_react_components %}
+
+{% block title %}Cavity{% endblock %}
+
+{% block head%}
+    {% render_bundle 'components' %}
+
+    <style type="text/css">
+        #head {
+            margin-top: 3em;
+            margin-bottom: 2em;
+            font-size: 4em;
+        }
+    </style>
+
+{% endblock %}  
+
+{% block content%}
+    <div class="ui inverted vertical center aligned segment" >
+        <div class="ui text container">
+        </div>
+
+    </div>
+    <!-- {{free_experiment}}
+    {% for experiment in free_experiment %}
+       <h1><strong> {{ experiment.fields.name }} </strong></h1> 
+       <h3> {{ experiment.fields.description }} </h3> 
+    {% endfor %} -->
+    <div class="ui center aligned segment">
+        <div class="ui text container">
+            {% react_component 'CavityReactComponent' id='CavityReactComponent' %}
+        </div>
+    </div>
+
+    <div class="ui center aligned segment">
+        <div class="ui text container">
+            <a class="ui large button" href="{% url 'free:experiment' %}">{% trans 'Experiment' %}</a>
+        </div>
+    </div>
+{% endblock %}

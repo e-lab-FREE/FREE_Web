@@ -1,0 +1,46 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+{% load react_component from django_react_components %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="theme-color" content="#000000" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
+
+        <link rel="shortcut icon" type="image/png" href="">
+        <link rel="shortcut icon" href="http://e-lab.ist.eu/rec.web/faviconElab.ico">
+
+ 
+        <!-- <title>{% trans 'FREE' %} - {% block title %} {% endblock %}</title> -->
+
+        <title>e-Lab</title>
+
+        {% render_bundle 'common' %} 
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body style="overflow: hidden">  
+        <div>     
+            {% react_component 'NavBarReactComponent' id='NavBarReactComponent' %}   
+        </div>
+        <div class="ui" style="margin-top: 4em; min-height: 85vh; flex: 2;">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div>
+            {% react_component 'FooterReactComponent' id='FooterReactComponent' %}
+        </div>
+    </body>
+</html>
