@@ -35,6 +35,7 @@ urlpatterns = [
 
     path('execution/create/<int:apparatus_id>/<int:protocol_id>', views.CreateExecutionView.as_view(), name='execution-create'),
     path('execution/<int:pk>', views.ExecutionView.as_view(), name='execution'),
+    path('apparatuses/<slug:apparatus_type_slug>/<int:apparatus_id>/<int:protocol_id>', views.ApparatusesRedirectNewExperiment.as_view()),
 
     # REST API
     path('api/v1/version', views.Version.as_view(), name='api-version'),
@@ -47,6 +48,7 @@ urlpatterns = [
     path('api/v1/execution/<int:id>/status', views.ChangeExecutionStatus.as_view(), name='api-execution-status-change'),
     path('api/v1/execution/<int:id>/result', views.ResultList.as_view(), name='api-result-list'),
     path('api/v1/execution/<int:id>/result/<int:last_id>', views.ResultListFiltered.as_view(), name='api-result-list-filtered'),
+    path('api/v1/execution/<int:id>/result/<int:last_id>/<int:limit>', views.ResultListFilteredLimited.as_view(), name='api-result-list-filtered-limited'),
     
     path('api/v1/apparatus', views.ApparatusListAPI.as_view(), name='api-apparatus-list'),
     path('api/v1/apparatus/<int:id>/heartbeat', views.Heartbeat.as_view(), name='api-apparatus-heartbeat'),
