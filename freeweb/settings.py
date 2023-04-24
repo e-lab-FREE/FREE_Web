@@ -59,8 +59,8 @@ INSTALLED_APPS = [
     'free.videoConfig',
     'free.userAdmin',
     # APPARATUS TYPES BELOW
-    'pendulum',
-    'dev_MonteCarlo',
+    #'pendulum',
+    'MonteCarlo',
    'inclined_plane',
     'langmuir',
     'photovoltaic_panel',
@@ -69,12 +69,12 @@ INSTALLED_APPS = [
     'colisione',
 ]
 if env.bool('FREE_LTI_PROVIDER'):
-INSTALLED_APPS +=     [
-'FREE_quizes',
-'lti_provider',
+    INSTALLED_APPS +=     [
+    'FREE_quizes',
+    'lti_provider',
 ]
 
-]
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
