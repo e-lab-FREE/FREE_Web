@@ -91,7 +91,8 @@ class ExecutionConfigure(generics.CreateAPIView):
     """
     Configures an execution of experiment. 
     
-    You must supply valid apparatus and protocol ids. The config is validated against JSON schema of the protocol.
+    You must supply valid apparatus and protocol ids. 
+    The config is validated against JSON schema of the protocol.
     """
     serializer_class = ExecutionCreateSerializer
     queryset = Execution.objects.all()
@@ -104,7 +105,8 @@ class ExecutionRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     Retrieves, updates or deletes a given execution. 
     
     The config is validated against JSON schema of the protocol.
-    Update and delete are only possible for executions, that have not been enqueued (are in configured state - C).
+    Update and delete are only possible for executions, 
+    that have not been enqueued (are in configured state - C).
     It is only possble to update config of the execution.
     """
     queryset = Execution.objects.all()
@@ -143,7 +145,8 @@ class ExecutionStart(views.APIView):
         try:
             execution = Execution.objects.get(pk=kwargs['id'])
         except Execution.DoesNotExist:
-            return Response({'error': 'Execution with given ID does not exist!'}, status = 404)
+            return Response({'error': 'Execution with given ID '
+                             'does not exist!'}, status = 404)
 
         if execution.status != 'C':
             return Response({'error': 'You can only start executions with Configured (C) state.'}, status = 400)
@@ -198,7 +201,8 @@ class NextExecution(generics.RetrieveAPIView):
     """
     Returns the earliest started execution.
 
-    This is supposed to be the next execution that the apparatus should perform.
+    This is supposed to be the next execution that the apparatus 
+    should perform.
 
     **APPARATUS AUTHENTICATION REQUIRED**
     """
@@ -217,9 +221,12 @@ class ResultSerializer(serializers.ModelSerializer):
     order = serializers.SerializerMethodField()
     def validate(self, data):
         if data['execution'].status != 'R':
-            raise ValidationError('Can only add resuls to a running execution!')
+            raise ValidationError('Can only add results '
+            'to a running execution!')
         if data['result_type'] == 'f':
-            if Result.objects.filter(execution=data['execution'], result_type='f').count()!=0:
+            if Result.objects.filter(
+                execution=data['execution'], 
+                result_type='f').count()!=0:
                 raise ValidationError('Cannot add more than one final result!')
             data['execution'].status = 'F'
             data['execution'].save()
@@ -235,7 +242,8 @@ class AddResult(generics.CreateAPIView):
     """
     Adds a measurement result to a given execution.
 
-    Adding a measurement with result_type "f" will automatically stop the execution.
+    Adding a measurement with result_type "f" will 
+    automatically stop the execution.
 
     **APPARATUS AUTHENTICATION REQUIRED**
     """
@@ -258,13 +266,17 @@ class ResultList(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], result_type='f')
+        return Result.objects.filter(
+            execution_id=self.kwargs['id'], 
+            result_type='f')
 
 class ResultListFiltered(generics.ListAPIView):
     """
-    Returns a list of all results for a given execution, with id greater or equal to last_id.
+    Returns a list of all results for a given execution, 
+    with id greater or equal to last_id.
 
-    This allows you to limit the size of the result list to only view most recent results.
+    This allows you to limit the size of the 
+    result list to only view most recent results.
     """
     serializer_class = ResultSerializer
     
@@ -292,10 +304,15 @@ class ExecutionStatusSerializer(serializers.ModelSerializer):
 
         if self.instance: # if updating
             if self.instance.status in valid_transitions:
-                if data['status'] not in valid_transitions[self.instance.status]:
-                    raise ValidationError('Execution in state ' + self.instance.status + ' can only change state to ' + ','.join(valid_transitions[self.instance.status]))
+                if (data['status'] not in 
+                valid_transitions[self.instance.status]):
+                    raise ValidationError('Execution in state ' 
+                    + self.instance.status + 
+                    ' can only change state to ' + 
+                    ','.join(valid_transitions[self.instance.status]))
             else:
-                raise ValidationError('Cannot change an execution with status ' + self.instance.status)
+                raise ValidationError('Cannot change an execution ' 
+                                      'with status ' + self.instance.status)
 
         return data
                 
@@ -307,7 +324,8 @@ class ChangeExecutionStatus(generics.RetrieveUpdateAPIView):
     """
     Changes or retrieves the status of a given execution.
 
-    It is only possible to change state of running execution (R) to either finished (F) or error (E).
+    It is only possible to change state of running execution (R) 
+    to either finished (F) or error (E).
 
     **APPARATUS AUTHENTICATION REQUIRED**
     """
@@ -325,4 +343,6 @@ class ExecutionQueue(generics.ListAPIView):
     permission_classes = [ApparatusOnlyAccess]
     serializer_class = ExecutionSerializer
     def get_queryset(self):
-        return Execution.objects.filter(state='Q', apparatus_id=self.kwargs['apparatus_id']).order_by('queue_time')
+        return Execution.objects.filter(
+            state='Q', 
+            apparatus_id=self.kwargs['apparatus_id']).order_by('queue_time')

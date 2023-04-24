@@ -32,10 +32,18 @@ class ExecutionView(LoginRequiredMixin, TemplateView):
     def get_template_names(self):
         return ['free/experiments/' + self.execution.apparatus.apparatus_type.slug + '.html']
 
+
+class ExecutionStrippedView(ExecutionView):
+    def get_context_data(self, **kwargs):
+        context = ExecutionView.get_context_data(self, **kwargs)
+        context['base'] = "free/base_stripped.html"
+        context['STRIPPED'] = True
+        return context
+
+
 class ApparatusVideoView(LoginRequiredMixin, DetailView):
     template_name = 'free/apparatus_video.html'
     def get_queryset(self):
-        print(self.kwargs['pk'])
         return Apparatus.objects.filter(id=self.kwargs['pk'])
         #.get(pk=self.kwargs['pk'])
 
@@ -47,6 +55,13 @@ class CreateExecutionView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         apparatus_id = kwargs['apparatus_id']
         protocol_id = kwargs['protocol_id']
+        # verify the LTI thing
+        if self.request.session.get('lti_login') is not None:
+            context['base'] = "free/base_stripped.html"
+            context['STRIPPED'] = True
+        else:
+            context['base'] = "free/base.html"
+        
 
         self.apparatus = get_object_or_404(Apparatus, pk=apparatus_id)
 

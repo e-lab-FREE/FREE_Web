@@ -1,4 +1,4 @@
-{% extends 'free/base.html' %}
+{% extends base %}
 {% load static %}
 {% load i18n %}
 
@@ -179,6 +179,63 @@
                 <p>Way to go!</p>
                 </div>
         </div>
+        {{apparatus.apparatus_type.description|safe}}
+        <!--<h2> Details</h2>-->
+        {{apparatus.description|safe}}
+        <!--<h2> Protocol details</h2>-->
+        {{protocol.description|safe}}
+        <!--end of the description-->
+    </div>    
+                
+                
+
+
+    <div  class="ui active bottom attached tab segment "  data-tab="configuration-tab">
+        
+        <h2>{% trans 'Configuration data'%}</h2>
+
+        <div id="config-input" class="ui equal width aligned padded">
+            <div class="ui container">
+                <div class="ui right pointing label">
+                    {% trans 'Execution name:' %}
+                </div>
+                <div class="ui input" >
+                    <input type="text" onchange="onInputChanged()" id="execution_name"  placeholder="New Execution">
+                </div>
+
+            </div>
+            <div class="ui section divider"></div>
+            {% block configtab %}
+            <!-- TAB CONTENT WILL BE INJECTED HERE -->
+            {% endblock %}
+        </div>
+        <div class="ui divider"></div>
+        <div class="row">   
+            <div class="column">
+                <div class="ui blue button " onclick="create_experiment()" id="createButton">{% trans 'Create'%}</div>
+                <div class="ui blue button" onclick="save_experiment()" id="saveButton">{% trans 'Save'%}</div>
+                <div class="ui green button" onclick="submit_experiment()" id="startButton">{% trans 'Submit'%}</div>
+                <div class="ui orange button" id="reloadButton" onclick="reloadInputValues()">{% trans 'Reload Values'%}</div>
+                <div class="ui orange button" id="resetButton" onclick="resetInputValues()">{% trans 'Reset to default'%}</div>
+                {% if not STRIPPED %}
+                <div class="ui green button" id="createNewExpButton" onclick="gotoCreateExecution()">{% trans 'Create New Execution'%}</div>
+                <div class="ui red button" id="deleteButton" onclick="deleteExecution()">{% trans 'Delete'%} {% trans 'Execution'%}</div>
+                <div class="ui red button" id="deleteResultsButton" onclick="deleteExecution()">{% trans 'Delete'%} {% trans 'Results'%}</div>
+                {% endif %}
+            </div>
+            <div class="ui floating message hidden" id="buttonMessage">
+                <p>Way to go!</p>
+                </div>
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment " data-tab="execution-tab">
+        {% comment %}
+                <div class="ui red button hiden" id="replayButton" onclick="replayExecution()">{% trans 'Replay'%} {% trans 'Execution'%}</div>
+        {% endcomment %}
+        {% block executiontab %}
+        {% endblock %}
+    </div>
+
     </div>
     <div class="ui bottom attached tab segment " data-tab="execution-tab">
         {% comment %}

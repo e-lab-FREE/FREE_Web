@@ -23,8 +23,6 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 FREE_VERSION = '0.6.0'
 
 SERVER_NAME = env.str('SERVER_NAME')
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 if env.bool('FREE_PRODUCTION'):
     DEBUG = False
@@ -69,6 +67,13 @@ INSTALLED_APPS = [
     'cavity',
     'planck',
     'colisione',
+]
+if env.bool('FREE_LTI_PROVIDER'):
+INSTALLED_APPS +=     [
+'FREE_quizes',
+'lti_provider',
+]
+
 ]
 
 MIDDLEWARE = [
@@ -287,15 +292,52 @@ if env.bool('FREE_FENIX_OAUTH'):
     SOCIAL_AUTH_FENIX_AUTH_KEY=env.str('SOCIAL_AUTH_FENIX_AUTH_KEY')
     SOCIAL_AUTH_FENIX_AUTH_SECRET=env.str('SOCIAL_AUTH_FENIX_AUTH_SECRET')
 
+    if env.bool('FREE_LTI_PROVIDER'):
 
-JANUS_SERVER_ADDRESS=env.str('JANUS_SERVER_ADDRESS')
-JANUS_STREAM_ADMIN_KEY = env.str('JANUS_STREAM_ADMIN_KEY')
+        AUTHENTICATION_BACKENDS += ('lti_provider.auth.LTIBackend',)
+
+        LTI_TOOL_CONFIGURATION = {
+            'title': '<your lti provider title>',
+            'description': '<your description>',
+            'launch_url': 'lti/',
+            'embed_url': '', #'<the view endpoint for an embed tool>' 
+            'embed_icon_url': '', #'<the icon url to use for an embed tool>' 
+            'embed_tool_id': '', #'<the embed tool id>'
+            'landing_url': '/', #<the view landing page>
+            'course_aware': False,
+            'course_navigation': True,
+            'new_tab': False,
+            'frame_width': 2048,
+            'frame_height': 2048,
+            'custom_fields': '',
+            'allow_ta_access': True,
+            'assignments': {
+                '<name>': '<landing_url>',
+                '<name>': '<landing_url>',
+                '<name>': '<landing_url>',
+                },
+        }
+
+    PYLTI_CONFIG = {
+        'consumers': {
+            'abcdefghijklmnopqrst': {
+                'secret': 'uvwxyz1234567890ABCD'
+            },
+            'uvwxyz1234567890ABCD':{
+                'secret':'abcdefghijklmnopqrst'
+            }
+        }
+    }
+
+    JANUS_SERVER_ADDRESS=env.str('JANUS_SERVER_ADDRESS')
+    JANUS_STREAM_ADMIN_KEY = env.str('JANUS_STREAM_ADMIN_KEY')
 
 
-PROJECT_NAME=env.str('PROJECT_NAME','World Pendulum Alliance')
-PROJECT_ACRONYMUM=env.str('PROJECT_ACRONYMUM', 'WPA')
-SITE_NAME=env.str('SITE_NAME','') 
+    PROJECT_NAME=env.str('PROJECT_NAME','World Pendulum Alliance')
+    PROJECT_ACRONYMUM=env.str('PROJECT_ACRONYMUM', 'WPA')
+    SITE_NAME=env.str('SITE_NAME','') 
 
+    
 if env.str('CACHE_TYPE') == 'locmemc':
     CACHES = {
         'default': {
