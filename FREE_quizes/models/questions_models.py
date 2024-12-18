@@ -156,7 +156,7 @@ class Experiment_Execution(Question):
         except :
             return None
         
-    def check_if_correct(self, current_execution, student_parameters):
+    def check_if_correct(self, current_quiz, current_execution, student_parameters, previous_executions):
         if student_parameters:  
             for param in student_parameters:
                 param_name = param['name']
@@ -165,6 +165,21 @@ class Experiment_Execution(Question):
                 if param['value'] !=  student_value:
                     print("wrong")
                     return False
+        else:
+            try:
+                if self.correctness_verification_function != '':
+                    module = importlib.import_module('FREE_quizes.quizes_code')
+                    m = getattr(module, current_quiz.url)
+                    f = getattr(m, self.correctness_verification_function)
+                    if_correct = f(self , current_quiz, current_execution, previous_executions)
+                else:
+                    if_correct = True                                                  
+            except KeyError:
+                if_correct = False
+                print("Wrong correctness_verification_function name in question model")
+
+            return if_correct
+
         return True
             
 
