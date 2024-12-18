@@ -234,7 +234,8 @@ class QuizLTIPostGrade(LTIAuthMixin, View):
             else:
                 context['final_result'] = self.sitting.final_result
                 pass
-        except:
+        except Exception as e:
+            print(e)
             pass
         return render(request, 'FREE_quizes/result.html', context)
 
@@ -540,6 +541,13 @@ class QuizTake(LoginRequiredMixin, FormView):
     def form_valid_user(self, form):
         progress, _ = Progress.objects.get_or_create(user=self.request.user)
 
+        previous_executions = []
+        for ans in self.sitting.user_answers:
+            if ans['execution_id']:
+                e = Execution.objects.filter(id= ans['execution_id']).first()
+                previous_executions.append(e)
+
+
         if not self.already_answered:
             if self.question.__class__ is Experiment_Execution:
                 try:
@@ -558,7 +566,7 @@ class QuizTake(LoginRequiredMixin, FormView):
                             self.sitting.user_answers[self.sitting.current_question]['answer'] = self.current_execution.config
                             if self.question.evaluated and self.question.sub_category != 'Fetch':
                                 #TODO meter aqui uma funcao para avaliar os parametros da ewxepriencia..... (com base nos )
-                                is_correct = self.question.check_if_correct(self.current_execution, self.sitting.user_answers[self.sitting.current_question]['required_parameters']) 
+                                is_correct = self.question.check_if_correct(self.quiz,self.current_execution, self.sitting.user_answers[self.sitting.current_question]['required_parameters'], previous_executions) 
                                 self.sitting.user_answers[self.sitting.current_question]['evaluated']= True  
                                 self.sitting.user_answers[self.sitting.current_question]['grade'] =  is_correct
                             else:

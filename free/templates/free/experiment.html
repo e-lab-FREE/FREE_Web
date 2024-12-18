@@ -367,15 +367,23 @@ function table_insert_partial_data_default(data){
     for ( ind = 0, len = table_columns.length; ind < len; ind++ ) {
         col_id.push($(table_columns[ind]).attr("id"))
     }
+    if (data.value.constructor != Array){
+        data_array = [data.value]
+    }else{
+        data_array = data.value
+    }
     var t = $('#results_table').DataTable();
-    row_data = []
-    for (c_id in col_id){
-        console.log(data.value)
-        console.log(col_id[c_id])
-        row_data.push(data.value[col_id[c_id]])
+    for ( ind in  data_array) {
+        row_data = []
+        for (c_id in col_id){
+            console.log(data.value)
+            console.log(col_id[c_id])
+            row_data.push(data_array[ind][col_id[c_id]])
+        }
+        t.row.add(row_data).draw()
+
     }
 
-    t.row.add(row_data).draw()
 }
 
 

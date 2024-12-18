@@ -103,7 +103,7 @@
     {% endif %}
       <p>In order to submit the grade of this quiz, press the following button.</p>
 
-      <form class="ui form" action="{% url 'FREE_quizes:quiz_submit_lti'  quiz_name=quiz.title%}" method="POST" id="form">{% csrf_token %}
+      <form class="ui form" action="{% url 'FREE_quizes:quiz_submit_lti'  quiz_name=quiz.url%}" method="POST" id="form">{% csrf_token %}
         <button id="submitQuizGradeButton" class="ui green right labeled icon button">
           Submit grades to course
         </button>
