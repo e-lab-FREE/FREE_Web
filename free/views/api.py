@@ -258,7 +258,7 @@ class ResultList(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], result_type='f')
+        return Result.objects.filter(execution_id=self.kwargs['id'], result_type='f').order_by('id')
 
 class ResultListFiltered(generics.ListAPIView):
     """
@@ -269,7 +269,7 @@ class ResultListFiltered(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('time')
+        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('id')
 
 class ResultListFilteredLimited(generics.ListAPIView):
     """
@@ -281,7 +281,7 @@ class ResultListFilteredLimited(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('time')[:self.kwargs['limit']]
+        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('id')[:self.kwargs['limit']]
 
 class ExecutionStatusSerializer(serializers.ModelSerializer):
     def validate(self, data):
