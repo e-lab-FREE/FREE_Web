@@ -612,7 +612,7 @@ class QuizTake(LoginRequiredMixin, FormView):
                     except:
                         last_execution = None
 
-                    is_correct = (
+                    is_correct, expected_result = (
                         self.question.check_if_correct(guess,self.quiz, last_execution, previous_executions
                                                     ,self.question.multiple_answer_fields))
                 else:
