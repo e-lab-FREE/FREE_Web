@@ -228,7 +228,7 @@ class Essay_Question(Question):
             print(f"Error: {e}. Wrong correctness_verification_function name in question model.")
             if_correct, expected_result = False, ""
 
-        return if_correct, string(expected_result)
+        return if_correct, str(expected_result)
 
 
     def get_answers_list(self):
