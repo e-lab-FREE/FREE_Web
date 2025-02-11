@@ -475,7 +475,7 @@ class QuizTake(LoginRequiredMixin, FormView):
                 context['question_result'] = {}
                 context['question_result']['evaluated'] = self.sitting.user_answers[self.sitting.current_question]['evaluated']
                 context['question_result']['answer'] = self.sitting.user_answers[self.sitting.current_question]['answer']
-                context['question_result']['expected_result'] = ""
+                context['question_result']['expected_result'] = self.sitting.user_answers[self.sitting.current_question]['expected_result'] 
                 context['question_result']['weight'] = self.sitting.user_answers[self.sitting.current_question]['evaluationWeight']
                 context['question_result']['grade'] = float(self.sitting.user_answers[self.sitting.current_question]['grade'])
 
@@ -623,7 +623,8 @@ class QuizTake(LoginRequiredMixin, FormView):
                     "evaluationWeight":  self.question.evaluationWeight,
                     "execution_id": None,
                     'evaluated': self.question.evaluated,
-                    'grade': is_correct
+                    'grade': is_correct,
+                    'expected_result': expected_result
                 }
                 self.sitting.user_answers.append(current_question_user_answer)
                 self.sitting.answered_questions_list.append(True)
