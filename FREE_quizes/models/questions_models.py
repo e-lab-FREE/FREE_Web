@@ -202,23 +202,33 @@ class Essay_Question(Question):
         return "ESSAY"
 
 
-    def check_if_correct(self, user_answer,  current_quiz, last_execution, executions, decimal_places):
 
+    def check_if_correct(self, user_answer, current_quiz, last_execution, executions, decimal_places):
         if user_answer is None:
-            return False
+            return False, ""
+
         try:
-            if self.correctness_verification_function != '':
+            if self.correctness_verification_function:
                 module = importlib.import_module('FREE_quizes.quizes_code')
                 m = getattr(module, current_quiz.url)
                 f = getattr(m, self.correctness_verification_function)
-                if_correct = f(self , user_answer, decimal_places, current_quiz, last_execution, executions)
-            else:
-                if_correct = True                                                  
-        except KeyError:
-            if_correct = False
-            print("Wrong correctness_verification_function name in question model")
+                
+                result = f(self, user_answer, decimal_places, current_quiz, last_execution, executions)
 
-        return if_correct
+                # Handle expected result return
+                if isinstance(result, tuple):
+                    if_correct, expected_result = result
+                else:
+                    if_correct, expected_result = result, ""
+
+            else:
+                if_correct, expected_result = True, ""
+        
+        except (KeyError, AttributeError) as e:
+            print(f"Error: {e}. Wrong correctness_verification_function name in question model.")
+            if_correct, expected_result = False, ""
+
+        return if_correct, str(expected_result)
 
 
     def get_answers_list(self):
