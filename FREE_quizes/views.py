@@ -1,30 +1,28 @@
 import random
 from time import time
+
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required, permission_required
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, render
-from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView, TemplateView, FormView, View
-from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .forms import QuestionForm, EssayForm, Experiment_ExectionForm, Navigate_quizz
-from .models import Quiz, Progress, Sitting, Question, Essay_Question
-from FREE_quizes.models.questions_models import Experiment_Execution
-
-from django_tables2 import Table, TemplateColumn, Column
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import (DetailView, FormView, ListView, TemplateView,
+                                  View)
+from django_tables2 import Column, Table, TemplateColumn
 from django_tables2.views import SingleTableView
-
+from jsf import JSF
+from pylti.common import LTIPostMessageException, post_message
 
 from free.models import *
-from jsf import JSF
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-
+from FREE_quizes.models.questions_models import Experiment_Execution
 from lti_provider.mixins import LTIAuthMixin
-from pylti.common import LTIPostMessageException, post_message
-from django.contrib import auth
+
+from .forms import (EssayForm, Experiment_ExectionForm, Navigate_quizz,
+                    QuestionForm)
+from .models import Essay_Question, Progress, Question, Quiz, Sitting
+
 
 class QuizMarkerMixin(object):
     @method_decorator(login_required)
@@ -475,7 +473,8 @@ class QuizTake(LoginRequiredMixin, FormView):
                 context['question_result'] = {}
                 context['question_result']['evaluated'] = self.sitting.user_answers[self.sitting.current_question]['evaluated']
                 context['question_result']['answer'] = self.sitting.user_answers[self.sitting.current_question]['answer']
-                context['question_result']['expected_result'] = self.sitting.user_answers[self.sitting.current_question]['expected_result'] 
+                # expected_result might not exist, defaults to empty string
+                context['question_result']['expected_result'] = self.sitting.user_answers[self.sitting.current_question].get('expected_result', '')
                 context['question_result']['weight'] = self.sitting.user_answers[self.sitting.current_question]['evaluationWeight']
                 context['question_result']['grade'] = float(self.sitting.user_answers[self.sitting.current_question]['grade'])
 
@@ -668,4 +667,3 @@ class QuizTake(LoginRequiredMixin, FormView):
         random_pk = random.choice(pks)
         print("rabnd pks:",random_pk)
         return exe_query.get(pk=random_pk)
-
