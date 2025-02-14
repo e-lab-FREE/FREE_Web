@@ -45,17 +45,18 @@
         {% block layout %}
         
         {% if user.is_authenticated %}
-
-          <div class="ui grid">
-            <div class="ui row">
-        
-                {% include 'free/layout/topbar.html' %}
-        
-                {% include 'free/layout/sidebar.html' %}
-        
-            </div>
-        
-        </div>
+            {% if  'lti_user' not in user.groups.get.name %} 
+                <div class="ui grid">
+                    <div class="ui row">
+                
+                        {% include 'free/layout/topbar.html' %}
+                
+                        {% include 'free/layout/sidebar.html' %}
+                
+                    </div>
+                
+                </div>
+            {% endif %}
         {% endif %}
 
       

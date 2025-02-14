@@ -88,6 +88,8 @@ class LTIRoutingView(LTIAuthMixin, View):
         return url
 
     def post(self, request, assignment_name=None, pk=None):
+        lti_user_group = Group.objects.get_or_create(name='lti_user')
+        request.user.groups.add(lti_user_group[0])
         if request.POST.get('ext_content_intended_use', '') == 'embed':
             domain = self.request.get_host()
             url = '%s://%s/%s?return_url=%s' % (
@@ -106,6 +108,11 @@ class LTIRoutingView(LTIAuthMixin, View):
             print("request:",request.POST.get('custom_quiz_url'))
             url = reverse(app_url,args=(request.POST.get('custom_quiz_url'),))
             print("url", url)
+        elif request.POST.get('custom_quiz_name', None) is not None:
+            quiz_name = (f"{request.POST.get('custom_quiz_name')}")
+            url = reverse('FREE_quizes:quiz_question',args=(quiz_name,))
+            print("url", url)
+
         elif request.POST.get('custom_experiment',None) is not None:
             current_apparatus = request.POST.get('custom_apparatus_id')
             current_protocol = request.POST.get('custom_protocol_id')
