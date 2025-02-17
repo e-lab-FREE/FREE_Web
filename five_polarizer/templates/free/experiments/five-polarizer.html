@@ -25,93 +25,50 @@
 
 
 {% block configtab %}
-<!-- Begin of the configuration tab-->
-    
-    
-        <div class="ui two column grid container">
-            <div class="column">
-                <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 1 sweeping angles [&#176;]'%}</h3></legend>
-                  <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor1" class="ui blue small bottom aligned labeled range slider"  "></div>
-                      
-                            <div class="ui input" >
-                                <input class="free-input" type="number" id="motor1_start_position">
-                            </div>
-                            <div class="ui input" style="float:right;"  >
-                                <input class="free-input" type="number" id="motor1_end_position">
-                            </div>
-                     </div>
-                           <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid 2 sweeping angles [&#176;]'%}</h3></legend>
-      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider"></div>
-      			
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor2_start_position">
-                        </div>
-                        <div class="ui input" style="float:right;"  >
-                            <input class="free-input" type="number" id="motor2_end_position">
-                        </div>
-                 </div>
-               <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid 3 sweeping angles [&#176;]'%}</h3></legend>
-      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor3" class="ui blue small bottom aligned labeled range slider"></div>
-      			
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor3_start_position">
-                        </div>
-                        <div class="ui input" style="float:right;"  >
-                            <input class="free-input" type="number" id="motor3_end_position">
-                        </div>
-                 </div>
-               <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid 4 sweeping angles [&#176;]'%}</h3></legend>
-      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor4" class="ui blue small bottom aligned labeled range slider"></div>
-      			
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor4_start_position">
-                        </div>
-                        <div class="ui input" style="float:right;"  >
-                            <input class="free-input" type="number" id="motor4_end_position">
-                        </div>
-                 </div>
-               <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid 5 sweeping angles [&#176;]'%}</h3></legend>
-      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor5" class="ui blue small bottom aligned labeled range slider"></div>
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor5_start_position">
-                        </div>
-                        <div class="ui input" style="float:right;"  >
-                            <input class="free-input" type="number" id="motor5_end_position">
-                        </div>
-                 </div>
+    <!-- Begin of the configuration tab-->
+    <div class="ui two column grid container">
+        <div class="column">
+            <div class="ui segment">
+                <legend> <h3>{% trans 'Polarizer sweeping angles [&#176;]'%}</h3></legend>
+                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-polarizer" class="ui blue small bottom aligned labeled range slider"></div>
+                <div class="ui input" >
+                    <input class="free-input" type="number" id="polarizer_end_position">
+                </div>
+                <div class="ui input" style="float:right;"  >
+                    <input class="free-input" type="number" id="polarizer_start_position">
+                </div>
             </div>
         </div>
-		<!-- 2 -->
-        <div class="ui one column grid container">
-            <!--<div class="column">
-                <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 2 sweeping angles  [&#176;]'%}</h3></legend>
-                    <div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled slider"  id="slider-motor2_start_position" ></div>
-                        
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor2_start_position">
-                        </div>
+
+        <div class="column">
+            <div class="ui segment">
+                <legend> <h3>{% trans 'Polaroid to perform sweep [#]'%}</h3></legend>
+                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-polarizer_to_sweep_position" class="ui blue small bottom aligned labeled range slider"></div>
+                    <div class="ui input">
+                        <input class="free-input" type="number" id="polarizer_to_sweep_position">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ui one column grid container">
+        {% for i in range(1, 6) %}
+            <div class="column">
+                <legend><h3>{% trans 'Polaroid' %} {{ i }} {% trans 'sweeping angles [&#176;]' %}</h3></legend>
+                <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{ i }}" class="ui blue small bottom aligned labeled range slider"></div>
+                <div class="ui input">
+                    <input class="free-input" type="number" id="motor{{ i }}_start_position">
+                </div>
+                <div class="ui input" style="float:right;">
+                    <input class="free-input" type="number" id="motor{{ i }}_end_position">
                 </div>
             </div>
-			
-	    <div class="column">
-                <div class="ui segment">
-                    <legend> <h3>{% trans 'End Position [&#176;]'%}</h3></legend>
-                    <div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled slider"  id="slider-motor2_end_position" ></div>
-                        
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor2_end_position">
-                        </div>
-                </div>
-            </div>-->
-        </div>	
-   	
-		
+        {% endfor %}
+    </div>
+
+
+
 <!-- End of the configuration tab-->
 {% endblock %}
 
@@ -292,25 +249,14 @@ function on_save_experiment_UI(){
 
 
 function on_ready_experiment_UI(){
+    configure_slider("slider-polarizer")
+    configure_slider_double("slider-polarizer_to_sweep_position")
+    
     configure_slider_double("motor1","motor1_start_position","motor1_end_position")
-    configure_slider("motor1_start_position")
-    configure_slider("motor1_end_position")
-
     configure_slider_double("motor2","motor2_start_position","motor2_end_position")
-    configure_slider("motor2_start_position")
-    configure_slider("motor2_end_position")
-
     configure_slider_double("motor3","motor3_start_position","motor3_end_position")
-    configure_slider("motor3_start_position")
-    configure_slider("motor3_end_position")
-
     configure_slider_double("motor4","motor4_start_position","motor4_end_position")
-    configure_slider("motor4_start_position")
-    configure_slider("motor4_end_position")
-
     configure_slider_double("motor5","motor5_start_position","motor5_end_position")
-    configure_slider("motor5_start_position")
-    configure_slider("motor5_end_position")
 
 	
 //	buildPlot1(0,'plot_current_voltage');
