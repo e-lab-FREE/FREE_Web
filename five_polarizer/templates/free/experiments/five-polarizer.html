@@ -441,19 +441,19 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     },
     onChange: function( event, range, firstVal, secondVal) {
             // Set the real value into the inputs
-            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
             onInputChanged()
     },
     onMove: function(range, firstVal, secondVal){ 
-            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
     }
     });
-    $('#'+input_1).change(function() {
+    $('#'+input_2).change(function() {
            $('#slider-'+name).slider('set secondVal', $(this).val())
             	});
-    $('#'+input_2).change(function() {
+    $('#'+input_1).change(function() {
            $('#slider-'+name).slider('set firstVal', $(this).val())
             	});
 
