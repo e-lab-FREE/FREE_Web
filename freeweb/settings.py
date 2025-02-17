@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'colisione',
     'mag3d',
     'polaroid',
+    'five_polarizer'
     #Quiz apps
 
 ]
