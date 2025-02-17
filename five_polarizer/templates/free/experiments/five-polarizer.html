@@ -95,20 +95,6 @@
                         </div>
                 </div>
             </div>-->
-	    <div class="column">
-               <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid 2 sweeping angles [&#176;]'%}</h3></legend>
-      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider"  "></div>
-      			
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="motor2_end_position">
-                        </div>
-                        <div class="ui input" style="float:right;"  >
-                            <input class="free-input" type="number" id="motor2_start_position">
-                        </div>
-                 </div>
-    	      </div>
-
         </div>	
    	
 		
@@ -295,15 +281,7 @@ function on_ready_experiment_UI(){
 
     //configure_slider("polarized_light")
     configure_slider("motor1_position")
-    configure_slider("motor2_position")
-    configure_slider("motor3_position")
-    configure_slider("motor4_position")
-    configure_slider("motor5_position")
-    configure_slider_double("motor1","motor1_start_position","motor1_end_position")
     configure_slider_double("motor2","motor2_start_position","motor2_end_position")
-    configure_slider_double("motor3","motor3_start_position","motor3_end_position")
-    configure_slider_double("motor4","motor4_start_position","motor4_end_position")
-    configure_slider_double("motor5","motor5_start_position","motor5_end_position")
     //configure_slider("motor2_start_position")
     //configure_slider("motor2_end_position")
 	
