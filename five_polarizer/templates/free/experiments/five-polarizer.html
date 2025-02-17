@@ -31,30 +31,43 @@
         <div class="ui two column grid container">
             <div class="column">
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polarized light'%}</h3></legend>
-                    <!--<div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled  slider"  id="slider-polarized_light" ></div>
-                        
-                        <div class="ui input" >
-                            <input class="free-input" type="number" id="polarized_light">
-                        </div>-->
-
-			<div  style="padding-top: 6%;padding-left: 2%;padding-right: 2%; padding-bottom:6%">
-			<div  class="ui toggle checkbox" onclick="change_Polarized()">
-                                 <input  style="padding-top: 7.5%;padding-bottom: 7.5%;" class="free-input" type="checkbox" name="public"  id="polarized_light" value='0'>
-                                        <label></label>
-                        </div>
-			</div>
-
-                </div>
-
-            </div>
-            <div class="column">
-                <div class="ui segment">
                     <legend><h3>{% trans 'Polaroid 1 angle [&#176;]'%}</h3></legend>
                     <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;"  class="ui blue small bottom aligned labeled  slider" id="slider-motor1_position" ></div>
                         
                         <div class="ui input">
                             <input class="free-input" type="number" id="motor1_position">
+                        </div>
+                </div>
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
+                    <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;"  class="ui blue small bottom aligned labeled  slider" id="slider-motor2_position" ></div>
+                        
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor2_position">
+                        </div>
+                </div>
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Polaroid 3 angle [&#176;]'%}</h3></legend>
+                    <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;"  class="ui blue small bottom aligned labeled  slider" id="slider-motor3_position" ></div>
+                        
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor3_position">
+                        </div>
+                </div>
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Polaroid 4 angle [&#176;]'%}</h3></legend>
+                    <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;"  class="ui blue small bottom aligned labeled  slider" id="slider-motor4_position" ></div>
+                        
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor4_position">
+                        </div>
+                </div>
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Polaroid 5 angle [&#176;]'%}</h3></legend>
+                    <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;"  class="ui blue small bottom aligned labeled  slider" id="slider-motor5_position" ></div>
+                        
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor5_position">
                         </div>
                 </div>
             </div>
@@ -282,9 +295,17 @@ function on_ready_experiment_UI(){
 
     //configure_slider("polarized_light")
     configure_slider("motor1_position")
+    configure_slider("motor2_position")
+    configure_slider("motor3_position")
+    configure_slider("motor4_position")
+    configure_slider("motor5_position")
+    configure_slider_double("motor1","motor1_start_position","motor1_end_position")
+    configure_slider_double("motor2","motor2_start_position","motor2_end_position")
+    configure_slider_double("motor3","motor3_start_position","motor3_end_position")
+    configure_slider_double("motor4","motor4_start_position","motor4_end_position")
+    configure_slider_double("motor5","motor5_start_position","motor5_end_position")
     //configure_slider("motor2_start_position")
     //configure_slider("motor2_end_position")
-    configure_slider_double("motor2","motor2_start_position","motor2_end_position")
 	
 //	buildPlot1(0,'plot_current_voltage');
  //   buildPlot2(0,'plot_voltage_time');
