@@ -305,8 +305,8 @@ function on_save_experiment_UI(){
 
 
 function on_ready_experiment_UI(){
-    configure_slider("slider-polarizer")
-    configure_slider_double("slider-polarizer_to_sweep_position")
+    configure_slider("polarizer_to_sweep_position")
+    configure_slider_double("polarizer","polarizer_start_position","polarizer_end_position")
     
     configure_slider_double("motor1","motor1_start_position","motor1_end_position")
     configure_slider_double("motor2","motor2_start_position","motor2_end_position")
