@@ -55,7 +55,7 @@
     <div class="ui one column grid container">
             <div class="column">                
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 1 sweeping angles [&#176;]'%}</h3></legend>
+                    <legend> <h3>{% trans 'Polaroid 1 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor1" class="ui blue small bottom aligned labeled slider"></div>
       			
                     <div class="ui input" >
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 2 sweeping angles [&#176;]'%}</h3></legend>
+                    <legend> <h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled slider"></div>
       			
                     <div class="ui input" >
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 3 sweeping angles [&#176;]'%}</h3></legend>
+                    <legend> <h3>{% trans 'Polaroid 3 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor3" class="ui blue small bottom aligned labeled slider"></div>
       			
                     <div class="ui input" style="float:right;"  >
@@ -83,7 +83,7 @@
 
 
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 4 sweeping angles [&#176;]'%}</h3></legend>
+                    <legend> <h3>{% trans 'Polaroid 4 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor4" class="ui blue small bottom aligned labeled slider"></div>
       			
                     <div class="ui input" style="float:right;"  >
@@ -93,7 +93,7 @@
 
 
                 <div class="ui segment">
-                    <legend> <h3>{% trans 'Polaroid 5 sweeping angles [&#176;]'%}</h3></legend>
+                    <legend> <h3>{% trans 'Polaroid 5 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor5" class="ui blue small bottom aligned labeled slider"></div>
       			
                     <div class="ui input" style="float:right;"  >
@@ -291,11 +291,11 @@ function on_ready_experiment_UI(){
     
     configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
     
-    configure_slider("motor1")
-    configure_slider("motor2")
-    configure_slider("motor3")
-    configure_slider("motor4")
-    configure_slider("motor5")
+    configure_slider("motor1_position")
+    configure_slider("motor2_position")
+    configure_slider("motor3_position")
+    configure_slider("motor4_position")
+    configure_slider("motor5_position")
 
 	
 //	buildPlot1(0,'plot_current_voltage');
