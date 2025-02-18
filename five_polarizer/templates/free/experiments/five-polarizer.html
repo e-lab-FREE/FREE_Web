@@ -29,11 +29,14 @@
     <div class="ui two column grid container">
         <div class="column">
             <div class="ui segment">
-                <legend> <h3>{% trans 'Polaroid to perform sweep [#]'%}</h3></legend>
-                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-polarizer_to_sweep_position" class="ui blue small bottom aligned labeled slider"></div>
-                    <div class="ui input">
-                        <input class="free-input" type="number" id="polarizer_to_sweep_position">
-                    </div>
+                <legend> <h3>{% trans 'Polarizer sweeping angles [&#176;]'%}</h3></legend>
+                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-sweeping_angles" class="ui blue small bottom aligned labeled range slider"></div>
+                <div class="ui input" >
+                    <input class="free-input" type="number" id="sweeping_angles_end_position">
+                </div>
+                <div class="ui input" style="float:right;"  >
+                    <input class="free-input" type="number" id="sweeping_angles_start_position">
+                </div>
             </div>
         </div>
 
@@ -304,7 +307,7 @@ function on_save_experiment_UI(){
 function on_ready_experiment_UI(){
     configure_slider("polarizer_to_sweep_position")
     
-    configure_slider_double("polarizer_sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
+    configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
     
     configure_slider_double("motor1","motor1_start_position","motor1_end_position")
     configure_slider_double("motor2","motor2_start_position","motor2_end_position")
