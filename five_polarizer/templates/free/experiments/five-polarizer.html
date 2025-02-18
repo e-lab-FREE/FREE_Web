@@ -404,8 +404,8 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     min: protocol_input_arguments[input_1].minimum,
     max: protocol_input_arguments[input_1].maximum, 
     step: protocol_input_arguments[input_1].multipleOf,
-    start: protocol_input_arguments[input_1].default,
-    end: protocol_input_arguments[input_2].default,
+    start: protocol_input_arguments[input_2].default,
+    end: protocol_input_arguments[input_1].default,
     minRange: 10,
     autoAdjustLabels: false,
     interpretLabel: function (value) {
@@ -443,19 +443,19 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     },
     onChange: function( event, range, firstVal, secondVal) {
             // Set the real value into the inputs
-            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
-	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
             onInputChanged()
     },
     onMove: function(range, firstVal, secondVal){ 
-            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
-	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
     }
     });
-    $('#'+input_2).change(function() {
+    $('#'+input_1).change(function() {
            $('#slider-'+name).slider('set secondVal', $(this).val())
             	});
-    $('#'+input_1).change(function() {
+    $('#'+input_2).change(function() {
            $('#slider-'+name).slider('set firstVal', $(this).val())
             	});
 
