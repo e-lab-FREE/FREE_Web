@@ -13,6 +13,7 @@ import environ
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import sys
 
 env = environ.Env()
 environ.Env.read_env()
@@ -20,6 +21,8 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(BASE_DIR, 'FREE_apparatus_code'))
+
 
 FREE_VERSION = '0.6.0'
 

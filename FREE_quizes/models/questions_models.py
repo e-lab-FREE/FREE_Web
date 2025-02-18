@@ -213,7 +213,8 @@ class Essay_Question(Question):
                 m = getattr(module, current_quiz.url)
                 f = getattr(m, self.correctness_verification_function)
                 
-                result = f(self, user_answer, decimal_places, current_quiz, last_execution, executions)
+
+                result = f(self , user_answer, decimal_places, current_quiz, last_execution, executions)
 
                 # Handle expected result return
                 if isinstance(result, tuple):

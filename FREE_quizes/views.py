@@ -24,6 +24,8 @@ from .forms import (EssayForm, Experiment_ExectionForm, Navigate_quizz,
 from .models import Essay_Question, Progress, Question, Quiz, Sitting
 
 
+from urllib.parse import urlparse
+
 class QuizMarkerMixin(object):
     @method_decorator(login_required)
     @method_decorator(permission_required('quiz.view_sittings'))
@@ -215,6 +217,8 @@ class QuizLTIPostGrade(LTIAuthMixin, View):
             context['sitting']= self.sitting
 
             score = self.sitting.final_result['grade']
+            score = round(score, 2)
+
             message_identifier = '{:.0f}'.format(time())
             xml = self.lti.generate_request_xml(
                 message_identifier, 'replaceResult',
@@ -224,9 +228,15 @@ class QuizLTIPostGrade(LTIAuthMixin, View):
             outcome_service_url = self.lti.lis_outcome_service_url(self.request)
             submit_outcome = post_message(consumers, consumer_key, outcome_service_url, xml)
             if submit_outcome:
+                return_url = self.lti.launch_presentation_return_url(self.request)
+                if return_url == None:
+                    return_url = self.lti.lis_outcome_service_url(request)
+                    domain = urlparse(return_url)
+                    return_url = domain[0]+"://"+domain[1]
+
                 self.sitting.archive_quiz()
                 context['lti_submited'] = 'OK'
-                context['redirect_url'] = self.lti.launch_presentation_return_url(self.request)
+                context['redirect_url'] = return_url
                 context['final_result'] = self.sitting.final_result
                 auth.logout(request) 
             else:
