@@ -187,7 +187,6 @@ function process_final_data(data_line){
 let polarized_light_val = 0;
 
 function change_Polarized(n) {
-    
     for (let i = 1; i <= 5; i++) {
         if(i != n){
             let element = document.getElementById(`sweep_${i}`);
@@ -211,8 +210,6 @@ function change_Polarized(n) {
         else{
             let elementchange = document.getElementById(`sweep_${n}`);
             elementchange.value = 1-elementchange.value;
-            let element = document.getElementById(`sweep_${i}`);
-            element.click();
             if (elementchange.value == 1){
                 // METER SLIDER RANGE
                 let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
