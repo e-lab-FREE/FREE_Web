@@ -189,9 +189,7 @@ function process_final_data(data_line){
 let polarized_light_val = 0;
 
 function change_Polarized(n) {
-    let elementchange = document.getElementById(`sweep_${n}`);
-    elementchange.value = 1-elementchange.value;
-
+    
     for (let i = 1; i <= 5; i++) {
         if(i != n){
             let element = document.getElementById(`sweep_${i}`);
@@ -201,6 +199,9 @@ function change_Polarized(n) {
             }
         }
     }
+    
+    let elementchange = document.getElementById(`sweep_${n}`);
+    elementchange.value = 1-elementchange.value;
 }
 
 
