@@ -188,64 +188,6 @@ let polarized_light_val = 0;
 
 function change_Polarized(n) {
     
-    for (let i = 1; i <= 5; i++) {
-        if(i != n){
-            let element = document.getElementById(`sweep_${i}`);
-            if(element.value == 1){
-                document.getElementById(`sweep_${i}`).click();
-                element.value = 0;
-                // METER EM SLIDER NORMAL
-                let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                    <legend> <h3>Polaroid ${n} angle [º]</h3></legend>
-      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}_position" class="ui blue small bottom aligned labeled slider"></div>
-      			
-                    <div class="ui input" >
-                        <input class="free-input" type="number" id="motor${n}_position">
-                    </div>
-                `
-                configure_slider(`motor${i}_position`)
-            }
-        }
-        else{
-            let elementchange = document.getElementById(`sweep_${n}`);
-            elementchange.value = 1-elementchange.value;
-            if (elementchange.value == 1){
-                let element = document.getElementById(`sweep_${i}`);
-                element.click();
-                // METER SLIDER RANGE
-                let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                <legend> <h3>Polaroid ${n} sweeping angles [º]</h3></legend>
-                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}" class="ui blue small bottom aligned labeled range slider"></div>
-                <div class="ui input" >
-                    <input class="free-input" type="number" id="motor${n}_end_position">
-                </div>
-                <div class="ui input" style="float:right;"  >
-                    <input class="free-input" type="number" id="motor${n}_start_position">
-                </div>
-                `
-                configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`)
-            }else{
-                element.value = 0;
-                // METER EM SLIDER NORMAL
-                let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                    <legend> <h3>Polaroid ${n} angle [º]</h3></legend>
-      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}_position" class="ui blue small bottom aligned labeled slider"></div>
-      			
-                    <div class="ui input" >
-                        <input class="free-input" type="number" id="motor${n}_position">
-                    </div>
-                `
-    
-                configure_slider(`motor${i}_position`)
-            }
-        }
-    }
 }
 
 
