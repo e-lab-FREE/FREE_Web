@@ -35,27 +35,27 @@
                 </legend>
             
                 <div style="display: flex; gap: 20px; justify-content: center; align-items: center; padding: 6%;">
-                    <div class="ui toggle checkbox" onclick="change_Polarized()">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(1)">
                         <input class="free-input" type="checkbox" name="public" id="sweep1" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox" onclick="change_Polarized()">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(2)">
                         <input class="free-input" type="checkbox" name="public" id="sweep2" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox" onclick="change_Polarized()">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(3)">
                         <input class="free-input" type="checkbox" name="public" id="sweep3" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox" onclick="change_Polarized()">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(4)">
                         <input class="free-input" type="checkbox" name="public" id="sweep4" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox" onclick="change_Polarized()">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(5)">
                         <input class="free-input" type="checkbox" name="public" id="sweep5" value='0'>
                         <label></label>
                     </div>
@@ -188,12 +188,16 @@ function process_final_data(data_line){
 
 let polarized_light_val = 0;
 
-function change_Polarized() { 
+function change_Polarized(n) {
     for (let i = 1; i <= 5; i++) {
         let element = document.getElementById(`sweep_${i}`);
-        element.val(1-element.value)
+        element.val(0);
     }
+    let elementchange = document.getElementById(`sweep_${n}`);
+    elementchange.val(1-elementchange.val);
 }
+
+
 
 
 
