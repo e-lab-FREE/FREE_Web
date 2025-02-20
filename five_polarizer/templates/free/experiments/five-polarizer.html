@@ -189,12 +189,15 @@ function process_final_data(data_line){
 let polarized_light_val = 0;
 
 function change_Polarized(n) {
-    for (let i = 1; i <= 5; i++) {
-        let element = document.getElementById(`sweep_${i}`);
-        element.value = 0;
-    }
     let elementchange = document.getElementById(`sweep_${n}`);
     elementchange.value = 1-elementchange.value;
+
+    for (let i = 1; i <= 5; i++) {
+        if(i != n){
+            let element = document.getElementById(`sweep_${i}`);
+            element.value = 0;
+        }
+    }
 }
 
 
