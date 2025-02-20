@@ -227,7 +227,8 @@ function change_Polarized(n) {
                 `
                 configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`)
             }else{
-                document.getElementById(`sweep_${i}`).click();
+                let element = document.getElementById(`sweep_${i}`);
+                element.click();
                 element.value = 0;
                 // METER EM SLIDER NORMAL
                 let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
