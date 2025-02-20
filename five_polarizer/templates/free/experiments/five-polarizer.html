@@ -213,6 +213,7 @@ function change_Polarized(n) {
     
     let elementchange = document.getElementById(`sweep_${n}`);
     elementchange.value = 1-elementchange.value;
+    setTimeout(() => cooldown = false, 500); // Set cooldown time (500ms)
 }
 
 
