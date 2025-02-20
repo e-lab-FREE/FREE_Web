@@ -195,7 +195,10 @@ function change_Polarized(n) {
     for (let i = 1; i <= 5; i++) {
         if(i != n){
             let element = document.getElementById(`sweep_${i}`);
-            element.value = 0;
+            if(element.value == 1){
+                document.getElementById(`sweep_${i}`).click();
+                element.value = 0;
+            }
         }
     }
 }
