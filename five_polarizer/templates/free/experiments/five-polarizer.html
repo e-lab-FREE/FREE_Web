@@ -203,7 +203,7 @@ function change_Polarized(n) {
                     <div class="ui input" >
                         <input class="free-input" type="number" id="motor${n}_position">
                     </div>
-                `
+                `;
             }
         }
         else{
@@ -222,7 +222,7 @@ function change_Polarized(n) {
                 <div class="ui input" style="float:right;"  >
                     <input class="free-input" type="number" id="motor${n}_start_position">
                 </div>
-                `
+                `;
             }else{
                 // METER EM SLIDER NORMAL
                 let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
@@ -234,7 +234,7 @@ function change_Polarized(n) {
                     <div class="ui input" >
                         <input class="free-input" type="number" id="motor${n}_position">
                     </div>
-                `
+                `;
             }
         }
     }
@@ -242,9 +242,9 @@ function change_Polarized(n) {
     for (let i = 1; i <= 5; i++) {
         let element = document.getElementById(`sweep_${i}`).click();
         if(element.value == 0){
-            configure_slider(`motor${i}_position`)
+            configure_slider(`motor${i}_position`);
         }else{
-            configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`)
+            configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`);
         }
     }
 }
