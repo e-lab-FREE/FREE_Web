@@ -27,7 +27,7 @@
 {% block configtab %}
     <!-- Begin of the configuration tab-->
 
-    <div class="ui two column grid container">
+    <div class="ui one column grid container">
         <div class="column">
             <div class="ui segment">
                 <legend>
@@ -64,25 +64,12 @@
             
         </div>
 
-
-        <div class="column">
-            <div class="ui segment">
-                <legend> <h3>{% trans 'Polarizer sweeping angles [&#176;]'%}</h3></legend>
-                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-sweeping_angles" class="ui blue small bottom aligned labeled range slider"></div>
-                <div class="ui input" >
-                    <input class="free-input" type="number" id="sweeping_angles_end_position">
-                </div>
-                <div class="ui input" style="float:right;"  >
-                    <input class="free-input" type="number" id="sweeping_angles_start_position">
-                </div>
-            </div>
-        </div>
     </div>
     
 
     <div class="ui one column grid container">
             <div class="column">                
-                <div class="ui segment">
+                <div class="ui segment pol1">
                     <legend> <h3>{% trans 'Polaroid 1 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor1_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -91,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="ui segment">
+                <div class="ui segment pol2">
                     <legend> <h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -100,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="ui segment">
+                <div class="ui segment pol3">
                     <legend> <h3>{% trans 'Polaroid 3 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor3_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -110,7 +97,7 @@
                 </div>
 
 
-                <div class="ui segment">
+                <div class="ui segment pol4">
                     <legend> <h3>{% trans 'Polaroid 4 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor4_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -120,7 +107,7 @@
                 </div>
 
 
-                <div class="ui segment">
+                <div class="ui segment pol5">
                     <legend> <h3>{% trans 'Polaroid 5 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor5_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -207,13 +194,22 @@ function change_Polarized(n) {
             if(element.value == 1){
                 document.getElementById(`sweep_${i}`).click();
                 element.value = 0;
+                // METER EM SLIDER NORMAL
             }
+        }
+        else{
+            let elementchange = document.getElementById(`sweep_${n}`);
+            elementchange.value = 1-elementchange.value;
+            if (elementchange.value == 1){
+                // METER SLIDER RANGE
+                let div_ui_segment = document.getElementById(`pol${n}`);
+                div_ui_segment.innerHTML = "";
+                div_ui_segment.innerHTML += `<legend> <h3>{Polaroid ${n} sweeping angles}</h3></legend>`
+            } 
         }
     }
     
-    let elementchange = document.getElementById(`sweep_${n}`);
     elementchange.value = 1-elementchange.value;
-    setTimeout(() => cooldown = false, 500); // Set cooldown time (500ms)
 }
 
 
