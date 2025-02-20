@@ -240,7 +240,7 @@ function change_Polarized(n) {
     }
 
     for (let i = 1; i <= 5; i++) {
-        let element = document.getElementById(`sweep_${i}`).click();
+        let element = document.getElementById(`sweep_${i}`);
         if(element.value == 0){
             configure_slider(`motor${i}_position`);
         }else{
