@@ -211,6 +211,8 @@ function change_Polarized(n) {
         else{
             let elementchange = document.getElementById(`sweep_${n}`);
             elementchange.value = 1-elementchange.value;
+            let element = document.getElementById(`sweep_${i}`);
+            element.click();
             if (elementchange.value == 1){
                 // METER SLIDER RANGE
                 let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
@@ -227,8 +229,6 @@ function change_Polarized(n) {
                 `
                 configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`)
             }else{
-                let element = document.getElementById(`sweep_${i}`);
-                element.click();
                 element.value = 0;
                 // METER EM SLIDER NORMAL
                 let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
