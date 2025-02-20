@@ -205,6 +205,7 @@ function change_Polarized(n) {
                         <input class="free-input" type="number" id="motor${n}_position">
                     </div>
                 `
+                configure_slider(`motor${i}_position`)
             }
         }
         else{
@@ -224,7 +225,24 @@ function change_Polarized(n) {
                     <input class="free-input" type="number" id="motor${n}_start_position">
                 </div>
                 `
-            } 
+                configure_slider_double(`slider-motor${n}`,`motor${n}_start_position`,`motor${n}_end_position`)
+            }else{
+                document.getElementById(`sweep_${i}`).click();
+                element.value = 0;
+                // METER EM SLIDER NORMAL
+                let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
+                div_ui_segment.innerHTML = "";
+                div_ui_segment.innerHTML += `
+                    <legend> <h3>Polaroid ${n} angle [º]</h3></legend>
+      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}_position" class="ui blue small bottom aligned labeled slider"></div>
+      			
+                    <div class="ui input" >
+                        <input class="free-input" type="number" id="motor${n}_position">
+                    </div>
+                `
+    
+                configure_slider(`motor${i}_position`)
+            }
         }
     }
 }
@@ -354,9 +372,9 @@ function on_save_experiment_UI(){
 
 
 function on_ready_experiment_UI(){
-    configure_slider("polarizer_to_sweep_position")
+    //configure_slider("polarizer_to_sweep_position")
     
-    configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
+    //configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
     
     configure_slider("motor1_position")
     configure_slider("motor2_position")
