@@ -202,7 +202,7 @@ function change_Polarized(n) {
             elementchange.value = 1-elementchange.value;
             if (elementchange.value == 1){
                 // METER SLIDER RANGE
-                let div_ui_segment = document.getElementById(`pol${n}`);
+                let div_ui_segment = document.getElementsByClassName(`pol${n}`);
                 div_ui_segment.innerHTML = "";
                 div_ui_segment.innerHTML += `<legend> <h3>{Polaroid ${n} sweeping angles}</h3></legend>`
             } 
