@@ -71,14 +71,14 @@
             <div class="column">
                 {% for i in "12345" %}
                     <div class="ui segment pol{{forloop.counter}}-position">
-                        <legend> <h3>{% trans 'Polaroid ${{forloop.counter}} angle [&#176;]' %}</h3></legend>
+                        <h3>{% blocktrans %}Polaroid {{ forloop.counter }} angle [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{forloop.counter}}_position" class="ui blue small bottom aligned labeled slider"></div>
                         <div class="ui input">
                             <input class="free-input" type="number" id="motor{{forloop.counter}}_position">
                         </div>
                     </div>
                     <div class="ui segment pol1-sweeping">
-                        <legend> <h3>{% trans 'Polaroid ${{forloop.counter}} sweeping angles [&#176;]'%}</h3></legend>
+                        <h3>{% blocktrans %}Polaroid {{forloop.counter}} sweeping angles [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{forloop.counter}}" class="ui blue small bottom aligned labeled range slider"></div>
                         <div class="ui input">
                             <input class="free-input" type="number" id="motor{{forloop.counter}}_end_position">
