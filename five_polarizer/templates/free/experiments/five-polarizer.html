@@ -69,7 +69,7 @@
 
     <div class="ui one column grid container">
             <div class="column">                
-                <div class="ui segment pol1">
+                <div style="visibility: hidden;" class="ui segment pol1">
                     <legend> <h3>{% trans 'Polaroid 1 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor1_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="ui segment pol2">
+                <div style="visibility: hidden;" class="ui segment pol2">
                     <legend> <h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -187,7 +187,7 @@ function process_final_data(data_line){
 let polarized_light_val = 0;
 
 function change_Polarized(n) {
-    for (let i = 1; i <= 5; i++) {
+    /**for (let i = 1; i <= 5; i++) {
         if(i != n){
             let element = document.getElementById(`sweep_${i}`);
             if(element.value == 1){
@@ -246,7 +246,7 @@ function change_Polarized(n) {
         }else{
             configure_slider_double(`motor${i}`,`motor${i}_start_position`,`motor${i}_end_position`);
         }
-    }
+    }*/
 }
 
 

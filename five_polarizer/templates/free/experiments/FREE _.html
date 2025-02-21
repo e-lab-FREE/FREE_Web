@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="pt"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
+        <meta name="description" content="Template for ELAB app">
+        <meta name="keywords" content="ELab layout, template, web site">
+        <meta name="author" content="José Veiga">
+        <meta name="theme-color" content="#ffffff">
+        <!--HTML title-->
+        <title>FREE |  </title>
+        <!--Block styling-->
+
+        <link rel="stylesheet" href="FREE%20__ficheiros/semantic.min.css" type="text/css">
+
+        <link rel="stylesheet" href="FREE%20__ficheiros/accordion.min.css">
+
+        <link rel="stylesheet" href="FREE%20__ficheiros/dataTables.semanticui.min_002.css">
+        <link rel="stylesheet" href="FREE%20__ficheiros/responsive.semanticui.min.css">
+        <link rel="stylesheet" href="FREE%20__ficheiros/buttons.semanticui.min_002.css">
+        <link rel="stylesheet" href="FREE%20__ficheiros/style.css">
+
+
+        <link rel="shortcut icon" type="image/png" href="">
+        <link rel="shortcut icon" href="https://elab.vps.tecnico.ulisboa.pt:8002/static/free/images/faviconElab.ico">
+        <script src="FREE%20__ficheiros/Sem%20t%C3%ADtulo.js"></script>
+
+        
+        
+        
+<script id="csrf_token" type="application/json">e7qy18QbrI6DTpieD7fm5Spb6URa3FyGVG3PDq01Dd4byKvKhiu6RFuJE4SmeVX5</script>
+<script id="apparatus-config" type="application/json">{"id": "POLAROID", "serial_port": {"baud": "115200", "numbits": "8", "stopbits": "1", "partitybits": "0", "death_timeout": "10000000", "ports_restrict": ["/dev/tty_pol"], "listening_timeout": "100000"}}</script>
+<script id="apparatus-id" type="application/json">31</script>
+<script id="protocol-config" type="application/json">{"type": "object", "required": ["polarized_light", "motor1_position", "motor2_start_position", "motor2_end_position"], "properties": {"calibrate": {"type": "integer", "default": 0, "maximum": 1, "minimum": 0, "subPart": 1, "multipleOf": 1}, "motor1_position": {"type": "number", "default": 0, "maximum": 72.5, "minimum": -120.5, "subPart": 40, "multipleOf": 0.1}, "polarized_light": {"type": "integer", "default": 0, "maximum": 1, "minimum": 0, "subPart": 1, "multipleOf": 1}, "motor2_end_position": {"type": "number", "default": -50, "maximum": 72.5, "minimum": -120.5, "subPart": 20, "multipleOf": 0.1}, "motor2_start_position": {"type": "number", "default": 0, "maximum": 72.5, "minimum": -120.5, "subPart": 20, "multipleOf": 0.1}}}</script>
+<script id="protocol-id" type="application/json">13</script>
+<script id="execution-config" type="application/json">{}</script>
+<script id="final-result" type="application/json">{}</script>
+<script id="apparatus-name" type="application/json">"Five Polarizer"</script>
+
+<script id="video-config" type="application/json">""</script>
+
+<script>
+    var next_result_id =0;
+
+    X_CSRFToken = document.getElementById('csrf_token').textContent
+
+    protocol_config = JSON.parse(document.getElementById('protocol-config').textContent)
+
+    protocol_input_arguments = protocol_config.properties
+
+    current_execution = JSON.parse(document.getElementById('execution-config').textContent);
+
+    var execution_status;
+    execution_status = current_execution['status']
+    if (execution_status === undefined)
+         execution_status = ''
+
+
+    var apparatus_id = JSON.parse(document.getElementById('apparatus-id').textContent);
+    var protocol_id = JSON.parse(document.getElementById('protocol-id').textContent);
+
+</script>
+
+
+
+        
+
+
+<script src="FREE%20__ficheiros/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+<script src="FREE%20__ficheiros/axios.min.js"></script>
+
+<script src="FREE%20__ficheiros/semantic.min.js"></script>
+<script src="FREE%20__ficheiros/accordion.min.js"></script>
+
+
+<script src="FREE%20__ficheiros/jquery.dataTables.min.js"></script>
+<script src="FREE%20__ficheiros/dataTables.semanticui.min_002.js"></script>
+<script src="FREE%20__ficheiros/dataTables.responsive.min.js"></script>
+<script src="FREE%20__ficheiros/responsive.semanticui.min.js"></script>
+<script src="FREE%20__ficheiros/dataTables.buttons.min.js"></script>
+<script src="FREE%20__ficheiros/buttons.colVis.min.js"></script>
+<script src="FREE%20__ficheiros/buttons.html5.min_002.js"></script>
+<script src="FREE%20__ficheiros/buttons.print.min.js"></script>
+<script src="FREE%20__ficheiros/buttons.semanticui.min.js"></script>
+
+<script src="FREE%20__ficheiros/jszip.min.js"></script>
+<script src="FREE%20__ficheiros/pdfmake.min.js"></script>
+<script src="FREE%20__ficheiros/vfs_fonts.min.js"></script>
+
+<script src="FREE%20__ficheiros/elab-layout.js"></script> 
+
+<!--<script src="/static/free/js/janus.js" ></script>-->
+<!--<script src="/static/free/js/streaming_simple.js" ></script>-->
+<script type="text/javascript" src="FREE%20__ficheiros/adapter.min.js"></script>
+        
+
+    <!-- datatables -->
+    <script src="FREE%20__ficheiros/jquery.dataTables.min_002.js"></script>
+    <script src="FREE%20__ficheiros/dataTables.semanticui.min.js"></script>
+
+    <link rel="stylesheet" href="FREE%20__ficheiros/dataTables.semanticui.min.css">
+
+
+    <!-- datatables  buutons (copy , csv excel)-->
+    <script src="FREE%20__ficheiros/dataTables.buttons.min_002.js"></script>
+    <script src="FREE%20__ficheiros/buttons.semanticui.min_002.js"></script>
+    <script src="FREE%20__ficheiros/buttons.html5.min.js"></script>
+
+    <link rel="stylesheet" href="FREE%20__ficheiros/buttons.semanticui.min.css">
+
+
+    <!-- Video -->
+    <script type="text/javascript" src="FREE%20__ficheiros/adapter.min.js"></script>
+    <script type="text/javascript" src="FREE%20__ficheiros/spin.min.js"></script><style type="text/css"></style>
+
+
+    
+    <!-- pendulum libraries -->
+    
+
+     <!-- slider  -->
+     <script src="FREE%20__ficheiros/slider.min.js"></script>
+     <link rel="stylesheet" href="FREE%20__ficheiros/slider.min.css">
+ 
+    <!-- pendulum libraries -->
+    <script src="FREE%20__ficheiros/chart.js"></script>
+ 
+     <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>-->
+    <script src="FREE%20__ficheiros/chartjs-plugin-annotation.min.js"></script>
+    <script src="FREE%20__ficheiros/chartjs-plugin-zoom.min.js"></script>
+    <script src="FREE%20__ficheiros/index.umd.min.js"></script>
+    <script src="FREE%20__ficheiros/d3-array.v3.min.js"></script>
+
+
+ 
+
+
+
+    </head>
+    <body>  
+
+        
+        
+        
+
+          <div class="ui grid">
+            <div class="ui row">
+        
+                
+    
+
+    <div class="ui grid">
+      <!--navbar-->
+      <div class="computer only row">
+        <div class=" column">
+            <div class="ui top fixed massive menu navbar">
+                <!--<div class="nav item">
+                    <img src="static/images/eu.png">
+                </div>-->
+                <div class="left menu">
+                    <div class="nav item">
+                        <strong class="navtext">WPA - World Pendulum Alliance (IST, Lisboa, Portugal) </strong>
+                    </div>
+
+                </div>
+                <div class="ui top pointing dropdown admindropdown link item right" tabindex="0">
+                    <img class="improfile" src="FREE%20__ficheiros/eu.png" alt="">
+                    
+                        <span class="clear navtext"><strong>Hi, pedro</strong></span>
+                    
+                    <i class="dropdown icon navtext"></i>
+                    <div class="menu" tabindex="-1">
+                        
+                            <a href="https://elab.vps.tecnico.ulisboa.pt:8002/admin/" class="item"><p><i class="settings icon"></i>Administração</p></a>
+                            <a href="https://elab.vps.tecnico.ulisboa.pt:8002/videoConfig/" class="item"><p><i class="settings icon"></i>Video Config</p></a>
+                            <a href="https://elab.vps.tecnico.ulisboa.pt:8002/free-admin/usersCleanUp/" class="item"><p><i class="settings icon"></i>Users Cleanup</p></a>
+                            <a href="https://elab.vps.tecnico.ulisboa.pt:8002/free-admin/experimentsCleanup/" class="item"><p><i class="settings icon"></i>Experiments Cleanup</p></a>
+                            <a href="https://elab.vps.tecnico.ulisboa.pt:8002/FREE_quizes_admin/" class="item"><p><i class="settings icon"></i>FREE Quizes Administration</p></a>
+                        
+                        <a href="https://elab.vps.tecnico.ulisboa.pt:8002/logout" class="item"><i class="sign out alternate icon"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--for mobile or table minimize your screen-->
+    <div class="tablet mobile only row">
+        <div class="column">
+            <div class="ui top fixed menu navcolor">
+                <a id="showmobiletabletsidebar" class="item navtext"><i class="content icon"></i></a>
+                <div class="right menu">
+                    <div class="item">
+                        <strong class="navtext">Elab</strong>
+                        
+                    </div>
+                    <div class="item">
+                        <img src="FREE%20__ficheiros/elab_logo.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+                
+
+
+<!--  BEGIN SIDEBAR -->
+<!-- mobile and table (sidebar) -->
+<div class="tablet mobile only row ">
+    <div class="mobiletabletsidebar animate hidden" id="mobiletabletsidebar">
+    <!--<div class="left floated three wide computer column" id="computersidebar">-->
+        <div class="ui left fixed vertical menu scrollable">
+            
+
+
+<div class="ui top aligned  image">
+    <h2 class=" item"><img src="FREE%20__ficheiros/elab_logo.png" id="logo-elab"></h2> 
+</div>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/"><i class="home icon"></i>Início</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/apparatuses"><i class="table icon"></i>Apparatuses</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/executions/configured"><i class="home icon"></i>Configured Executions</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/executions/finished"><i class="home icon"></i>Finished Executions</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/FREE_quizes/"><i class="table icon"></i>FREE Quizes</a>
+            
+<div class="item">       
+    <form action="/i18n/setlang/" method="post"><input type="hidden" name="csrfmiddlewaretoken" value="e7qy18QbrI6DTpieD7fm5Spb6URa3FyGVG3PDq01Dd4byKvKhiu6RFuJE4SmeVX5">
+        <input name="next" type="hidden" value="">
+        <select name="language">
+            
+            
+            
+            
+                <option value="en">
+                    English (en)
+                </option>
+            
+                <option value="pt" selected="selected">
+                    Português (pt)
+                </option>
+            
+                <option value="es">
+                    español (es)
+                </option>
+            
+        </select>
+        <input type="submit" value="Go">
+    </form>
+</div>
+
+            
+
+
+
+
+
+
+<style>
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .cienciaviva {
+        height: 5%;
+        text-align: center;
+        width: 200px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    .square {
+        height: 7%;
+        text-align: center;
+        width: 200px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+</style> 
+
+
+<div class="item">
+<h4><b class="home">Sponsors</b></h4>
+</div>
+<div class="square"> 
+<a href="https://ec.europa.eu/programmes/erasmus-plus/node_en"> <img src="FREE%20__ficheiros/cofinanciadoEN.png" alt="Erasmus and Programme of the European Union Support"></a>
+</div>
+<div class="square">
+<a href="https://fusenet.eu/"><img src="FREE%20__ficheiros/fusenet.jpg" alt="fusenet"></a>
+</div>
+<div class="square">
+<a href="https://www.dgae.mec.pt/"><img src="FREE%20__ficheiros/logo-dgae.svg" alt="WPA"></a>
+</div>
+<div class="cienciaviva">
+<a href="https://www.cienciaviva.pt/imprensa/comunicados-de-imprensa/"><img src="FREE%20__ficheiros/logocv.png" alt="WPA"></a>
+</div>
+<div class="square">
+<a href="https://www.portugal.gov.pt/pt/gc22"><img src="FREE%20__ficheiros/logo_rp_largo.png" alt="Republica de Portugal"></a>
+</div>
+        </div>
+<!--</div>-->
+    </div>
+</div>
+
+<!-- End mobile sidebar -->
+<!-- BEGIN COMPUTER SIDEBAR -->
+<div class="computer only row ">
+    <div class="left floated three wide computer column" id="computersidebar">
+        <div class="ui vertical fluid menu scrollable" id="simplefluid">
+            <div class="clearsidebar" style="overflow-y:scroll;"></div>
+
+            
+
+
+<div class="ui top aligned  image">
+    <h2 class=" item"><img src="FREE%20__ficheiros/elab_logo.png" id="logo-elab"></h2> 
+</div>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/"><i class="home icon"></i>Início</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/apparatuses"><i class="table icon"></i>Apparatuses</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/executions/configured"><i class="home icon"></i>Configured Executions</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/executions/finished"><i class="home icon"></i>Finished Executions</a>
+<a class="item" href="https://elab.vps.tecnico.ulisboa.pt:8002/FREE_quizes/"><i class="table icon"></i>FREE Quizes</a>
+            
+<div class="item">       
+    <form action="/i18n/setlang/" method="post"><input type="hidden" name="csrfmiddlewaretoken" value="e7qy18QbrI6DTpieD7fm5Spb6URa3FyGVG3PDq01Dd4byKvKhiu6RFuJE4SmeVX5">
+        <input name="next" type="hidden" value="">
+        <select name="language">
+            
+            
+            
+            
+                <option value="en">
+                    English (en)
+                </option>
+            
+                <option value="pt" selected="selected">
+                    Português (pt)
+                </option>
+            
+                <option value="es">
+                    español (es)
+                </option>
+            
+        </select>
+        <input type="submit" value="Go">
+    </form>
+</div>
+
+            
+
+
+
+
+
+
+<style>
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .cienciaviva {
+        height: 5%;
+        text-align: center;
+        width: 200px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    .square {
+        height: 7%;
+        text-align: center;
+        width: 200px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+</style> 
+
+
+<div class="item">
+<h4><b class="home">Sponsors</b></h4>
+</div>
+<div class="square"> 
+<a href="https://ec.europa.eu/programmes/erasmus-plus/node_en"> <img src="FREE%20__ficheiros/cofinanciadoEN.png" alt="Erasmus and Programme of the European Union Support"></a>
+</div>
+<div class="square">
+<a href="https://fusenet.eu/"><img src="FREE%20__ficheiros/fusenet.jpg" alt="fusenet"></a>
+</div>
+<div class="square">
+<a href="https://www.dgae.mec.pt/"><img src="FREE%20__ficheiros/logo-dgae.svg" alt="WPA"></a>
+</div>
+<div class="cienciaviva">
+<a href="https://www.cienciaviva.pt/imprensa/comunicados-de-imprensa/"><img src="FREE%20__ficheiros/logocv.png" alt="WPA"></a>
+</div>
+<div class="square">
+<a href="https://www.portugal.gov.pt/pt/gc22"><img src="FREE%20__ficheiros/logo_rp_largo.png" alt="Republica de Portugal"></a>
+</div>
+        </div>
+    </div> 
+</div>
+
+
+
+
+
+
+
+
+        
+            </div>
+        
+        </div>
+        
+
+      
+        
+
+        
+
+  
+<div class="right floated thirteen wide computer sixteen wide phone column" id="content">
+    <div class="ui container">
+        <h1>Five Polarizer 31 in Test</h1>
+         <div class="ui two column grid container">
+            <div class="column">
+                <div class="ui icon buttons">
+                    <button class="ui button" onclick="open_video_window()">
+                        <i class="play icon"></i>
+                        Open Video
+                    </button>
+                    <button class="ui button" onclick="close_video_window()">
+                        <i class="stop icon"></i>
+                        Close Video
+                    </button>
+                </div>
+            </div>
+            <div class="column">
+<!--                (<span id="exec_status"></span>) -->
+                <div class="ui info floating message" id="exec_status">
+                    <div class="header">
+                        Experiment execution status
+                      </div>
+                      <p>New experiment not saved yet</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+          
+    <div class="ui  container ">
+
+    <div class="ui top attached tabular menu">
+        <a class="item" id="description-tab-slip" data-tab="description-tab">Description</a>
+        <a class="item active" id="configuration-tab-slip" data-tab="configuration-tab">Configuração</a>
+        <a class="item" id="execution-tab-slip" data-tab="execution-tab">Execução</a>
+
+
+    </div>
+
+    <!-- MANDATORY EXPERIMENT DESCRIPTION FROM DB -->
+    <div class="ui bottom attached tab segment" data-tab="description-tab">
+        <div class="ui grid">
+            <div class="ten wide column ">
+                <!--<figure class="" >
+                    <img
+                    src="
+                    /static/free/images/five-polarizer.png
+                    "
+                    alt="five-polarizer"
+                    width="100%">
+                </figure>-->
+                 <figure class="">
+                         <img src="FREE%20__ficheiros/missing_image.jpg" alt="five-polarizer" width="100%"> 
+                 </figure>
+            </div>
+            <!--<div class="six wide column ">
+                    <img src="/static/free/images/WPA.jpeg" width="100%">
+            </div>-->
+        </div>
+        <p>test <br></p>
+        <!--<h2> Details</h2>-->
+        <p>Test test</p>
+        <!--<h2> Protocol details</h2>-->
+        <p>test<br></p>
+        <!--end of the description-->
+    </div>    
+                
+                
+
+
+    <div class="ui bottom attached tab segment active" data-tab="configuration-tab">
+        
+        <h2>Configuration data</h2>
+
+        <div id="config-input" class="ui equal width aligned padded">
+            <div class="ui container">
+                <div class="ui right pointing label">
+                    Execution name:
+                </div>
+                <div class="ui input">
+                    <input type="text" onchange="onInputChanged()" id="execution_name" placeholder="New Execution">
+                </div>
+
+            </div>
+            <div class="ui section divider"></div>
+            
+<!-- Begin of the configuration tab-->
+    
+    
+        <div class="ui two column grid container">
+            <div class="column"></div>
+            <div class="column">
+
+            </div>
+        </div>
+		<!-- 2 -->
+        <div class="ui one column grid container">
+            <!--<div class="column">
+                <div class="ui segment">
+                    <legend> <h3>Polaroid 2 sweeping angles  [&#176;]</h3></legend>
+                    <div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled slider"  id="slider-motor2_start_position" ></div>
+                        
+                        <div class="ui input" >
+                            <input class="free-input" type="number" id="motor2_start_position">
+                        </div>
+                </div>
+            </div>
+			
+	    <div class="column">
+                <div class="ui segment">
+                    <legend> <h3>End Position [&#176;]</h3></legend>
+                    <div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled slider"  id="slider-motor2_end_position" ></div>
+                        
+                        <div class="ui input" >
+                            <input class="free-input" type="number" id="motor2_end_position">
+                        </div>
+                </div>
+            </div>-->
+	    <div class="column">
+
+            <div class="ui segment">
+                <legend> <h3>Polaroid 2 sweeping angles [°]</h3></legend>
+      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider" "="" tabindex="0"><div class="inner"><div class="track"></div><div class="track-fill" style="left: 36.5285%; right: 37.5648%;"></div><div class="thumb" style="left: calc(36.5285% - 7px); right: auto;"></div><div class="thumb second" style="left: calc(62.4352% - 7px); right: auto;"></div></div><ul class="auto labels"><li class="label" style="left: calc(0% + 20.7667px);">-120.5</li><li class="label" style="left: calc(10.3627% + 16.4627px);">-100.5</li><li class="label" style="left: calc(20.7254% + 12.1587px);">-80.5</li><li class="label" style="left: calc(31.0881% + 7.85476px);">-60.5</li><li class="label" style="left: calc(41.4508% + 3.55078px);">-40.5</li><li class="label" style="left: calc(51.8135% - 0.753197px);">-20.5</li><li class="label" style="left: calc(62.1762% - 5.05718px);">-0.5</li><li class="label" style="left: calc(73.057% - 9.57636px);">20.5</li><li class="label" style="left: calc(83.4197% - 13.8803px);">40.5</li><li class="label" style="left: calc(93.7824% - 18.1843px);">60.5</li><li class="label" style="left: calc(100% - 20.7667px);">72.5</li></ul></div>
+      			
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor2_end_position" value="-50">
+                        </div>
+                        <div class="ui input" style="float:right;">
+                            <input class="free-input" type="number" id="motor2_start_position" value="0">
+                        </div>
+                 </div>
+
+               <div class="ui segment">
+                <legend> <h3>Polaroid 2 sweeping angles [°]</h3></legend>
+      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider" "="" tabindex="0"><div class="inner"><div class="track"></div><div class="track-fill" style="left: 36.5285%; right: 37.5648%;"></div><div class="thumb" style="left: calc(36.5285% - 7px); right: auto;"></div><div class="thumb second" style="left: calc(62.4352% - 7px); right: auto;"></div></div><ul class="auto labels"><li class="label" style="left: calc(0% + 20.7667px);">-120.5</li><li class="label" style="left: calc(10.3627% + 16.4627px);">-100.5</li><li class="label" style="left: calc(20.7254% + 12.1587px);">-80.5</li><li class="label" style="left: calc(31.0881% + 7.85476px);">-60.5</li><li class="label" style="left: calc(41.4508% + 3.55078px);">-40.5</li><li class="label" style="left: calc(51.8135% - 0.753197px);">-20.5</li><li class="label" style="left: calc(62.1762% - 5.05718px);">-0.5</li><li class="label" style="left: calc(73.057% - 9.57636px);">20.5</li><li class="label" style="left: calc(83.4197% - 13.8803px);">40.5</li><li class="label" style="left: calc(93.7824% - 18.1843px);">60.5</li><li class="label" style="left: calc(100% - 20.7667px);">72.5</li></ul></div>
+      			
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor2_end_position" value="-50">
+                        </div>
+                        <div class="ui input" style="float:right;">
+                            <input class="free-input" type="number" id="motor2_start_position" value="0">
+                        </div>
+                 </div>
+
+               <div class="ui segment">
+                <legend> <h3>Polaroid 2 sweeping angles [°]</h3></legend>
+      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider" "="" tabindex="0"><div class="inner"><div class="track"></div><div class="track-fill" style="left: 36.5285%; right: 37.5648%;"></div><div class="thumb" style="left: calc(36.5285% - 7px); right: auto;"></div><div class="thumb second" style="left: calc(62.4352% - 7px); right: auto;"></div></div><ul class="auto labels"><li class="label" style="left: calc(0% + 20.7667px);">-120.5</li><li class="label" style="left: calc(10.3627% + 16.4627px);">-100.5</li><li class="label" style="left: calc(20.7254% + 12.1587px);">-80.5</li><li class="label" style="left: calc(31.0881% + 7.85476px);">-60.5</li><li class="label" style="left: calc(41.4508% + 3.55078px);">-40.5</li><li class="label" style="left: calc(51.8135% - 0.753197px);">-20.5</li><li class="label" style="left: calc(62.1762% - 5.05718px);">-0.5</li><li class="label" style="left: calc(73.057% - 9.57636px);">20.5</li><li class="label" style="left: calc(83.4197% - 13.8803px);">40.5</li><li class="label" style="left: calc(93.7824% - 18.1843px);">60.5</li><li class="label" style="left: calc(100% - 20.7667px);">72.5</li></ul></div>
+      			
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor2_end_position" value="-50">
+                        </div>
+                        <div class="ui input" style="float:right;">
+                            <input class="free-input" type="number" id="motor2_start_position" value="0">
+                        </div>
+                 </div>
+               <div class="ui segment">
+                <legend> <h3>Polaroid 2 sweeping angles [°]</h3></legend>
+      		<div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2" class="ui blue small bottom aligned labeled range slider" "="" tabindex="0"><div class="inner"><div class="track"></div><div class="track-fill" style="left: 36.5285%; right: 37.5648%;"></div><div class="thumb" style="left: calc(36.5285% - 7px); right: auto;"></div><div class="thumb second" style="left: calc(62.4352% - 7px); right: auto;"></div></div><ul class="auto labels"><li class="label" style="left: calc(0% + 20.7667px);">-120.5</li><li class="label" style="left: calc(10.3627% + 16.4627px);">-100.5</li><li class="label" style="left: calc(20.7254% + 12.1587px);">-80.5</li><li class="label" style="left: calc(31.0881% + 7.85476px);">-60.5</li><li class="label" style="left: calc(41.4508% + 3.55078px);">-40.5</li><li class="label" style="left: calc(51.8135% - 0.753197px);">-20.5</li><li class="label" style="left: calc(62.1762% - 5.05718px);">-0.5</li><li class="label" style="left: calc(73.057% - 9.57636px);">20.5</li><li class="label" style="left: calc(83.4197% - 13.8803px);">40.5</li><li class="label" style="left: calc(93.7824% - 18.1843px);">60.5</li><li class="label" style="left: calc(100% - 20.7667px);">72.5</li></ul></div>
+      			
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor2_end_position" value="-50">
+                        </div>
+                        <div class="ui input" style="float:right;">
+                            <input class="free-input" type="number" id="motor2_start_position" value="0">
+                        </div>
+                 </div>
+    	      </div>
+
+        </div>	
+   	
+		
+<!-- End of the configuration tab-->
+
+        </div>
+
+        <div class="ui divider"></div>
+        <div class="row">   
+            <div class="column">
+                <div class="ui blue button" onclick="create_experiment()" id="createButton">Create</div>
+                <div class="ui blue button" onclick="save_experiment()" id="saveButton" style="display: none;">Gravar</div>
+                <div class="ui green button disabled" onclick="submit_experiment()" id="startButton">Submeter</div>
+                <div class="ui orange button disabled" id="reloadButton" onclick="reloadInputValues()">Reload Values</div>
+                <div class="ui orange button disabled" id="resetButton" onclick="resetInputValues()">Reset to default</div>
+                <div class="ui green button" id="createNewExpButton" onclick="gotoCreateExecution()" style="display: none;">Create New Execution</div>
+            
+                <div class="ui red button" id="deleteButton" onclick="deleteExecution()" style="display: none;">Remover Execução</div>
+                <div class="ui red button" id="deleteResultsButton" onclick="deleteExecution()" style="display: none;">Remover Resultados</div>
+            
+            </div>
+            <div class="ui floating message hidden" id="buttonMessage" style="display: none;">values reseted</div>
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="execution-tab">
+        
+        
+<div class="ui grid stackable">
+            <div class=" sixteen wide column">
+            <h3>Light Intensity vs Angle</h3>
+                <div>
+                    <canvas id="plot_Current_Field_position" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" height="0" width="0"></canvas>
+                </div>
+        </div>	
+	
+</div>
+
+    <div id="results_table_wrapper" class="dataTables_wrapper dt-semanticUI no-footer"><div class="ui stackable grid"><div class="row"><div class="eight wide column"><div class="dataTables_length" id="results_table_length"><label>Show <div class="selection ui dropdown" tabindex="0"><select name="results_table_length" aria-controls="results_table"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select><i class="dropdown icon"></i><div class="text">10</div><div class="menu" tabindex="-1"><div class="item active selected" data-value="10">10</div><div class="item" data-value="25">25</div><div class="item" data-value="50">50</div><div class="item" data-value="100">100</div></div></div> entries</label></div><div class="dt-buttons ui basic buttons">   <button class="ui button buttons-copy buttons-html5" tabindex="0" aria-controls="results_table" type="button"><span>Copy</span></button> <button class="ui button buttons-csv buttons-html5" tabindex="0" aria-controls="results_table" type="button"><span>CSV</span></button> <button class="ui button buttons-excel buttons-html5" tabindex="0" aria-controls="results_table" type="button"><span>Excel</span></button> </div></div><div class="right aligned eight wide column"><div id="results_table_filter" class="dataTables_filter ui form"><label>Search:<span class="ui input"><span class="ui input"><input type="search" class="" placeholder="" aria-controls="results_table"></span></span></label></div></div></div><div class="row dt-table"><div class="sixteen wide column"><table id="results_table" class="ui celled table display dataTable no-footer" style="width: 100%;" aria-describedby="results_table_info">
+        <thead>
+            <tr><th id="position" class="sorting sorting_desc" tabindex="0" aria-controls="results_table" rowspan="1" colspan="1" style="width: 0px;" aria-sort="descending" aria-label="Position [°]: activate to sort column ascending">Position [°]</th><th id="intensity" class="sorting" tabindex="0" aria-controls="results_table" rowspan="1" colspan="1" style="width: 0px;" aria-label="Intensity [A.U.]: activate to sort column ascending">Intensity [A.U.]</th></tr>
+        </thead><tbody><tr class="odd"><td valign="top" colspan="2" class="dataTables_empty">No data available in table</td></tr></tbody>
+    </table></div></div><div class="row"><div class="seven wide column"><div class="dataTables_info" id="results_table_info" role="status" aria-live="polite">Showing 0 to 0 of 0 entries</div></div><div class="right aligned nine wide column"><div class="dataTables_paginate paging_simple_numbers" id="results_table_paginate"><div class="ui stackable pagination menu"><div class="paginate_button item previous disabled" id="results_table_previous" href="#" aria-controls="results_table" data-dt-idx="0" tabindex="0">Previous</div><div class="paginate_button item next disabled" id="results_table_next" href="#" aria-controls="results_table" data-dt-idx="1" tabindex="0">Next</div></div></div></div></div></div></div>
+
+    </div>
+
+    </div>
+</div>
+
+
+    
+
+
+
+    
+    
+    
+
+
+<script>
+    //var receive_error_velocity
+    //var receive_error_period
+
+    var plot_Current_Field_position
+	let data_value_p 
+	let data_value_fx
+	let data_value_fy 
+	let data_value_fz 
+	let data_value_c 
+    //var period_data = []
+
+
+function process_final_data(data_line){
+
+
+}
+
+let polarized_light_val = 0;
+
+function change_Polarized() { 
+	polarized_light_val = 1- polarized_light_val;
+	$('#polarized_light').val( polarized_light_val)
+}
+
+
+
+
+var label_pressure_gauge = ["Field X","FieldY","Field Z"]
+var color_ampl = ["blue","red","black"]
+let frist_time_plot = 0
+
+
+
+function process_experiment_data(data){
+	 //process_experiment_data_default(data);
+	console.log("process_experiment_data");	
+	for (line in data){
+		if(data[line].result_type == 'p'){
+		data_value_p = data[line].value.map(data => (72.5-parseFloat(data.position)*0.1485).toFixed(2)).filter(function (element) { 
+            		return element !== undefined;
+          	});
+		data_value_c = data[line].value.map(data => parseFloat(data.intensity)).filter(function (element) { 
+            		return element !== undefined;
+          	});
+
+
+               if (frist_time_plot === 0 )
+                {
+
+                  plot_Current_Field_position.data.datasets = plot_Current_Field_position.data.datasets.concat([{
+                                     label:"Data",
+                                     borderColor: "blue",
+                                     backgroundColor: "blue",
+                                     pointRadius:1,
+                                     showLine:true,
+                                     borderWidth:1,
+                                     data: [],
+                                     showLine: false,
+                                 },
+                             ]);
+
+                     frist_time_plot = 1
+                }
+
+                
+		process_partial_data(data_value_p,data_value_c);
+		table_insert_partial_data(data[line]);
+		}	
+	}
+	
+}
+
+let count_draw = 0
+
+
+
+
+function table_insert_partial_data(data){
+    let value_data_table = "";
+    table_columns = jQuery( "#results_table > thead> tr> th" );
+    col_id = []
+    for ( ind = 0, len = table_columns.length; ind < len; ind++ ) {
+        col_id.push($(table_columns[ind]).attr("id"))
+    }
+    var t = $('#results_table').DataTable();
+	//console.log("ooo");
+	//console.log(col_id)
+        //console.log("data.value")
+        //console.log(data.value)
+
+    data.value.map(data => {
+       console.log(data )       
+       row_data = []
+       col_id.forEach(c_id => {
+            if (c_id === "position"){
+                console.log("ola");
+                value_data_table=  String((72.5-parseFloat(data[c_id])*0.1485).toFixed(2));
+            }
+            else{
+                value_data_table = data[c_id]
+            }
+       		row_data.push(value_data_table)
+	});
+       t.row.add(row_data)
+       count_draw = count_draw +1;
+       return row_data
+	});
+
+    console.log(count_draw)
+    if (count_draw >= data.value.length){
+	t.draw()
+       count_draw = 0
+    }
+    console.log("row_data")
+    console.log(row_data)
+
+}
+
+
+
+
+function process_partial_data(p,c){
+    //voltage = parseFloat(data_value_v) 
+    //current = parseFloat(data_value_)
+    //pressure = parseFloat(data_line.adc_value3)
+    //time = data_line.time
+
+	plot_Current_Field_position.data.labels = plot_Current_Field_position.data.labels.concat(p);
+
+	plot_Current_Field_position.data.datasets[0].data = plot_Current_Field_position.data.datasets[0].data.concat(c);
+	
+
+        plot_Current_Field_position.update();
+
+
+}
+
+
+
+function on_save_experiment_UI(){
+
+}
+
+
+
+
+function on_ready_experiment_UI(){
+
+    //configure_slider("polarized_light")
+    configure_slider("motor1_position")
+    //configure_slider("motor2_start_position")
+    //configure_slider("motor2_end_position")
+    configure_slider_double("motor2","motor2_start_position","motor2_end_position")
+	
+//	buildPlot1(0,'plot_current_voltage');
+ //   buildPlot2(0,'plot_voltage_time');
+  //  buildPlot3(0,'plot_current_time');
+//	buildPlot4(0, 'plot_pressure_time');
+	
+	
+    //receive_error_velocity = 0.1;
+   // receive_error_period = 0.0005;//response.data.value.e_period;
+
+    ctx = $("#plot_Current_Field_position")[0].getContext('2d');
+    plot_Current_Field_position = new Chart(ctx, {
+        type: 'scatter',
+        labels: [],
+        data: {
+            datasets: [],
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    align: 'center',
+                    position: 'right',
+		    labels: {
+                        boxWidth:10
+                    },
+
+                }, 
+                autocolors: false,
+            },
+            scales: {
+                y: {
+                    title:{
+                        display: true, 
+                        text: gettext('Intensity [A.U.]'),
+                    }
+                  //  min: 8.5,
+                    //max: 9.5,
+                },
+                x: {
+                    title:{
+                        display: true, 
+                        text: 'Angle [deg]',
+                    },
+                },
+            },
+        }
+    });
+
+
+}
+
+
+function add_relation(name,value)
+{
+
+}
+
+
+Number.prototype.countDecimals = function () {
+
+    if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
+
+    var str = this.toString();
+    if (str.indexOf(".") !== -1 && str.indexOf("-") !== -1) {
+        return str.split("-")[1] || 0;
+    } else if (str.indexOf(".") !== -1) {
+        return str.split(".")[1].length || 0;
+    }
+    return str.split("-")[1] || 0;
+}
+
+
+
+
+
+
+
+let previous = 0.0;
+let correction = 1.0;
+
+function configure_slider_double(name,input_1,input_2){
+
+let help_spac = Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+
+ $('#slider-'+name).slider({
+    min: protocol_input_arguments[input_1].minimum,
+    max: protocol_input_arguments[input_1].maximum, 
+    step: protocol_input_arguments[input_1].multipleOf,
+    start: protocol_input_arguments[input_2].default,
+    end: protocol_input_arguments[input_1].default,
+    minRange: 10,
+    autoAdjustLabels: false,
+    interpretLabel: function (value) {
+       check_me = Number.parseFloat(Number.parseFloat(value)*Number.parseFloat(protocol_input_arguments[input_1].multipleOf) + Number.parseFloat(protocol_input_arguments[input_1].minimum)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())
+       if (value === 0) 
+       { 
+            if (ticker>Math.abs(Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())))
+            {	
+                	help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()); 	
+            } 
+            else{
+                 	help_spac = Number.parseFloat(Number.parseFloat(ticker)+Number.parseFloat(protocol_input_arguments[input_1].minimum)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+            }
+                		return Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+       }
+       else if (check_me === help_spac) 
+       { 
+            previous = help_spac;
+            help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(ticker)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()); 
+            if ( previous <=0  && Number.parseFloat(help_spac) >0)
+            {
+                help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(correction)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());     
+            }
+            
+            return check_me
+       }
+       else if (check_me === Number.parseFloat( protocol_input_arguments[input_1].maximum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())) 	
+       {
+            return Number.parseFloat( protocol_input_arguments[input_1].maximum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())
+       }
+       else 
+       { 
+            return ""
+        }
+    },
+    onChange: function( event, range, firstVal, secondVal) {
+            // Set the real value into the inputs
+            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+            onInputChanged()
+    },
+    onMove: function(range, firstVal, secondVal){ 
+            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+    }
+    });
+    $('#'+input_1).change(function() {
+           $('#slider-'+name).slider('set secondVal', $(this).val())
+            	});
+    $('#'+input_2).change(function() {
+           $('#slider-'+name).slider('set firstVal', $(this).val())
+            	});
+
+}
+
+
+
+function configure_slider(name){
+        //help_spac = Number.parseFloat(0);
+        //ticker =  Number.parseFloat(protocol_input_arguments[name].subPart);
+	console.log(Object.keys(protocol_input_arguments[name]))        
+
+        if(Object.keys(protocol_input_arguments[name]).indexOf("enum") !== -1)
+	{
+		console.log(name)
+		console.log("meuemueu")
+		label = protocol_input_arguments[name].enum;
+		$('#slider-'+name).slider({
+           	 	min:  0,
+            		max: label.length-1,
+            		step: 1,
+            		start: protocol_input_arguments[name].default,
+            		input: '#'+name,
+            		autoAdjustLabels: false,
+			interpretLabel: function (value) {
+				return label[value]
+			},
+			onChange: function( event, ui ) {
+            			// Set the real value into the inputs
+            			console.log(label[ui]); 
+				$('#'+name).val( label[ ui]);
+                                onInputChanged()
+
+
+        		},
+    			onMove: function(value){ 
+				console.log(label[value]); 
+				$('#'+name).val( label[value]);
+    			}
+		})
+        	$('#'+name).change(function() {
+			//thisVal = $(this).val();
+   			// o user so pode digitar [0,20,25] isso tem de corresponder to [0,1,2]...
+
+     			//if (thisVal >= 0 && thisVal <= label[0])
+			//{ 
+			//	$("#slider-"+name).slider('set value', label[0]);
+   			//}
+   			//else if (thisVal > 6 && thisVal <= label[1]) 
+			//{ 	
+			//	$("#slider-"+name).slider('set value', label[1]);
+  			//}
+   			//else if (thisVal > 20) 
+			//{ 
+			//	$("#slider-"+name).slider('set value', label[2]);
+   			//}
+   			//else 
+			//{ 
+			//	return false
+   			//}
+ 		});
+
+
+	}
+      	else{
+                 let help_spac = Number.parseFloat(protocol_input_arguments[name].minimum).toFixed(protocol_input_arguments[name].multipleOf.countDecimals());
+                 let ticker =  Number.parseFloat(protocol_input_arguments[name].subPart).toFixed(protocol_input_arguments[name].multipleOf.countDecimals());
+
+       		$('#slider-'+name).slider({
+            		min:  protocol_input_arguments[name].minimum,
+            		max: protocol_input_arguments[name].maximum, 
+            		step: protocol_input_arguments[name].multipleOf,
+            		start: protocol_input_arguments[name].default,
+            		input: '#'+name,
+            		autoAdjustLabels: false,
+	    		interpretLabel: function (value) {
+                                   check_me = Number.parseFloat(Number.parseFloat(value)*Number.parseFloat(protocol_input_arguments[name].multipleOf) + Number.parseFloat(protocol_input_arguments[name].minimum)).toFixed(protocol_input_arguments[name].multipleOf.countDecimals())
+            			   if (value === 0) 
+               			   { 
+                		    console.log("check_me ");
+                            console.log(check_me);
+                		    console.log("value ");
+                            console.log(value);
+                  			      if (ticker>Math.abs(Number.parseFloat(protocol_input_arguments[name].minimum).toFixed(protocol_input_arguments[name].multipleOf.countDecimals())))
+                			        {	
+                			             help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[name].multipleOf.countDecimals()); 	
+                 			       } 
+                 			       else{
+                 			            help_spac = Number.parseFloat(Number.parseFloat(ticker)+Number.parseFloat(protocol_input_arguments[name].minimum)).toFixed(protocol_input_arguments[name].multipleOf.countDecimals());
+                 			       }
+                		    console.log("help_spac ");
+                            console.log(help_spac);
+                			        return Number.parseFloat(protocol_input_arguments[name].minimum).toFixed(protocol_input_arguments[name].multipleOf.countDecimals());
+             			    }
+              			    else if (check_me === help_spac) 
+              			    { 
+                                previous = help_spac;
+                                help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(ticker)).toFixed(protocol_input_arguments[name].multipleOf.countDecimals()); 
+                                if (previous<=0 && Number.parseFloat(help_spac)>0)
+                                {
+                                    help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(correction)).toFixed(protocol_input_arguments[name].multipleOf.countDecimals());
+                                }
+                                return check_me
+              			    }
+              			    else if (check_me === Number.parseFloat( protocol_input_arguments[name].maximum).toFixed(protocol_input_arguments[name].multipleOf.countDecimals())) 	
+              			    {
+               			        return Number.parseFloat( protocol_input_arguments[name].maximum).toFixed(protocol_input_arguments[name].multipleOf.countDecimals())
+              			    }
+              			    else 
+               			    { 
+               			        return ""
+              			    }
+  	    			},
+            		onChange: function(value) {
+                		//console.log("QQQQQQQQQQQQQQQQQQ "+value)
+                                       $('#'+name).val(Number.parseFloat(value).toFixed(protocol_input_arguments[name].multipleOf.countDecimals()))
+                		       add_relation(name,value);
+                		       onInputChanged()
+           		},
+	   		onMove: function(value)
+			{
+				// var helper = NumberparseFloat(value).toFixed(2);
+				$('#'+name).val(Number.parseFloat(value).toFixed(protocol_input_arguments[name].multipleOf.countDecimals()))
+
+				add_relation(name,value);
+			} 
+
+        		})
+        	$('#'+name).change(function() {
+            		if($(this).val() > protocol_input_arguments[name].maximum)
+                		$(this).prop("value", protocol_input_arguments[name].maximum)
+            		if($(this).val() < protocol_input_arguments[name].minimum)
+                		$(this).prop("value", protocol_input_arguments[name].minimum)
+            		$("#slider-"+name).slider('set value', $(this).val())
+            	});
+	}
+    }
+
+
+
+function configure_slider_old(name){
+	console.log(Object.keys(protocol_input_arguments[name]))
+        $('#slider-'+name).slider({
+            min:  protocol_input_arguments[name].minimum,
+            max: protocol_input_arguments[name].maximum, 
+            step: protocol_input_arguments[name].multipleOf,
+            start: protocol_input_arguments[name].default,
+            input: '#'+name,
+            Change: function(value) {
+                console.log("QQQQQQQQQQQQQQQQQQ "+value)
+                $('#'+name).prop("value", value)
+                onInputChanged()
+                if ("relation" in protocol_input_arguments[name]){
+                    if(protocol_input_arguments[name].relation.type === "<"){
+                        if(parseInt($('#'+name).val()) < parseInt($('#'+protocol_input_arguments[name].relation.name).val()) ){
+                            $('#'+protocol_input_arguments[name].relation.name).val(value)
+                            $('#slider-'+protocol_input_arguments[name].relation.name).slider('set value', value);
+                        }
+                    }
+                    if (protocol_input_arguments[name].relation.type === ">"){
+                        if (parseInt(value) > parseInt($('#'+protocol_input_arguments[name].relation.name).val())){
+                            $('#'+name).val(parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                            $('#slider-'+name).slider('set value', parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                        }
+                        else{
+                            $('#'+name).val(value)
+                        }
+                    }
+                }
+           },
+           onMove: function(value){
+                $('#'+name).val(value)
+                if ("relation" in protocol_input_arguments[name]){
+                    if(protocol_input_arguments[name].relation.type === "<"){
+                                if(parseInt($('#'+name).val()) < parseInt($('#'+protocol_input_arguments[name].relation.name).val()) ){
+                                        $('#'+protocol_input_arguments[name].relation.name).val(value)
+                                        $('#slider-'+protocol_input_arguments[name].relation.name).slider('set value', value);
+                        }
+                    }
+                    if (protocol_input_arguments[name].relation.type === ">"){
+                 		if (parseInt(value) > parseInt($('#'+protocol_input_arguments[name].relation.name).val())){
+                   			$('#'+name).val(parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                   			$('#slider-'+name).slider('set value', parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                        }
+                        else{
+                            $('#'+name).val(value)
+                        }
+			        }
+              }
+        }});
+        $('#'+name).change(function() {
+            if ("relation" in protocol_input_arguments[name] && protocol_input_arguments[name].relation.type === ">"){
+                if ($(this).val() > parseInt($('#'+protocol_input_arguments[name].relation.name).val()) ){
+                    $('#'+name).val(parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                    $('#slider-'+name).slider('set value', parseInt($('#'+protocol_input_arguments[name].relation.name).val()))
+                }
+                else{
+                    if($(this).val() > protocol_input_arguments[name].maximum)
+                        $(this).prop("value", protocol_input_arguments[name].maximum)
+                    if($(this).val() < protocol_input_arguments[name].minimum)
+                        $(this).prop("value", protocol_input_arguments[name].minimum)
+                $('#slider-'+name).slider('set value', $(this).val())
+                }
+            }
+            else{
+                if($(this).val() > protocol_input_arguments[name].maximum)
+                    $(this).prop("value", protocol_input_arguments[name].maximum)
+                if($(this).val() < protocol_input_arguments[name].minimum)
+                    $(this).prop("value", protocol_input_arguments[name].minimum)
+                
+                $('#slider-'+name).slider('set value', $(this).val())
+            }
+                //$("#slider-"+name).slider('set value', $(this).val())
+            
+        });
+    }
+		
+function configure_radio() {
+         $('.ui.radio.checkbox').checkbox();
+         gas_selector = $('#radio').find('[name="gas_type"]:checked').val();
+         console.log(gas_selector)
+         if (gas_selector === undefined){
+                 console.log("error")
+                 gas_selector = 1
+            }
+
+}
+
+
+
+function buildPlot1(res, plotdiv) {
+
+console.log(res);
+var trace1 = {
+      x: [],
+      y: [],
+  error_y: {
+    type: 'data',
+    color: '#85144B',
+    array: [],
+    thickness: 1.5,
+    width:3,
+    visible: true
+  },
+  mode: 'markers',
+  line: {
+    color: "#1f77b4", 
+    width: 1
+  },marker: {
+    color: "rgb(0, 255, 255)", 
+    size: 6, 
+    line: {
+      color: "black", 
+      width: 0.5
+    }
+  },
+  type:"scatter",
+      /*line: {
+        color: '#80CAF6',
+        shape: 'linear'
+      },*/
+      
+      name: "res[1]"
+    };
+
+  var output_data = [trace1];
+
+  var layout = {
+    margin: {
+    l: 50,
+    r: 50,
+    b: 50,
+    t: 50,
+    pad: 4
+  },
+    showlegend:false, 
+    xaxis: {
+          title: gettext('Voltage[V]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                },
+               howticklabels: false
+               // rangemode: 'tozero'
+              
+               //rangeslider: {}
+          },
+    yaxis: {
+          title: gettext('Current [µA]'),
+          fixedrange: true,
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+               // rangemode: 'tozero'
+          }
+   };
+
+   Plotly.newPlot(plotdiv, output_data, layout, {responsive: true});
+ 
+}
+
+function buildPlot2(res,plotdiv) {
+console.log(res);
+var trace2 = {
+      x: [],
+      y: [],
+  error_y: {
+    type: 'data',
+    color: '#85144B',
+    array: [],
+    thickness: 1.5,
+    width:3,
+    visible: true
+  },
+  mode: 'lines+markers',
+  line: {
+    color: "#1f77b4", 
+    width: 1
+  },marker: {
+    color: "rgb(0, 255, 255)", 
+    size: 6, 
+    line: {
+      color: "black", 
+      width: 0.5
+    }
+  },
+  type:"scatter",
+      
+      name: res[2]
+    };
+
+  var output_data = [trace2];
+
+  var layout = {
+ 
+
+    xaxis: {
+          
+          title: gettext('Elapsed Time[ms]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+              //  rangemode: 'tozero'
+          },
+    yaxis: {
+      //range:[0.19,0.21],
+          title: gettext('Voltage [V]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+                //rangemode: 'tozero'
+          }
+   };
+
+   Plotly.newPlot(plotdiv, output_data, layout,  {responsive: false});
+ 
+  }
+  
+  
+
+function buildPlot3(res,plotdiv) {
+console.log(res);
+var trace3 = {
+      x: [],
+      y: [],
+  error_y: {
+    type: 'data',
+    color: '#85144B',
+    array: [],
+    thickness: 1.5,
+    width:3,
+    visible: true
+  },
+  mode: 'lines+markers',
+  line: {
+    color: "#1f77b4", 
+    width: 1
+  },marker: {
+    color: "rgb(0, 255, 255)", 
+    size: 6, 
+    line: {
+      color: "black", 
+      width: 0.5
+    }
+  },
+  type:"scatter",
+      
+      name: res[3]
+    };
+
+  var output_data = [trace3];
+
+  var layout = {
+ 
+
+    xaxis: {
+          
+          title: gettext('Elapsed Time[ms]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+              //  rangemode: 'tozero'
+          },
+    yaxis: {
+      //range:[0.19,0.21],
+          title: gettext('Current [µA]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+                //rangemode: 'tozero'
+          }
+   };
+
+   Plotly.newPlot(plotdiv, output_data, layout,  {responsive: false});
+ 
+  }
+  
+ function buildPlot4(res,plotdiv) {
+console.log(res);
+var trace4 = {
+      x: [],
+      y: [],
+  error_y: {
+    type: 'data',
+    color: '#85144B',
+    array: [],
+    thickness: 1.5,
+    width:3,
+    visible: true
+  },
+  mode: 'lines+markers',
+  line: {
+    color: "#1f77b4", 
+    width: 1
+  },marker: {
+    color: "rgb(0, 255, 255)", 
+    size: 6, 
+    line: {
+      color: "black", 
+      width: 0.5
+    }
+  },
+  type:"scatter",
+      
+      name: res[4]
+    };
+
+  var output_data = [trace4];
+
+  var layout = {
+ 
+
+    xaxis: {
+          
+          title: gettext('Elapsed Time[ms]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+              //  rangemode: 'tozero'
+          },
+    yaxis: {
+      //range:[0.19,0.21],
+          title: gettext('Pressure [mbar]'),
+          titlefont:{
+                color: 'black',
+                size: 14
+                }
+                //rangemode: 'tozero'
+          }
+   };
+
+   Plotly.newPlot(plotdiv, output_data, layout,  {responsive: false});
+ 
+  }
+
+
+
+
+</script>
+
+<script>
+
+var apparatus_video_window
+
+function open_video_window(){
+    if(apparatus_video_window == undefined)
+        apparatus_video_window = window.open("/apparatus/31/video", "_blank", "popup")
+}
+
+function close_video_window(){
+    apparatus_video_window.close()
+    apparatus_video_window = undefined
+}
+$( window ).on( "unload",function() {
+    apparatus_video_window.close()
+});
+
+
+
+
+function gotoCreateExecution(){
+    
+        window.location.href = '/execution/create/'+current_execution.apparatus+'/'+current_execution.protocol.id
+    
+
+}
+
+
+function submit_experiment() {
+    executionID = current_execution.id;
+    endpoint="/api/v1/execution/"+executionID+"/start";
+    HEADERS = {
+      "X-CSRFToken": X_CSRFToken,
+      }
+    axios({
+      method: 'put', 
+      url: endpoint,
+      headers: HEADERS,
+    }).then(response => {
+      console.log('execution results', response);
+      //execution_status = 'NS'
+      //  update_button_info(execution_status)
+      execution_status = 'Q'
+      update_tab_visibility()
+        update_button_input_status(execution_status)
+        popup_message("experiment submited")
+        start_pooling_queue_order()
+        next_result_id = 0;
+        
+    }).catch(error => {
+      if (error.response !== undefined) {
+      console.error('Error : ', error.response.data);
+      popup_message("error submiting experimnet")
+      }
+    });
+}
+
+
+function start_pooling_queue_order() {
+       // Results = setInterval(getData,500)
+       get_queue_order();
+    }
+function get_queue_order(){
+    executionID = current_execution.id;
+    endpoint =  "/api/v1/execution/"+executionID;
+    console.log(next_result_id);
+    HEADERS = {
+      "X-CSRFToken": X_CSRFToken,
+      }
+    axios({
+        method: 'get', //you can set what request you want to be
+        url: endpoint,
+        headers: HEADERS,
+    }).then(response => {
+        order =  response.data.order
+        console.log('execution order', order);
+        $("#exec_status > p").html("Experiment saved and submited, on position "+order+"of queue")
+        if (order <= 1){
+            start_pooling_results()
+        }else{
+            setTimeout(get_queue_order, 5000);
+        }
+
+    }).catch(error => {
+        console.error('Error : ', error.response.data);
+    });
+}
+
+
+
+function start_pooling_results() {
+       // Results = setInterval(getData,500)
+       setTimeout(getData, 500);
+    }
+
+function getData(){
+    executionID = current_execution.id;
+    endpoint =  "/api/v1/execution/"+executionID+"/result/"+next_result_id+'/50';
+    console.log(next_result_id);
+    HEADERS = {
+      "X-CSRFToken": X_CSRFToken,
+      }
+    axios({
+        method: 'get', //you can set what request you want to be
+        url: endpoint,
+        headers: HEADERS,
+    }).then(response => {
+        console.log('plotly_results', response);
+        data_len = response.data.length
+        console.log(data_len)
+        if (data_len > 0){
+        //    table_insert_experiment_data(response.data)
+            process_experiment_data(response.data)
+            if(response.data[data_len-1].result_type ==='p'){
+                execution_status = 'R'
+                update_button_input_status(execution_status)
+                next_result_id =response.data[data_len-1].id+1
+                setTimeout(getData, 500);
+            }
+            if(next_result_id != 0 && response.data[data_len-1].result_type ==='f'){
+                execution_status = 'F'
+                update_button_input_status(execution_status)
+                next_result_id =response.data[data_len-1].id+1
+            }
+            if(next_result_id == 0 && response.data[data_len-1].result_type ==='f'){
+                execution_status = 'F'
+                update_button_input_status(execution_status)
+                next_result_id =response.data[data_len-1].id+1
+            }
+        }else{
+            setTimeout(getData, 500);
+        }
+
+    }).catch(error => {
+        console.error('Error : ', error.response.data);
+    });
+    
+}
+
+
+function process_experiment_data_default(data){
+    for (line in data){
+        console.log(data[line])
+        if(data[line].result_type == 'p'){
+            table_insert_partial_data_default(data[line])
+            process_partial_data(data[line])
+        }
+        if(data[line].result_type == 'f'){
+            process_final_data(data[line])
+        }
+    }
+}
+
+
+
+
+function table_insert_partial_data_default(data){
+    console.log(data)
+    table_columns = jQuery( "#results_table > thead> tr> th" );
+    col_id = []
+    for ( ind = 0, len = table_columns.length; ind < len; ind++ ) {
+        col_id.push($(table_columns[ind]).attr("id"))
+    }
+    if (data.value.constructor != Array){
+        data_array = [data.value]
+    }else{
+        data_array = data.value
+    }
+    var t = $('#results_table').DataTable();
+    for ( ind in  data_array) {
+        row_data = []
+        for (c_id in col_id){
+            console.log(data.value)
+            console.log(col_id[c_id])
+            row_data.push(data_array[ind][col_id[c_id]])
+        }
+        t.row.add(row_data).draw()
+
+    }
+
+}
+
+
+
+
+
+
+function popup_message(str){
+    $("#buttonMessage").show()
+    $("#buttonMessage").html(str)
+    setTimeout(function() {
+        $("#buttonMessage").hide('blind', {}, 500)
+    }, 3000);
+}  
+
+function resetInputValues(){
+
+  	input_list = jQuery( ".free-input" );
+        console.log(input_list);
+        let name_radio = "";
+        let check_helper = 0;
+        let increse_helper = 1;
+  	for ( ind = 0, len = input_list.length; ind < len; ind++ ) {
+        	i = $(input_list[ind]);
+        	//console.log(["checkbox"].includes(input_list[ind].type))
+                //check_helper = protocol_input_arguments[i.attr("id")].minimum
+        	if(["radio"].includes(input_list[ind].type) )
+        	{
+                        if (name_radio != input_list[ind].name ){
+                            check_helper = protocol_input_arguments[i.attr("id")].minimum
+                            increse_helper = protocol_input_arguments[i.attr("id")].multipleOf
+                            name_radio = input_list[ind].name
+                            console.log("ii")
+
+                        }
+            		//console.log("ROSSA");
+            		//console.log(input_list[ind].name);
+            		//console.log("Here teste")
+            		if (protocol_input_arguments[i.attr("id")].default === check_helper){
+                                console.log(i.attr("id"))
+                                console.log(check_helper)
+                		i.prop("checked", true).trigger('change');
+            		}
+            		else{
+                		i.prop("checked", false).trigger('change');
+            		}
+            		check_helper = check_helper + increse_helper;
+        	}
+ 		else if (["checkbox"].includes(input_list[ind].type))
+        	{
+                	console.log()
+                	console.log(i.attr("id"))
+                	console.log(protocol_input_arguments[i.attr("id")].default)
+
+         		if (protocol_input_arguments[i.attr("id")].default === 1)
+        		{
+                        	console.log("on")
+                        	console.log(protocol_input_arguments[i.attr("id")].default)
+				i.prop("checked", true).trigger('change')
+				i.prop("value", protocol_input_arguments[i.attr("id")].default)
+			}
+		}
+		else
+        	{
+			//i = $(input_list[ind]);
+            		console.log(i.val())
+            		console.log(i.attr("id"))
+            		console.log( protocol_input_arguments[i.attr("id")].default)
+            		new_val = protocol_input_arguments[i.attr("id")].default
+   	    		i.prop("value", new_val).trigger('change');
+		}
+    	}
+    	if(execution_status === 'C'){
+    	    	execution_status = 'NS'
+    	}
+    	update_button_input_status(execution_status)
+    	popup_message("values reseted")
+}
+
+function reloadInputValues(){
+
+    input_list = jQuery( ".free-input" );
+    let name_radio = "";
+    let check_helper = 0;
+    let increse_helper = 1;
+    for ( ind = 0, len = input_list.length; ind < len; ind++ ) {
+        //console.log(input_list[ind])
+        i = $(input_list[ind]);
+        if(["radio"].includes(input_list[ind].type) )
+        {
+               if (name_radio != input_list[ind].name ){
+                            check_helper = protocol_input_arguments[i.attr("id")].minimum
+                            increse_helper = protocol_input_arguments[i.attr("id")].multipleOf
+                            name_radio = input_list[ind].name
+                            console.log("ii")
+
+                        }
+
+                //console.log("ROSSA");
+                //console.log(current_execution.config[i.attr("id")]);
+                if (current_execution.config[i.attr("id")] === check_helper)
+                {
+                   i.prop("checked", true).trigger('change');
+                }
+                else{
+                    i.prop("checked", false).trigger('change');
+                }
+                check_helper = check_helper + 1;
+        }
+        else if (["checkbox"].includes(input_list[ind].type))
+        {
+                console.log()
+                console.log(i.attr("id"))
+                console.log(current_execution.config[i.attr("id")])
+
+         	if (current_execution.config[i.attr("id")] === 1)
+        	{
+                        console.log("on")
+                        console.log(current_execution.config[i.attr("id")])
+			i.prop("checked", true).trigger('change')
+			i.prop("value", current_execution.config[i.attr("id")])
+		}
+	}
+        else{
+
+                i = $(input_list[ind]);
+                console.log(i.val())
+                console.log(i.attr("id"))
+                console.log(current_execution.config[i.attr("id")])
+                new_val = current_execution.config[i.attr("id")]
+                i.prop("value", new_val).trigger('change');
+        }
+    }
+    $("#execution_name").val(current_execution.name)
+    if (execution_status != 'F'){
+        execution_status = 'C'
+    }
+    update_button_input_status(execution_status)
+    popup_message("values reloaded")
+}
+
+function onInputChanged(){
+    if (execution_status === 'C'){
+            execution_status = 'NS'
+            update_button_input_status(execution_status)
+        
+    }
+}
+
+function disable_config_input(){
+    child = $("#config-input").find("*").addClass('disabled');
+
+}
+
+function update_tab_visibility(execution_status){
+    if (execution_status === ''){
+        $('.ui.menu').find('.item').tab('change tab', 'description-tab')
+    }else{
+        if (execution_status === 'C' || execution_status === 'NS' ){
+            $('.ui.menu').find('.item').tab('change tab', 'configuration-tab')
+        }else{
+            $('.ui.menu').find('.item').tab('change tab', 'execution-tab')
+        }
+    }
+}
+
+function update_button_input_status(execution_status){
+    if (execution_status !== '' && execution_status !== 'C' && execution_status !== 'NS'){
+        disable_config_input()
+    }
+    // new execution
+    if (execution_status === ''){
+        $("#exec_status > p").html("New experiment not saved yet");
+        $("#createButton").removeClass('disabled');
+        $("#saveButton").css("display", 'none')
+        $("#saveButton").hide()
+        $("#startButton").addClass('disabled');
+        $("#reloadButton").addClass('disabled');
+        $("#resetButton").addClass('disabled');
+        $("#createNewExpButton").css("display", 'none')
+        $("#deleteButton").css("display", 'none')
+        $("#deleteResultsButton").css("display", 'none')
+        $( "#replayButton").css("display", 'none')
+        $("#resetButton").addClass('disabled');
+        $("#saveNameButton").addClass('disabled');
+    }
+    if (execution_status === 'C'){
+        $("#exec_status > p").html("Saved experiment not submited for execution");
+        $("#createButton").hide()
+        $("#saveButton").show()
+        $("#saveButton").addClass('disabled');
+        $("#startButton").removeClass('disabled');
+        $("#reloadButton").addClass('disabled');
+        $("#resetButton").removeClass('disabled');
+        $("#createNewExpButton").hide();
+        $("#deleteButton").show()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+    }
+    if (execution_status === 'NS'){
+        $("#exec_status > p").html("Modified experiment not saved yet");
+        $("#createButton").hide()
+        $("#saveButton").removeClass('disabled');
+        $("#startButton").addClass('disabled');
+        $("#reloadButton").removeClass('disabled');
+        $("#resetButton").removeClass('disabled');
+        $("#createNewExpButton").hide();
+        $("#deleteButton").show()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+    }
+    if (execution_status === 'Q'){
+        $("#exec_status > p").html("Experiment saved and submited, on queue waiting for execution");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").show()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+    }
+    if (execution_status === 'R'){
+        $("#exec_status > p").html("Experiment runnning wth results being updated");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").hide()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+
+    }
+    if (execution_status === 'F'){
+        $("#exec_status > p").html("Finished experiment with final results available");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").hide()
+        $("#deleteResultsButton").show();
+        $( "#replayButton").show();
+        $("#saveNameButton").addClass('disabled');
+
+    }
+    if (execution_status === 'A'){
+        $("#exec_status > p").html("Aborted execution");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").hide()
+        $("#deleteResultsButton").show();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+
+    }
+    if (execution_status === 'T'){
+        $("#exec_status > p").html("Timed out execution");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").show()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+
+    }
+    if (execution_status === 'E'){
+        $("#exec_status > p").html("Error execution");
+        $("#createButton").hide()
+        $("#saveButton").hide();
+        $("#startButton").hide();
+        $("#reloadButton").hide();
+        $("#resetButton").hide();
+        $("#createNewExpButton").show();
+        $("#deleteButton").show()
+        $("#deleteResultsButton").hide();
+        $( "#replayButton").css("display", 'none')
+        $("#saveNameButton").addClass('disabled');
+
+    }
+}
+
+function evaluted_type(i)
+{
+	if((protocol_input_arguments[i.attr("id")]["type"]) == 'integer'){
+                        return  parseInt(i.val());
+                }
+                else if ((protocol_input_arguments[i.attr("id")]["type"]) == 'number')
+                {
+                        return Number(i.val());
+                }
+                else
+                {
+                        console.log("Type is not integer or number");
+			return "ERROR"
+                }
+
+}
+
+function retrieve_execution_configuration(){
+    var form_config = {};
+    input_list = jQuery( ".free-input" );
+    console.log(input_list)
+    for ( ind = 0, len = input_list.length; ind < len; ind++ ) {
+	if(["radio"].includes(input_list[ind].type) )
+	{
+		console.log("ROSSA");
+        console.log(input_list[ind].checked);
+		if (input_list[ind].checked)
+		{
+			i = $(input_list[ind]);
+			console.log(i.attr("id"))
+			form_config[i.attr("id")] = evaluted_type(i);
+		}
+	}
+	else {
+		i = $(input_list[ind]);
+		form_config[i.attr("id")] = evaluted_type(i);
+    	}
+    }
+    return form_config ;
+}
+
+
+function save_experiment() {
+    form_config = retrieve_execution_configuration();
+    console.log(form_config );
+
+
+    endpoint = "/api/v1/execution/" + current_execution.id
+    method_queue = 'put'
+    data_send = Object.assign({},  current_execution );
+
+    data_send["config"] = form_config;
+    
+    name = $("#execution_name").val();
+    if (name !== undefined){
+      data_send["name"] = name 
+    }
+    else{
+      data_send["name"] = ""
+    }
+   
+  
+    HEADERS = {
+      "X-CSRFToken": X_CSRFToken,
+      }
+    // print out
+    console.log('JSON : ' +  endpoint);
+    console.log('JSON : ' +  data_send);
+  
+  
+    axios({
+      method: method_queue, 
+      url: endpoint,
+      headers: HEADERS,
+      data: data_send,
+    }).then(response => {
+        execution_status = 'C'
+        current_execution.config = response.data.config;
+        update_button_input_status(execution_status)
+        popup_message("experiment sucessfully saved")
+        on_save_experiment_UI()
+    }).catch(console);  
+  
+  }
+
+
+  
+function create_experiment() {
+    form_config = retrieve_execution_configuration();
+    console.log(form_config );
+
+
+    endpoint="/api/v1/execution";
+    method_queue = 'post';
+    data_send = {"apparatus": apparatus_id, "protocol": protocol_id}
+    
+    data_send["config"] = form_config;
+    
+  
+    if ($("#execution_name").val() !== undefined){
+      name = $("#execution_name").val();
+      data_send["name"] = name 
+    }
+    else{
+      data_send["name"] = ""
+    }
+   
+  
+    HEADERS = {
+      "X-CSRFToken": X_CSRFToken,
+      }
+    // print out
+    console.log('JSON : ' +  endpoint);
+    console.log('JSON : ' +  data_send);
+  
+  
+    axios({
+      method: method_queue, //you can set what request you want to be
+      url: endpoint,
+      headers: HEADERS,
+      data: data_send,
+    }).then(response => {
+        // we should do a redirect to the new page.....
+        // Original:
+
+        window.location.href = '/execution/'+String(response.data.id)
+
+        // Rossa Version: 
+        //window.history.pushState({}, '', window.location.origin+'/execution/'+String(response.data.id));
+        current_execution = response.data;
+        execution_status = 'C'
+
+        update_button_input_status(execution_status)
+        popup_message("experiment sucessfully created")
+
+    }).catch(console);  
+  
+}
+
+
+$( document ).ready(function() {
+ 
+
+    $('.tabular.menu .item').tab(); 
+
+
+    $(".free-input").change(onInputChanged)
+
+    //console.log(current_execution)
+    var results_table = $('#results_table').DataTable({
+            'buttons': [ 'copy',
+                {
+                    extend: 'csv',
+                    title: document.getElementById('apparatus-name').textContent+' | Execution # '+String(current_execution.id)+' | Config- '+JSON.stringify(current_execution.config)
+                },
+                {
+                    extend: 'excel',
+                    title: document.getElementById('apparatus-name').textContent+' | Execution # '+String(current_execution.id)+' | Config- '+JSON.stringify(current_execution.config)
+                },
+            ], 
+            order: [[0, 'desc']],
+        });
+        results_table.buttons().container().appendTo(
+            $('div.eight.column:eq(0)', results_table.table().container()) 
+        );
+
+
+    on_ready_experiment_UI()
+
+    if(execution_status != ''){
+        old_status = execution_status 
+        reloadInputValues()
+        on_save_experiment_UI()
+        execution_status = old_status 
+    }else{
+        resetInputValues()
+        //execution_status = ''
+    }
+
+    update_button_input_status(execution_status)
+    update_tab_visibility(execution_status)
+
+   
+    if(execution_status === 'Q'){
+        start_pooling_queue_order()
+    }
+    if(execution_status === 'R'){
+        start_pooling_results()
+    }
+    if(execution_status === 'F'){
+        start_pooling_results()
+    }
+
+});
+</script>
+
+
+</div></body></html>
