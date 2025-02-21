@@ -89,6 +89,7 @@
                     </div>
                 {% endfor %}
 
+                
 
                 {% comment %} <div class="ui segment pol2">
                     <legend> <h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
@@ -486,6 +487,9 @@ let previous = 0.0;
 let correction = 1.0;
 
 function configure_slider_double(name,input_1,input_2){
+    console.log("Checking protocol_input_arguments: ", protocol_input_arguments);
+    console.log("Checking input_1: ", input_1, protocol_input_arguments[input_1]);
+    console.log("Checking input_2: ", input_2, protocol_input_arguments[input_2]);
 
 let help_spac = Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
 let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
