@@ -69,25 +69,6 @@
 
     <div class="ui one column grid container">
             <div class="column">
-                {% for i in "12345" %}
-                    <div class="ui segment pol{{forloop.counter}}-position">
-                        <h3>{% blocktrans with count=forloop.counter%}Polaroid {{ count }} angle [&#176;]{% endblocktrans %}</h3>
-                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{forloop.counter}}_position" class="ui blue small bottom aligned labeled slider"></div>
-                        <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_position">
-                        </div>
-                    </div>
-                    <div class="ui segment pol1-sweeping">
-                        <h3>{% blocktrans with count=forloop.counter %}Polaroid {{ count }} sweeping angles [&#176;]{% endblocktrans %}</h3>
-                        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{forloop.counter}}" class="ui blue small bottom aligned labeled range slider"></div>
-                        <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_end_position">
-                        </div>
-                        <div class="ui input" style="float:right;">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_start_position">
-                        </div>
-                    </div>
-                {% endfor %}
 
                 
 
@@ -391,7 +372,7 @@ function on_ready_experiment_UI(){
     
     //configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
     
-    configure_slider("motor1_position")
+    {% comment %} configure_slider("motor1_position")
     configure_slider("motor2_position")
     configure_slider("motor3_position")
     configure_slider("motor4_position")
@@ -400,7 +381,7 @@ function on_ready_experiment_UI(){
     configure_slider_double("motor2","motor2_start_position","motor2_end_position");
     configure_slider_double("motor3","motor3_start_position","motor3_end_position");
     configure_slider_double("motor4","motor4_start_position","motor4_end_position");
-    configure_slider_double("motor5","motor5_start_position","motor5_end_position");
+    configure_slider_double("motor5","motor5_start_position","motor5_end_position"); {% endcomment %}
 
 
 
@@ -487,9 +468,6 @@ let previous = 0.0;
 let correction = 1.0;
 
 function configure_slider_double(name,input_1,input_2){
-    console.log("Checking protocol_input_arguments: ", protocol_input_arguments);
-    console.log("Checking input_1: ", input_1, protocol_input_arguments[input_1]);
-    console.log("Checking input_2: ", input_2, protocol_input_arguments[input_2]);
 
 let help_spac = Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
 let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
