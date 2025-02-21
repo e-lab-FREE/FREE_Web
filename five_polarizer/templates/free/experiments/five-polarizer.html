@@ -252,7 +252,7 @@ function process_experiment_data(data){
 	console.log("process_experiment_data");	
 	for (line in data){
 		if(data[line].result_type == 'p'){
-		data_value_p = data[line].value.map(data => (72.5-parseFloat(data.position)*0.1485).toFixed(2)).filter(function (element) { 
+		data_value_p = data[line].value.map(data => (parseFloat(data.position)*0.36).toFixed(2)).filter(function (element) { 
             		return element !== undefined;
           	});
 		data_value_c = data[line].value.map(data => parseFloat(data.intensity)).filter(function (element) { 
