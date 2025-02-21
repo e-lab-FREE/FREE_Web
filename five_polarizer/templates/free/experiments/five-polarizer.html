@@ -223,7 +223,8 @@ function change_Polarized(n) {
                 let elementchange = document.getElementById(`sweep_${i}`);
                 
                 if(elementchange.value == 1){
-                    document.getElementById(`sweep_${i}`).click();
+                    elementchange.click();
+                    elementchange.value = 0
                 }
 
                 div_i_sweeping.style.display = "None";
