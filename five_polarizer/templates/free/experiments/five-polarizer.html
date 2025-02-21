@@ -420,6 +420,14 @@ function on_ready_experiment_UI(){
     configure_slider_double("motor4","motor4_start_position","motor4_end_position");
     configure_slider_double("motor5","motor5_start_position","motor5_end_position");
 
+    for (let i = 1; i <= 5; i++) {
+        let div_i_sweeping = document.getElementsByClassName(`pol${i}-sweeping`)[0];
+
+        if(i!=n){
+            div_i_sweeping.style.display = "None";
+        }
+    }
+
 
 
 
