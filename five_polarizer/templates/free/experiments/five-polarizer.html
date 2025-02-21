@@ -212,7 +212,7 @@ function change_Polarized(n) {
         divN_position.style.display = "";
     }else{
         // tava desativado e fica ativado
-        console.log("desligar os restantes")
+        // console.log("desligar os restantes")
         divN_sweeping.style.display = "";
         divN_position.style.display = "None";
         
@@ -224,7 +224,7 @@ function change_Polarized(n) {
                 let elementchange = document.getElementById(`sweep_${i}`);
                 
                 if(elementchange.value == 1){
-                    console.log(`desligar o ${i}`)
+                    // console.log(`desligar o ${i}`)
                     elementchange.click();
                     elementchange.value = 0
                 }
@@ -234,50 +234,6 @@ function change_Polarized(n) {
             }
         }
     }
-
-
-    /*for (let i = 1; i <= 5; i++) {
-        if(elementchange.value == 0){
-
-        }
-
-        if(i != n){
-            let element = document.getElementById(`sweep_${i}`);
-            if(element.value == 1){
-                document.getElementById(`sweep_${i}`).click();
-                element.value = 0;
-                // METER EM SLIDER NORMAL
-            }
-        }
-        else{
-            let elementchange = document.getElementById(`sweep_${n}`);
-            elementchange.value = 1-elementchange.value;
-            if (elementchange.value == 1){
-                // METER SLIDER RANGE
-            }else{
-                // METER EM SLIDER NORMAL
-                let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                    <legend> <h3>Polaroid ${n} angle [º]</h3></legend>
-      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}_position" class="ui blue small bottom aligned labeled slider"></div>
-      			
-                    <div class="ui input" >
-                        <input class="free-input" type="number" id="motor${n}_position">
-                    </div>
-                `;
-            }
-        }
-    }
-
-    for (let i = 1; i <= 5; i++) {
-        let element = document.getElementById(`sweep_${i}`);
-        if(element.value == 0){
-            configure_slider(`motor${i}_position`);
-        }else{
-            configure_slider_double(`motor${i}`,`motor${i}_start_position`,`motor${i}_end_position`);
-        }
-    }*/
 }
 
 
@@ -422,10 +378,8 @@ function on_ready_experiment_UI(){
 
     for (let i = 1; i <= 5; i++) {
         let div_i_sweeping = document.getElementsByClassName(`pol${i}-sweeping`)[0];
-
-        if(i!=n){
-            div_i_sweeping.style.display = "None";
-        }
+        
+        div_i_sweeping.style.display = "None";
     }
 
 
