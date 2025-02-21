@@ -310,7 +310,7 @@ function table_insert_partial_data(data){
        col_id.forEach(c_id => {
             if (c_id === "position"){
                 console.log("ola");
-                value_data_table=  String((parseFloat(data[c_id])/0.36).toFixed(2));
+                value_data_table=  String((parseFloat(data[c_id])*0.36).toFixed(2));
             }
             else{
                 value_data_table = data[c_id]
