@@ -81,10 +81,10 @@
                         <h3>{% blocktrans %}Polaroid {{i}} sweeping angles [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{i}}" class="ui blue small bottom aligned labeled range slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{i}}_start_position">
+                            <input class="free-input" type="number" id="motor{{i}}_end_position">
                         </div>
                         <div class="ui input" style="float:right;">
-                            <input class="free-input" type="number" id="motor{{i}}_end_position">
+                            <input class="free-input" type="number" id="motor{{i}}_start_position">
                         </div>
                     </div>
                 {% endfor %}
@@ -480,32 +480,32 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     minRange: 10,
     autoAdjustLabels: false,
     interpretLabel: function (value) {
-       check_me = Number.parseFloat(Number.parseFloat(value)*Number.parseFloat(protocol_input_arguments[input_1].multipleOf) + Number.parseFloat(protocol_input_arguments[input_1].minimum)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())
+       check_me = Number.parseFloat(Number.parseFloat(value)*Number.parseFloat(protocol_input_arguments[input_2].multipleOf) + Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())
        if (value === 0) 
        { 
-            if (ticker>Math.abs(Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())))
+            if (ticker>Math.abs(Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())))
             {	
-                	help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()); 	
+                	help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()); 	
             } 
             else{
-                 	help_spac = Number.parseFloat(Number.parseFloat(ticker)+Number.parseFloat(protocol_input_arguments[input_1].minimum)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+                 	help_spac = Number.parseFloat(Number.parseFloat(ticker)+Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
             }
-                		return Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+                		return Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
        }
        else if (check_me === help_spac) 
        { 
             previous = help_spac;
-            help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(ticker)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()); 
+            help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(ticker)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()); 
             if ( previous <=0  && Number.parseFloat(help_spac) >0)
             {
-                help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(correction)).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());     
+                help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(correction)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());     
             }
             
             return check_me
        }
-       else if (check_me === Number.parseFloat( protocol_input_arguments[input_1].maximum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())) 	
+       else if (check_me === Number.parseFloat( protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())) 	
        {
-            return Number.parseFloat( protocol_input_arguments[input_1].maximum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals())
+            return Number.parseFloat( protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())
        }
        else 
        { 
@@ -514,19 +514,19 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     },
     onChange: function( event, range, firstVal, secondVal) {
             // Set the real value into the inputs
-            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
             onInputChanged()
     },
     onMove: function(range, firstVal, secondVal){ 
-            $('#'+input_1).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-	    $('#'+input_2).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
     }
     });
-    $('#'+input_1).change(function() {
+    $('#'+input_2).change(function() {
            $('#slider-'+name).slider('set secondVal', $(this).val())
             	});
-    $('#'+input_2).change(function() {
+    $('#'+input_1).change(function() {
            $('#slider-'+name).slider('set firstVal', $(this).val())
             	});
 
