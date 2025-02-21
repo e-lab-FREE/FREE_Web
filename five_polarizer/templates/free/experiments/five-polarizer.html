@@ -200,23 +200,50 @@ function process_final_data(data_line){
 let polarized_light_val = 0;
 
 function change_Polarized(n) {
-    /**for (let i = 1; i <= 5; i++) {
+    let elementchange = document.getElementById(`sweep_${n}`);
+    elementchange.value = 1-elementchange.value;
+    
+    let divN_sweeping = document.getElementsByClassName(`pol${n}-sweeping`)[0];
+    let divN_position = document.getElementsByClassName(`pol${n}-position`)[0];
+    
+    if(elementchange.value == 0){
+        // tava ativado e fica desativado
+        divN_sweeping.style.display = "None";
+        divN_position.style.display = "";
+    }else{
+        // tava desativado e fica ativado
+        divN_sweeping.style.display = "";
+        divN_position.style.display = "None";
+        
+        for (let i = 1; i <= 5; i++) {
+            let div_i_sweeping = document.getElementsByClassName(`pol${i}-sweeping`)[0];
+            let div_i_position = document.getElementsByClassName(`pol${i}-position`)[0];
+
+            if(i!=n){
+                let elementchange = document.getElementById(`sweep_${i}`);
+                
+                if(elementchange.value == 1){
+                    elementchange.value = 1-elementchange.value;
+                }
+
+                div_i_sweeping.style.display = "None";
+                div_i_position.style.display = "";
+            }
+        }
+    }
+
+
+    /*for (let i = 1; i <= 5; i++) {
+        if(elementchange.value == 0){
+
+        }
+
         if(i != n){
             let element = document.getElementById(`sweep_${i}`);
             if(element.value == 1){
                 document.getElementById(`sweep_${i}`).click();
                 element.value = 0;
                 // METER EM SLIDER NORMAL
-                let div_ui_segment = document.getElementsByClassName(`pol${i}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                    <legend> <h3>Polaroid ${i} angle [º]</h3></legend>
-      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${i}_position" class="ui blue small bottom aligned labeled slider"></div>
-      			
-                    <div class="ui input" >
-                        <input class="free-input" type="number" id="motor${i}_position">
-                    </div>
-                `;
             }
         }
         else{
@@ -224,18 +251,6 @@ function change_Polarized(n) {
             elementchange.value = 1-elementchange.value;
             if (elementchange.value == 1){
                 // METER SLIDER RANGE
-                let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
-                div_ui_segment.innerHTML = "";
-                div_ui_segment.innerHTML += `
-                <legend> <h3>Polaroid ${n} sweeping angles [º]</h3></legend>
-                <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor${n}" class="ui blue small bottom aligned labeled range slider"></div>
-                <div class="ui input" >
-                    <input class="free-input" type="number" id="motor${n}_end_position">
-                </div>
-                <div class="ui input" style="float:right;"  >
-                    <input class="free-input" type="number" id="motor${n}_start_position">
-                </div>
-                `;
             }else{
                 // METER EM SLIDER NORMAL
                 let div_ui_segment = document.getElementsByClassName(`pol${n}`)[0];
