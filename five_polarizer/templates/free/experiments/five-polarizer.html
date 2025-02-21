@@ -212,6 +212,7 @@ function change_Polarized(n) {
         divN_position.style.display = "";
     }else{
         // tava desativado e fica ativado
+        console.log("desligar os restantes")
         divN_sweeping.style.display = "";
         divN_position.style.display = "None";
         
@@ -223,6 +224,7 @@ function change_Polarized(n) {
                 let elementchange = document.getElementById(`sweep_${i}`);
                 
                 if(elementchange.value == 1){
+                    console.log(`desligar o ${i}`)
                     elementchange.click();
                     elementchange.value = 0
                 }
