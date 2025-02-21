@@ -70,21 +70,21 @@
     <div class="ui one column grid container">
             <div class="column">
                 {% for i in "12345" %}
-                    <div class="ui segment pol{{forloop.counter}}-position">
-                        <h3>{% blocktrans with count=forloop.counter%}Polaroid {{ count }} angle [&#176;]{% endblocktrans %}</h3>
-                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{forloop.counter}}_position" class="ui blue small bottom aligned labeled slider"></div>
+                    <div class="ui segment pol{{i}}-position">
+                        <h3>{% blocktrans %}Polaroid {{i}} angle [&#176;]{% endblocktrans %}</h3>
+                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{i}}_position" class="ui blue small bottom aligned labeled slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_position">
+                            <input class="free-input" type="number" id="motor{{i}}_position">
                         </div>
                     </div>
-                    <div class="ui segment pol1-sweeping">
-                        <h3>{% blocktrans with count=forloop.counter %}Polaroid {{ count }} sweeping angles [&#176;]{% endblocktrans %}</h3>
-                        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{forloop.counter}}" class="ui blue small bottom aligned labeled range slider"></div>
+                    <div class="ui segment pol{{i}}-sweeping">
+                        <h3>{% blocktrans %}Polaroid {{i}} sweeping angles [&#176;]{% endblocktrans %}</h3>
+                        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{i}}" class="ui blue small bottom aligned labeled range slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_end_position">
+                            <input class="free-input" type="number" id="motor{{i}}_end_position">
                         </div>
                         <div class="ui input" style="float:right;">
-                            <input class="free-input" type="number" id="motor{{forloop.counter}}_start_position">
+                            <input class="free-input" type="number" id="motor{{i}}_start_position">
                         </div>
                     </div>
                 {% endfor %}
