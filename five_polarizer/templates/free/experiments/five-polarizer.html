@@ -81,10 +81,10 @@
                         <h3>{% blocktrans %}Polaroid {{i}} sweeping angles [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{i}}" class="ui blue small bottom aligned labeled range slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{i}}_end_position">
+                            <input class="free-input" type="number" id="motor{{i}}_start_position">
                         </div>
                         <div class="ui input" style="float:right;">
-                            <input class="free-input" type="number" id="motor{{i}}_start_position">
+                            <input class="free-input" type="number" id="motor{{i}}_end_position">
                         </div>
                     </div>
                 {% endfor %}
@@ -475,8 +475,8 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
     min: protocol_input_arguments[input_1].minimum,
     max: protocol_input_arguments[input_1].maximum, 
     step: protocol_input_arguments[input_1].multipleOf,
-    start: protocol_input_arguments[input_2].default,
-    end: protocol_input_arguments[input_1].default,
+    start: protocol_input_arguments[input_1].default,
+    end: protocol_input_arguments[input_2].default,
     minRange: 10,
     autoAdjustLabels: false,
     interpretLabel: function (value) {
