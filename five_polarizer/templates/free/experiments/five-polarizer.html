@@ -68,17 +68,29 @@
     
 
     <div class="ui one column grid container">
-            <div class="column">                
-                <div style="visibility: hidden;" class="ui segment pol1">
-                    <legend> <h3>{% trans 'Polaroid 1 angle [&#176;]'%}</h3></legend>
-      		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor1_position" class="ui blue small bottom aligned labeled slider"></div>
-      			
-                    <div class="ui input" >
-                        <input class="free-input" type="number" id="motor1_position">
+            <div class="column">
+                {% for i in "12345" %}
+                    <div class="ui segment pol{{forloop.counter}}-position">
+                        <legend> <h3>{% trans 'Polaroid {{forloop.counter}} angle [&#176;]' %}</h3></legend>
+                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{forloop.counter}}_position" class="ui blue small bottom aligned labeled slider"></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor{{forloop.counter}}_position">
+                        </div>
                     </div>
-                </div>
+                    <div class="ui segment pol1-sweeping">
+                        <legend> <h3>{% trans 'Polaroid {{forloop.counter}} sweeping angles [&#176;]'%}</h3></legend>
+                        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{forloop.counter}}" class="ui blue small bottom aligned labeled range slider"></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="motor{{forloop.counter}}_end_position">
+                        </div>
+                        <div class="ui input" style="float:right;">
+                            <input class="free-input" type="number" id="motor{{forloop.counter}}_start_position">
+                        </div>
+                    </div>
+                {% endfor %}
 
-                <div style="visibility: hidden;" class="ui segment pol2">
+
+                {% comment %} <div class="ui segment pol2">
                     <legend> <h3>{% trans 'Polaroid 2 angle [&#176;]'%}</h3></legend>
       		        <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor2_position" class="ui blue small bottom aligned labeled slider"></div>
       			
@@ -114,7 +126,7 @@
                     <div class="ui input">
                         <input class="free-input" type="number" id="motor5_position">
                     </div>
-                </div>
+                </div> {% endcomment %}
 
                  
             </div>
