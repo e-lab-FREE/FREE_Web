@@ -260,7 +260,7 @@ function process_experiment_data(data){
           	});
         
         
-        if(data.position == "NaN"){
+        if(data_value_p[0] == "NaN"){
             let div_graph = document.getElementsByClassName(`ui grid stackable`)[0];
             div_graph.style.display = "None";
             let div_table = document.getElementsByClassName(`ui grid stackable`)[1];
