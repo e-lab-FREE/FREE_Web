@@ -29,3 +29,6 @@ serial
 django-semanticui-forms
 django-sortedm2m
 json2html
+django-countries-plus
+#python manage.py update_countries_plus
+python-ipware

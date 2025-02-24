@@ -77,13 +77,16 @@ INSTALLED_APPS = [
     'mag3d',
     'polaroid',
     #Quiz apps
-
+    #'rosetta',
+    'countries_plus',
+    'geoip2',
+    'FREE_maps'
 ]
 if env.bool('FREE_LTI_PROVIDER'):
     INSTALLED_APPS +=     [
-    'FREE_quizes',
-    'lti_provider',
-    'semanticuiforms',
+        'FREE_quizes',
+        'lti_provider',
+        'semanticuiforms',
     ]
 
 MIDDLEWARE = [
@@ -365,3 +368,4 @@ if env.bool('CACHE'):
             }
         }
 
+IPGEOLOCATION_API_KEY=env.str('IPGEOLOCATION_API_KEY')
