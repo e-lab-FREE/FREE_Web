@@ -151,10 +151,10 @@
 	
 </div>
 
-    <table id="" class="ui celled table display" style="width:100%">
+    <table id="results_table" class="ui celled table display" style="width:100%">
         <thead>
             <tr>
-                <th id="results_tableposition">{% trans "Position [&#176;]" %}</th>
+                <th id="position">{% trans "Position [&#176;]" %}</th>
                 <th id="intensity">{% trans "Intensity [A.U.]" %}</th>
             </tr>
         </thead>
@@ -258,12 +258,12 @@ function process_experiment_data(data){
             		return element !== undefined;
           	});
 
-        /*if(data.value_p.position == "nan"){
+        if(data.value_p.position == "nan"){
             let div_graph = document.getElementsByClassName(`ui grid stackable`)[0];
             div_graph.style.display = "None";
             let div_table = document.getElementsByClassName(`ui grid stackable`)[1];
             div_table.style.paddingTop = "20px";
-        }*/
+        }
         
                if (frist_time_plot === 0 )
                 {
