@@ -77,7 +77,6 @@ INSTALLED_APPS = [
     'mag3d',
     #'rosetta',
     'countries_plus',
-    'geoip2',
     'FREE_maps'
 ]
 if env.bool('FREE_LTI_PROVIDER'):
