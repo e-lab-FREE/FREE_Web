@@ -475,78 +475,89 @@ Number.prototype.countDecimals = function () {
 let previous = 0.0;
 let correction = 1.0;
 
-function configure_slider_double(name,input_1,input_2){
+function configure_slider_double(name, input_1, input_2) {
+    let help_spac = Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
+    let ticker = Number.parseFloat(protocol_input_arguments[input_1].subPart).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
 
-let help_spac = Number.parseFloat(protocol_input_arguments[input_1].minimum).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
-let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals());
-
- $('#slider-'+name).slider({
-    min: protocol_input_arguments[input_1].minimum,
-    max: protocol_input_arguments[input_1].maximum, 
-    step: protocol_input_arguments[input_1].multipleOf,
-    start: protocol_input_arguments[input_1].default,
-    end: protocol_input_arguments[input_2].default,
-    minRange: 10,
-    autoAdjustLabels: false,
-    interpretLabel: function (value) {
-       check_me = Number.parseFloat(Number.parseFloat(value)*Number.parseFloat(protocol_input_arguments[input_2].multipleOf) + Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())
-       if (value === 0) 
-       { 
-            if (ticker>Math.abs(Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())))
-            {	
-                	help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()); 	
-            } 
-            else{
-                 	help_spac = Number.parseFloat(Number.parseFloat(ticker)+Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+    // Function to initialize the slider
+    function initializeSlider(startValue, endValue) {
+        $('#slider-' + name).slider({
+            min: protocol_input_arguments[input_1].minimum,
+            max: protocol_input_arguments[input_1].maximum,
+            step: protocol_input_arguments[input_1].multipleOf,
+            start: startValue,
+            end: endValue,
+            minRange: 10,
+            autoAdjustLabels: false,
+            interpretLabel: function (value) {
+                let check_me = Number.parseFloat(Number.parseFloat(value) * Number.parseFloat(protocol_input_arguments[input_2].multipleOf) + Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                if (value === 0) {
+                    if (ticker > Math.abs(Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()))) {
+                        help_spac = Number.parseFloat(ticker).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                    } else {
+                        help_spac = Number.parseFloat(Number.parseFloat(ticker) + Number.parseFloat(protocol_input_arguments[input_2].minimum)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                    }
+                    return Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                } else if (check_me === help_spac) {
+                    let previous = help_spac;
+                    help_spac = Number.parseFloat(Number.parseFloat(help_spac) + Number.parseFloat(ticker)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                    if (previous <= 0 && Number.parseFloat(help_spac) > 0) {
+                        help_spac = Number.parseFloat(Number.parseFloat(help_spac) + Number.parseFloat(correction)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                    }
+                    return check_me;
+                } else if (check_me === Number.parseFloat(protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())) {
+                    return Number.parseFloat(protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
+                } else {
+                    return "";
+                }
+            },
+            onChange: function (event, range, firstVal, secondVal) {
+                // Set the real value into the inputs
+                $('#' + input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+                $('#' + input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+                onInputChanged();
+            },
+            onMove: function (range, firstVal, secondVal) {
+                $('#' + input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+                $('#' + input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
             }
-                		return Number.parseFloat(protocol_input_arguments[input_2].minimum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());
-       }
-       else if (check_me === help_spac) 
-       { 
-            previous = help_spac;
-            help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(ticker)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()); 
-            if ( previous <=0  && Number.parseFloat(help_spac) >0)
-            {
-                help_spac = Number.parseFloat(Number.parseFloat(help_spac)+Number.parseFloat(correction)).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals());     
-            }
-            
-            return check_me
-       }
-       else if (check_me === Number.parseFloat( protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())) 	
-       {
-            return Number.parseFloat( protocol_input_arguments[input_2].maximum).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals())
-       }
-       else 
-       { 
-            return ""
-        }
-    },
-    onChange: function( event, range, firstVal, secondVal) {
-            // Set the real value into the inputs
-            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
-	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-        //console.log("TEST3");
-            onInputChanged()
-    },
-    onMove: function(range, firstVal, secondVal){ 
-            $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
-	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-        //console.log("TEST4");
+        });
     }
-    });
-    $('#'+input_2).change(function() {
-        //    $('#slider-'+name).slider('set secondVal', $(this).val())
-        // $("#slider-"+name).slider('set end', Math.floor($(this).val()/0.36)*0.36);
-        $('#'+input_2).val(Number.parseFloat(Math.floor($(this).val()/0.36)*0.36).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-        //    console.log("TEST1");
-            	});
-    $('#'+input_1).change(function() {
-        //    $('#slider-'+name).slider('set firstVal', $(this).val())
-           //console.log("TEST2");
-        //    $("#slider-"+name).slider('set start', Math.floor($(this).val()/0.36)*0.36);
-        $('#'+input_1).val(Number.parseFloat(Math.floor($(this).val()/0.36)*0.36).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
-            	});
 
+    // Initialize the slider with default values
+    initializeSlider(protocol_input_arguments[input_1].default, protocol_input_arguments[input_2].default);
+
+    // Update slider when input_1 changes
+    $('#' + input_1).change(function () {
+        let value = Number.parseFloat($(this).val());
+        if (value < protocol_input_arguments[input_1].minimum) {
+            value = protocol_input_arguments[input_1].minimum;
+        } else if (value > protocol_input_arguments[input_1].maximum) {
+            value = protocol_input_arguments[input_1].maximum;
+        }
+        value = Math.floor(value / 0.36) * 0.36;
+        $('#' + input_1).val(value.toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+
+        // Reinitialize the slider with the new start value
+        let endValue = Number.parseFloat($('#' + input_2).val());
+        initializeSlider(value, endValue);
+    });
+
+    // Update slider when input_2 changes
+    $('#' + input_2).change(function () {
+        let value = Number.parseFloat($(this).val());
+        if (value < protocol_input_arguments[input_2].minimum) {
+            value = protocol_input_arguments[input_2].minimum;
+        } else if (value > protocol_input_arguments[input_2].maximum) {
+            value = protocol_input_arguments[input_2].maximum;
+        }
+        value = Math.floor(value / 0.36) * 0.36;
+        $('#' + input_2).val(value.toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
+
+        // Reinitialize the slider with the new end value
+        let startValue = Number.parseFloat($('#' + input_1).val());
+        initializeSlider(startValue, value);
+    });
 }
 
 
