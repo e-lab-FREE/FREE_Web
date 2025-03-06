@@ -74,17 +74,17 @@
                         <h3>{% blocktrans %}Polarizer {{i}} angle [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-motor{{i}}_position" class="ui blue small bottom aligned labeled slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{i}}_position">
+                            <input class="free-input" type="number" id="motor{{i}}_position" step="0.36">
                         </div>
                     </div>
                     <div class="ui segment pol{{i}}-sweeping">
                         <h3>{% blocktrans %}Polarizer {{i}} sweeping angles [&#176;]{% endblocktrans %}</h3>
                         <div style="padding-top: 5%;padding-left: 2%;padding-right: 2%;" id="slider-motor{{i}}" class="ui blue small bottom aligned labeled range slider"></div>
                         <div class="ui input">
-                            <input class="free-input" type="number" id="motor{{i}}_start_position">
+                            <input class="free-input" type="number" id="motor{{i}}_start_position" step="0.36">
                         </div>
                         <div class="ui input" style="float:right;">
-                            <input class="free-input" type="number" id="motor{{i}}_end_position">
+                            <input class="free-input" type="number" id="motor{{i}}_end_position" step="0.36">
                         </div>
                     </div>
                 {% endfor %}
