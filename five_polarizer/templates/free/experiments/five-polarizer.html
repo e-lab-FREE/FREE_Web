@@ -525,18 +525,26 @@ let ticker =  Number.parseFloat(protocol_input_arguments[input_1].subPart).toFix
             // Set the real value into the inputs
             $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
 	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+        //console.log("TEST3");
             onInputChanged()
     },
     onMove: function(range, firstVal, secondVal){ 
             $('#'+input_2).val(Number.parseFloat(secondVal).toFixed(protocol_input_arguments[input_2].multipleOf.countDecimals()));
 	    $('#'+input_1).val(Number.parseFloat(firstVal).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+        //console.log("TEST4");
     }
     });
     $('#'+input_2).change(function() {
-           $('#slider-'+name).slider('set secondVal', $(this).val())
+        //    $('#slider-'+name).slider('set secondVal', $(this).val())
+        // $("#slider-"+name).slider('set end', Math.floor($(this).val()/0.36)*0.36);
+        $('#'+input_2).val(Number.parseFloat(Math.floor($(this).val()/0.36)*0.36).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
+        //    console.log("TEST1");
             	});
     $('#'+input_1).change(function() {
-           $('#slider-'+name).slider('set firstVal', $(this).val())
+        //    $('#slider-'+name).slider('set firstVal', $(this).val())
+           //console.log("TEST2");
+        //    $("#slider-"+name).slider('set start', Math.floor($(this).val()/0.36)*0.36);
+        $('#'+input_1).val(Number.parseFloat(Math.floor($(this).val()/0.36)*0.36).toFixed(protocol_input_arguments[input_1].multipleOf.countDecimals()));
             	});
 
 }
@@ -556,7 +564,7 @@ function configure_slider(name){
 		$('#slider-'+name).slider({
            	 	min:  0,
             		max: label.length-1,
-            		step: 1,
+            		step: 0.36,
             		start: protocol_input_arguments[name].default,
             		input: '#'+name,
             		autoAdjustLabels: false,
@@ -577,6 +585,7 @@ function configure_slider(name){
     			}
 		})
         	$('#'+name).change(function() {
+			console.log("CHANGED");
 			//thisVal = $(this).val();
    			// o user so pode digitar [0,20,25] isso tem de corresponder to [0,1,2]...
 
@@ -669,7 +678,8 @@ function configure_slider(name){
                 		$(this).prop("value", protocol_input_arguments[name].maximum)
             		if($(this).val() < protocol_input_arguments[name].minimum)
                 		$(this).prop("value", protocol_input_arguments[name].minimum)
-            		$("#slider-"+name).slider('set value', $(this).val())
+                    // console.log("test")
+            		$("#slider-"+name).slider('set value', Math.floor($(this).val()/0.36)*0.36);
             	});
 	}
     }
