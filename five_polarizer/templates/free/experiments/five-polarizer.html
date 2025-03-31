@@ -27,8 +27,25 @@
 {% block configtab %}
     <!-- Begin of the configuration tab-->
 
-    <div class="ui one column grid container">
+    <div class="ui two column grid container">
         <div class="column">
+                    <div class="ui segment led_intensity-position">
+			<h3>Intensity of led [%]</h3>
+                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-led_intensity" class="ui blue small bottom aligned labeled slider"></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="led_intensity" step="0.36">
+                        </div>
+                    </div>		
+		<!--<div class="ui segment led-intensity">
+                <h3>Intensity of led</h3>
+                <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-led_intensity" class="ui blue small bottom aligned labeled slider"></div>
+                	<div class="ui input">
+                        	<input class="free-input" type="number" id="led_intensity" step="1">
+                	</div>
+                </div>-->
+	</div>
+
+	<div class="column">
             <div class="ui segment">
                 <legend>
                     <h3>{% trans 'Polarizer to perform sweep [#]' %}</h3>
@@ -374,6 +391,7 @@ function on_ready_experiment_UI(){
     
     //configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
     
+    configure_slider("led_intensity")
     configure_slider("motor1_position")
     configure_slider("motor2_position")
     configure_slider("motor3_position")
