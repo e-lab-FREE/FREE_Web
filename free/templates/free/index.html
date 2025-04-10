@@ -121,45 +121,71 @@
 
 
 
-        <div class="row stackable ">
-            <div class=" four wide computer eigth wide phone centered column">
-                <div class="ui center aligned segment">
-                    <div class="ui center aligned icon header">
-                        <i class="cogs icon"></i> <br>
-                        {{n_experiments}} 
-                    </div>
-                    Experiments
-
-                </div>
-            </div>
-            <div class="four wide computer eigth wide phone centered column">
+        <div class="four column stackable row">
+            <div class=" column">
                 <div class="ui center aligned  segment">
-                    <div class="ui center aligned icon header">
-                        <i class="chart bar icon"></i><br>
-                        {{n_executions}} 
+
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="chart bar icon"></i>
+                         {{n_experiments}}
+                        </div>
+                        <div class="label">
+                            Experiments
+                        </div>
                     </div>
-                    Executions
                 </div>
             </div>
-            <div class=" four wide computer eigth wide phone centered column">
+            <div class=" column">
+                <div class="ui center aligned  segment">
+
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="cogs icon"></i>
+                         {{n_executions}} 
+                        </div>
+                        <div class="label">
+                            Executions
+                        </div>
+                    </div>
+            </div>
+            </div>
+            <div class=" column">
                 <div class="ui center aligned segment">
-                    <div class="ui center aligned icon header">
-                        <i class="user icon"></i><br>
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="user icon"></i>
                         {{n_users}}
+                        </div>
+                        <div class="label">
+                            Users
+                        </div>
                     </div>
-                    Users
                 </div>
             </div>
-            <div class=" four wide computer eigth wide phone centered column">
+            <div class=" column">
                 <div class="ui center aligned segment">
-                    <div class="ui center aligned icon header">
-                        <i class="globe icon"></i><br>
-                        {{n_countries}} 
+
+                    <div class="ui  statistic">
+                        <div class="value">
+                        <i class="globe icon"></i>
+                        {{n_countries}}
+                        </div>
+                        <div class="label">
+                            Countries
+                        </div>
                     </div>
-                    Countries
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+
         <div class="row">
         </div>
 
