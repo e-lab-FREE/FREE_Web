@@ -1,3 +1,4 @@
+{% extends 'free/base.html' %}
 {% load static %}
 {% load i18n %}
 
@@ -64,22 +65,14 @@
 </style>
 {% endblock %}  
 
-{% block layout %}
-{% endblock %}       
+     
 {% block title %} 
     {{apparatus.apparatus_type.name}} {{apparatus.id}} in {{apparatus.location}}
 {% endblock %}
 
 {% block content %}
-<div class="ui grid">
-  <div class="left three wide column">
-      <div class="ui top aligned  image">
-        <h2  class=" item"><img src="{% static 'free/images/elab_logo.png' %}" id="logo-elab"></h2> 
-    </div>
-      {% include 'free/sponsor_logos.html' %}
-  </div>
 
-  <div class="right floated thirteen wide  column">
+<div class=" ui white sixteen wide column" id="content">
 
     <h1 >{{apparatus.apparatus_type.name}} {{apparatus.id}} in {{apparatus.location}}</h1>  
 
@@ -88,9 +81,8 @@
       <div id="map"></div>
     </div>
 
-  </div>   
+</div>   
 
-</div>
 {% endblock %}
 
 
