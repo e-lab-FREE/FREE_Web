@@ -60,7 +60,7 @@
 {% endif %}
 
                     <div class="ui grid"> 
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated  and  'lti_user' not in user.groups.get.name %}
                         <div class="row">
                             {% include 'free/layout/topbar.html' %}
                         </div>
