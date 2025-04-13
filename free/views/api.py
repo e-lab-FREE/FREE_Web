@@ -10,6 +10,10 @@ from django.shortcuts import get_object_or_404
 
 from free.views.permissions import ApparatusOnlyAccess
 
+import requests
+from countries_plus.models import Country
+from python_ipware import IpWare
+
 # apparatus_type
 class ApparatusTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,7 +63,27 @@ class ExecutionCreateSerializer(serializers.ModelSerializer):
             validate(instance = adjusted_instance, schema = adjusted_schema)
         except JSONValidationError as e:
             raise serializers.ValidationError(e.message)
-            
+
+
+        ### GEt country from address
+        ipw = IpWare()
+        meta = self.context['request'].META
+
+        ip, trusted_route = ipw.get_client_ip(meta)
+        try:
+            #remote_addr = "192.124.249.9"
+            remote_addr = str(ip)
+            data['client_ip_address']= remote_addr
+            url = "https://api.ipgeolocation.io/ipgeo?apiKey=%s&ip=%s"%(settings.IPGEOLOCATION_API_KEY, remote_addr)
+            response = requests.request("GET", url)
+            country = Country.objects.get(iso=response.json()['country_code2'])
+            data['client_country']=country
+            data['client_city']=response.json()['city']
+            data['client_organization']=response.json()['organization']
+            data['client_lat']= response.json()['latitude']
+            data['client_long']= response.json()['longitude']
+        except:
+            pass
         return data  
 
     class Meta:
@@ -325,4 +349,4 @@ class ExecutionQueue(generics.ListAPIView):
     permission_classes = [ApparatusOnlyAccess]
     serializer_class = ExecutionSerializer
     def get_queryset(self):
-        return Execution.objects.filter(state='Q', apparatus_id=self.kwargs['apparatus_id']).order_by('queue_time')
+        return Execution.objects.filter(status__in='QR', apparatus_id=self.kwargs['id']).order_by('queue_time')

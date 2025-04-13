@@ -43,26 +43,38 @@
     <body>  
 
         {% block layout %}
-        
-        {% if user.is_authenticated %}
 
-          <div class="ui grid">
-            <div class="ui row">
-        
-                {% include 'free/layout/topbar.html' %}
-        
+
+   
+
+         
+        <div class="ui padded grid" id="page-grid">   
+{% if user.is_authenticated %}
+            <div class = "center two  column row" >
                 {% include 'free/layout/sidebar.html' %}
-        
+
+                <div class="top left  sixteen wide   twelve wide computer column">
+{% else %}
+                <div class="top  sixteen wide column">
+
+{% endif %}
+
+                    <div class="ui grid"> 
+                        {% if user.is_authenticated  and  'lti_user' not in user.groups.get.name %}
+                        <div class="row">
+                            {% include 'free/layout/topbar.html' %}
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            {% block content %}
+                            {% endblock %}
+                        </div>
+                    </div>  
+                </div>
             </div>
-        
         </div>
-        {% endif %}
-
-      
-        {% endblock %}
-
-        {% block content %}
-        {% endblock %}
+    {% endblock %}
+     
     </body>
 
 

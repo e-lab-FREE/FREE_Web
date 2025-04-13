@@ -6,165 +6,190 @@
 
 {% block content %}
 
-    {% if user.is_authenticated %}
+{% if not user.is_authenticated %}
 
+<style>
+    .p{
+        font-size: 20pt;
+    }
+    #page-grid {
+        background-image: url('/static/free/images/free-index-bg.png');
+        background-repeat: repeat;
+        background-size: cover;
+    }
+    </style>
+{% endif %}
         <!--content-->
-        <div class="right floated thirteen wide computer sixteen wide phone column" id="content">
 
-          <!--  <img class="imgrad" src="{% static 'free/images/WPA.jpeg' %}" alt="">-->
-        <div class="ui container grid">
+<div class=" ui white sixteen wide column" id="content">
+
+    <div class="ui centered grid">
         <div class="row">
-           <div class="fifteen wide computer sixteen wide phone centered column">
-		    <section>
-                <div class="big-title text-center">
-                            <h1> Elab Free </h1>
-                            <h5> Welcome to the new elab platform. </h5> 
-                </div>
-			</section>
-			
-			
-		   
-		    <div class="ui divider"></div>
-			
-			The e-lab is a space where real experiments can be carried out via the Internet. 
-			The experiments are physically assembled and installed in a laboratory of the <a href="https://tecnico.ulisboa.pt/pt/" t>Instituto Superior Tecnico</a> or in partner science schools and centers. 
-			The experience is controlled by its administrator, who is no more than the first member of the waiting list of users interested in carrying it out.
-			There is also a list that allows, for example, a teacher to carry out the experiment and his students to receive the image and the data at the same time, even though they 
-			may be in physically distant locations.<br> <br>
-			
-			<p>The data from the experiments and the image of the events (videos) are captured through sensors connected, directly or indirectly, 
-			to a central computer, from where they are broadcast via the Internet. Each control room , which corresponds to a particular experiment, has its own space,
-			where an experimental protocol, suggestions for variants of the experiment, as well as explanations and data analysis are suggested.
-			<br>
-			
-			Control room, experimental apparatus, protocol and experimental setup are key concepts in e-lab:
-
-			<ul>
-                    <li>
-                      <strong> Control room  </strong> virtual environment for controlling a real experimental apparatus included in a given laboratory.
-                    </li>
-					<li>
-                      <strong>  Experimental apparatus </strong>equipment that allows carrying out a certain experiment.
-                    </li>
-					<li>
-                      <strong> Experimental Setup  </strong> configuration of the experimental apparatus according to the protocol to be performed.
-                    </li>
-					<li>
-                      <strong> Protocol </strong> sequence of experiment execution with the respective selection and configuration of the experimental setup.
-                    </li>
-
-			</ul>
-			
-			You can see the Sponsors in the lower left corner  who made this project possible.
-                                              
-            
-			<!--Each control room also has a chat room where everyone can make comments and exchange information about the experience and data analysis.-->
-		
-		   
-		    
-		   
-		   
-				
-				
-				
-				
-	
-	
-				<!--
-                <div class="ui divider"></div>
-                <div class="ui grid">
-                    <div class="center aligned row">
-                        <div class="eight wide mobile four wide tablet four wide computer column">
-                            <img class="ui centered small circular image"
-                            src="/static/free/images/profile.jpg"/>
-                            <div class="ui large basic label">Go!</div>
-                            <p>Pendulum Experiment</p>
+            <div class=" ui sixteen wide column">
+                <div class="ui header segment">
+                    <div class="ui grid">
+                        <div class="six wide middle aligned column">
+                            <img   class="ui image  right floated"  src="/static/free/images/elab_logo.png">
                         </div>
-                     
-                        <div class="eight wide mobile four wide tablet four wide computer column">
-                            <img class="ui centered small circular image"
-                            src="static/images/Langmuir_with_plasma.jpg"/>
-                            <div class="ui large basic label">Go!</div>
-                            <p>Langmuir Experiment</p>
-                            </div>
-                            <div class="eight wide mobile four wide tablet four wide computer column">
-                            <img class="ui centered small circular image"
-                            src="static/images/limo.jpg"/>
-                            <div class="ui large basic label">Go!</div>
-                            <p>Photovoltaics</p>
-                            </div>
-                            <div class="eight wide mobile four wide tablet four wide computer column">
-                            <img class="ui centered small circular image"
-                            src="static/images/limo.jpg"/>
-                            <div class="ui large basic button">Go!</div>
-                            <p>Waves</p>
-                            </div>
-                    </div>
-                </div>-->
-          </div>
-            
-        </div>
-    </div> 
-	
-	
-    
-
-
-
-            {% comment %} <div class="ui container grid">
-                <div class="row">
-                    <div class="fifteen wide computer sixteen wide phone centered column">
-                        <h2><i class="home icon"></i> {% trans 'Dashboard' %}</h2>
-                        <div class="ui divider"></div>
-                        <div class="ui grid">
-                            <div class="center aligned row">
-                                <div class="eight wide mobile four wide tablet four wide computer column">
-                                    <img class="ui centered small circular image"
-                                    src="static/images/limo.jpg"/>
-                                    <div class="ui large basic label">{% trans 'Go' %}!</div>
-                                    <p>{% trans 'Pendulum Experiment' %}</p>
-                                </div>
-                                <!-- Repeat-->
-                                <div class="eight wide mobile four wide tablet four wide computer column">
-                                    <img class="ui centered small circular image"
-                                    src="static/images/solar_tuk.png"/>
-                                    <div class="ui large basic label">{% trans 'Go' %}!</div>
-                                    <p>{% trans 'Langmuir Experiment' %}</p>
-                                    </div>
-                                    <div class="eight wide mobile four wide tablet four wide computer column">
-                                    <img class="ui centered small circular image"
-                                    src="static/images/limo.jpg"/>
-                                    <div class="ui large basic label">{% trans 'Go' %}!</div>
-                                    <p>{% trans 'Photovoltaics' %}</p>
-                                    </div>
-                                    <div class="eight wide mobile four wide tablet four wide computer column">
-                                    <img class="ui centered small circular image"
-                                    src="static/images/limo.jpg"/>
-                                    <div class="ui large basic button">{% trans 'Go' %}!</div>
-                                    <p>{% trans 'Waves' %}</p>
-                                    </div>
+                        <div class="ten wide middle aligned column">
+                            <div class="ui right floated">
+                                <h1>elab@Técnico powered by FREE </h1>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
-            </div> {% endcomment %}
-            
+            </div>
         </div>
-    {% else %}
 
+        {% if not user.is_authenticated %}
 
+        <div class=" ui centered row">
+            <div class="eight wide computer twelve wide phone centered column">
+                <div class="ui padded segment">
+                    <div class="ui grid">
+                        <div class="ui two columnn row">
+                            <div class="column">
+                                    <a  href="{% url 'free:login' %}">
+                                        <button class="ui  right floated teal labeled icon button">
+                                        LOG IN
+                                        <i class="signup icon"></i>
+                                        </button>
+                                    </a>
+                            </div>
+                            <div class="ui column">
+                                <img class="ui image" src="/static/free/images/arrow.png">
+                            </div>
+                        </div>
+                        <div class="ui left row">
+                
+                            <p> If you want to execute some experiments or enter to the world of remote laboratories....
+                            Log in
+                            </p>
+                            <h4>elab is open and is FREE!</h4>
 
-        <!--<img class="imgrad" src="{% static 'free/images/WPA.jpeg' %}" alt="">-->
-        <img class="center_img_incial" src="/static/free/images/elab_logo.png">
-
-
-        {# button to login page #}
-        <a class="center_buttom" href="{% url 'free:login' %}">
-        <div class="ui teal labeled icon button center">
-        LOG IN
-        <i class="signup icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </a>
     {% endif %}
+
+
+
+        <div class="equal height row">
+                
+            <div class="eight wide computer eight wide tablet sixteen wide phone centered column">
+                <div class="ui segment">
+                    <div class="grid">  
+                        <div class ="row">
+                            <p>The Elab is a space where real cientific experiments can be executed by anyone, anytime, anywehere.
+                                Most of the available experiments were designed, buit and assembled by at <a href="https://tecnico.ulisboa.pt/pt/" t>Instituto Superior Tecnico</a>
+                            and are deployed in the whole world.</p>                
+                            <p>Some of these experiments are being user in real teaching/leaning context by schools in europe and in the Americas.
+                            Nonethless, any user on the Internet can enter elab, select one of the available experiments, configure it and see in real time its operations. Resulting data are yours to keep them!</p>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class ="row">
+                            Imagined by: 
+                            <a href="https://tecnico.ulisboa.pt" class="ui small image">
+                                <img   class="image right"  src="/static/free/images/IST-logo.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="eight wide computer eight wide tablet  sixteen wide phone centered column">
+                <div class="ui segment  ">
+                    <div class="grid">  
+                        <div class ="row">
+                            <p>FREE is the software infrastructrure that supports all the experiments, data and operations, and can be integrated with any LMS (such as Moodle).</p>
+                            <p> It follow the moder web arcghitecures to allow and easy and efficient design, deployment and execution of experiments.</p>
+                            <p> It is written in python and javascript to allow an easy access (on desktop computers or smartphones) from anywere in the internet.</p>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class ="row">
+                            Powered by: 
+                            <a href="https://inesc-id.pt" class="ui small image">
+                                <img   class="image right"  src="/static/free/images/INESC-ID-logo.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+        <div class="four column stackable row">
+            <div class=" column">
+                <div class="ui center aligned  segment">
+
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="chart bar icon"></i>
+                         {{n_experiments}}
+                        </div>
+                        <div class="label">
+                            Experiments
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" column">
+                <div class="ui center aligned  segment">
+
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="cogs icon"></i>
+                         {{n_executions}} 
+                        </div>
+                        <div class="label">
+                            Executions
+                        </div>
+                    </div>
+            </div>
+            </div>
+            <div class=" column">
+                <div class="ui center aligned segment">
+                    <div class="ui statistic">
+                        <div class="value">
+                        <i class="user icon"></i>
+                        {{n_users}}
+                        </div>
+                        <div class="label">
+                            Users
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" column">
+                <div class="ui center aligned segment">
+
+                    <div class="ui  statistic">
+                        <div class="value">
+                        <i class="globe icon"></i>
+                        {{n_countries}}
+                        </div>
+                        <div class="label">
+                            Countries
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="row">
+        </div>
+
+
+
+</div>
 {% endblock %}

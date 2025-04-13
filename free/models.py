@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.postgres.fields import JSONField
+from countries_plus.models import Country
 
 import environ
 env = environ.Env()
@@ -31,6 +32,9 @@ class Apparatus(models.Model):
     apparatus_type = models.ForeignKey(ApparatusType, on_delete=models.PROTECT, help_text=_('After setting/changing the apparatus_type, press "%(button_name)s" to see the list of protocols.') % {'button_name' : _('Save and continue editing')})
     protocols = models.ManyToManyField('Protocol', blank=True)
     location = models.CharField(_('Location'), max_length=64)
+    country = models.ForeignKey(Country, related_name='apparatuses', on_delete=models.RESTRICT, null = True)
+    long = models.DecimalField(max_digits=8, decimal_places=3, null=True)
+    lat = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     description = models.TextField(_('Description'), blank=True, default='')
     secret = models.CharField(_('Secret'), max_length=32)
     owner = models.CharField(_('Owner'), max_length=32)
@@ -105,6 +109,12 @@ class Execution(models.Model):
     queue_time = models.DateTimeField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
+    client_country = models.ForeignKey(Country, related_name='executions', on_delete=models.RESTRICT, null = True)
+    client_city = models.CharField(max_length=100, null=True)
+    client_organization = models.CharField(max_length=200, null=True)
+    client_long = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    client_lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    client_ip_address = models.GenericIPAddressField(null=True) 
 
     @property
     def order(self):

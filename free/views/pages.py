@@ -12,7 +12,14 @@ from django.http import Http404
 
 class IndexView(TemplateView):
     template_name='free/index.html'
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["n_experiments"] = len(Apparatus.objects.all().values_list('protocols'))
+        context["n_executions"] = len(Execution.objects.filter(status='F'))
+        context["n_users"] = len(User.objects.all())
+        context["n_countries"] = len(Execution.objects.all().values_list('client_country').distinct())
+        
+        return context
 # EXPERIMENT CONTROL & EXECUTIONS
 
 class ExecutionView(LoginRequiredMixin, TemplateView):
@@ -40,7 +47,6 @@ class ExecutionStrippedView(ExecutionView):
         context['base'] = "free/base_stripped.html"
         context['STRIPPED'] = True
         return context
-
 
 class ApparatusVideoView(LoginRequiredMixin, DetailView):
     template_name = 'free/apparatus_video.html'
