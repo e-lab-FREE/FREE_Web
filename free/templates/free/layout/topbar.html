@@ -27,8 +27,10 @@
                     <a href="{% url 'experiments-cleanup-admin' %}" class="item"><p><i class="settings icon"></i>{% trans 'Experiments Cleanup'%}</p></a>
                     <a href="{% url 'FREE_quizes_admin:index' %}" class="item"><p><i class="settings icon"></i>{% trans 'FREE Quizes Administration'%}</p></a>
                 {% endif %}
-                <a href="{% url 'free:logout' %}" class="item"><i class="sign out alternate icon"></i> {% trans 'Logout'%}</a>
-            </div>
+                {% if 'lti_user' not in user.groups.get.name %}
+                    <a href="{% url 'free:logout' %}" class="item"><i class="sign out alternate icon"></i> {% trans 'Logout'%}</a>
+                {% endif %}
+    </div>
         </div>
     </div>
 </div>
@@ -77,7 +79,9 @@
                         <a href="{% url 'experiments-cleanup-admin' %}" class="item"><p><i class="settings icon"></i>{% trans 'Experiments Cleanup'%}</p></a>
                         <a href="{% url 'FREE_quizes_admin:index' %}" class="item"><p><i class="settings icon"></i>{% trans 'FREE Quizes Administration'%}</p></a>
                     {% endif %}
-                    <a href="{% url 'free:logout' %}" class="item"><i class="sign out alternate icon"></i> {% trans 'Logout'%}</a>
+                    {% if 'lti_user' not in user.groups.get.name %}
+                        <a href="{% url 'free:logout' %}" class="item"><i class="sign out alternate icon"></i> {% trans 'Logout'%}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

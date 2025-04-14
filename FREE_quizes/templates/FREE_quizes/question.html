@@ -1,4 +1,4 @@
-{% extends base %}
+{% extends "free/base.html" %}
 {% load i18n%}
 {% load static %}
 {% load semanticui %}
@@ -64,362 +64,391 @@
 
 {% block content %}
 
-<div class=" sixteen wide  column"  id="content">
-
-	<div class="ui container">
-
-		<h1>Quiz {{quiz.title}}
-			(  {% trans "Step" %} {{ current_question }} {% trans "of" %} {{ quiz.get_max_score }})
-		</h1>
-	</div> 
-	<div class="ui  container ">
-			<div id="quiz_tab" class="ui top attached tabular menu">
-				<a class="item " id="description-tab-slip" data-tab="description-tab">{% trans 'Quiz Description' %}</a>
-				<a class="item active" id="questions-tab-slip" data-tab="questions-tab">{% trans 'Questions'%}</a>
-			</div>
+<div class="ui sixteen wide  column"  id="content">
+	<div class ="ui centered grid">
+        <div class="row">
+            <div class="ui sixteen wide column">
+                <div class="ui header segment">
+                    <h2> <i class="edit icon"></i>{{quiz.title}}</h2>
+					<h3>{% trans "Step" %} {{ current_question }} {% trans "of" %} {{ quiz.get_max_score }}</h3>
+				</div>
+            </div>
+        </div>
 
 	
-			<div class="ui bottom attached tab segment" data-tab="description-tab" >
-				<div class="ui grid" >
-					<div class="ten wide column ">
-						{% autoescape off %}{{quiz.description}}{% endautoescape %}
-					</div>
-		
-				</div>  
-			</div>
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div id="quiz_tab" class="ui top attached tabular menu">
+					<a class="item " id="description-tab-slip" data-tab="description-tab">{% trans 'Quiz Description' %}</a>
+					<a class="item active" id="questions-tab-slip" data-tab="questions-tab">{% trans 'Questions'%}</a>
+				</div>
 
-			{% if question_type == 'CREATE' %}
-			<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
-				<div class="ui grid" >
-					<div class="row">
+		
+				<div class="ui bottom attached tab segment" data-tab="description-tab" >
+					<div class="ui grid" >
 						<div class="ten wide column ">
-								{% autoescape off %}<p>{{ question.content }} </p> {% endautoescape %} 
+							{% autoescape off %}{{quiz.description}}{% endautoescape %}
 						</div>
 			
-						<div class="six wide column ">
-							{% if student_experiment_parameters %}
-								<h2> Required Experiment parameters</h2>
-									<p> Please configure the expriment below with the following parameters</p>
-									<!-- <p>{{student_experiment_parameters}}</p>-->
-									<table class="ui celled table">
-										<thead>
-										  	<tr>
-												<!-- <th>id</th> -->
-												<th>Parameter</th>
-												<th>Value</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for v in student_experiment_parameters %}
-											<tr>
-												<!-- <td >{{v.name}}</td> {{v.description}} {{v.value}} -->
-												<td >{{v.description}}</td>  <!--  {{v.value}} -->
-                                                                                                {% if v.label %}
-												    <td >{{v.label}}</td> 
-                                                                                                {%  else %}
-												    <td >{{v.value}}</td>
-                                                                                                {% endif %}
-     											</tr>
-											{% endfor %}
+					</div>  
+				</div>
 
-										</tbody>
-									</table>
+				{% if question_type == 'CREATE' %}
+				<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
+					<div class="ui grid" >
+						<div class="row">
+							<div class="ten wide column ">
+									{% autoescape off %}<p>{{ question.content }} </p> {% endautoescape %} 
+							</div>
+				
+							<div class="six wide column ">
+								{% if student_experiment_parameters %}
+									<h2> Required Experiment parameters</h2>
+										<p> Please configure the expriment below with the following parameters</p>
+										<!-- <p>{{student_experiment_parameters}}</p>-->
+										<table class="ui celled table">
+											<thead>
+												<tr>
+													<!-- <th>id</th> -->
+													<th>Parameter</th>
+													<th>Value</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for v in student_experiment_parameters %}
+												<tr>
+													<!-- <td >{{v.name}}</td> {{v.description}} {{v.value}} -->
+													<td >{{v.description}}</td>  <!--  {{v.value}} -->
+																									{% if v.label %}
+														<td >{{v.label}}</td> 
+																									{%  else %}
+														<td >{{v.value}}</td>
+																									{% endif %}
+													</tr>
+												{% endfor %}
 
-									<p> Any parameter that is not in this table should be defined by the student.</p>
+											</tbody>
+										</table>
 
-								{% endif %}	
+										<p> Any parameter that is not in this table should be defined by the student.</p>
+
+									{% endif %}	
+							</div>
+						</div>
+						<div class="ui divider"></div>
+						<div class="row">
+							<div class="sixteen wide column ">
+								<p> Please configure the experiment below. dont forget to save, submit and wait for its completion.</p>
+								<p> If you configured the experiment execution incorrectly, or you did no get the expected results, you can restart a new execution.</p>
+				{% if execution_id %}
+								<div class="ui stackable grid">
+									<div class="five wide column ">
+
+										<form action="" method="POST" id="form">{% csrf_token %}
+											<input type=hidden name="restart_execution" value="true">
+											<input type="submit" value="{% trans "Restart Execution" %}" class="ui disabled orange button" id="restartButton" >
+										</form>
+									</div>
+									<div class="five wide column ">
+										<form action="" method="POST" id="form">{% csrf_token %}
+											<input type=hidden name="question_id" value="{{ question.id }}">
+											<input type=hidden name="execution_id" id="form_execution_id" value="{{ execution_id }}">
+											<input type=hidden name="question_type" value="{{ question_type }}">
+							
+											<input type=hidden name="confirm_execution" value="true">
+											<input type="submit" value="{% trans "Confirm Execution" %}" class="ui disabled green button" id="confirmExecutionButton" >
+							
+							<!--				<input type="submit" value="{% trans "Continue to Quiz" %}" class="ui disabled green button" id="continueButton" > -->
+							
+										</form>
+
+										
+									</div>
+								</div>
+
+				{% endif %}
+							</div>
 						</div>
 					</div>
-					<div class="ui divider"></div>
-					<div class="row">
-						<div class="sixteen wide column ">
-							<p> Please configure the experiment below. dont forget to save, submit and wait for its completion.</p>
-							<p> If you configured the experiment execution incorrectly, or you did no get the expected results, you can restart a new execution.</p>
-			{% if execution_id %}
-							<div class="ui grid" >
-								<div class="five wide column ">
-
-									<form action="" method="POST" id="form">{% csrf_token %}
-										<input type=hidden name="restart_execution" value="true">
-										<input type="submit" value="{% trans "Restart Execution" %}" class="ui disabled orange button" id="restartButton" >
-									</form>
-								</div>
-								<div class="five wide column ">
+				</div>  
+				{% elif question_type == 'FETCH' %}
+				<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
+					<div class="ui grid" >
+						<div class="row">
+							<div class="ten wide column ">
+									{% autoescape off %}
+										<p>{{ question.content }} </p>
+									{% endautoescape %}
 									<form action="" method="POST" id="form">{% csrf_token %}
 										<input type=hidden name="question_id" value="{{ question.id }}">
 										<input type=hidden name="execution_id" id="form_execution_id" value="{{ execution_id }}">
 										<input type=hidden name="question_type" value="{{ question_type }}">
-						
-										<input type=hidden name="confirm_execution" value="true">
-										<input type="submit" value="{% trans "Confirm Execution" %}" class="ui disabled green button" id="confirmExecutionButton" >
-						
-						<!--				<input type="submit" value="{% trans "Continue to Quiz" %}" class="ui disabled green button" id="continueButton" > -->
-						
-									</form>
-
 									
-								</div>
+	<!--								<input type="submit" value="{% trans "Confirm Execution" %}" class="ui disabled green button" id="confirmExecutionButton" > -->
+									</form>
 							</div>
-
-			{% endif %}
 						</div>
 					</div>
-				</div>
-			</div>  
-			{% elif question_type == 'FETCH' %}
-			<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
-				<div class="ui grid" >
-					<div class="row">
-						<div class="ten wide column ">
-								{% autoescape off %}
-									<p>{{ question.content }} </p>
-								{% endautoescape %}
-								<form action="" method="POST" id="form">{% csrf_token %}
-									<input type=hidden name="question_id" value="{{ question.id }}">
-									<input type=hidden name="execution_id" id="form_execution_id" value="{{ execution_id }}">
-									<input type=hidden name="question_type" value="{{ question_type }}">
-								
-<!--								<input type="submit" value="{% trans "Confirm Execution" %}" class="ui disabled green button" id="confirmExecutionButton" > -->
-								</form>
+				</div>  
+				{% else %}
+				<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
+					<div class="ui grid" >
+						<div class="ten wide column {% if answered_question %} disabled {% endif %} ">
+							{% autoescape off %}
+								<p>{{ question.content }} </p>
+							{% endautoescape %}
+
+							<form action="" method="POST" id="form" >{% csrf_token %}
+								<input type=hidden name="question_id" value="{{ question.id }}">
+								{% render_form form %}
+
+								{% if question_type == 'ESSAY' %}
+									<p>Answer with {{decimal_cases}} decimal cases</p>
+								{% endif %}
+
+								<input type="submit" value='{% trans "Submit answer" %}' class="ui green button {% if answered_question %} disabled {% endif %}" >
+							</form>
+						</div>
+						<div class="six wide column ">
+							<h3>required answers</h3>
+							<table class="ui celled table">
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Description</th>
+										<th>decimal places</th>
+										<th>Unit</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for ans in multiple_answer_fields %}
+									<tr>
+										<td >{{ans.name}}</td>
+										<td >{{ans.description}}</td> 
+										<td >{{ans.precision}}</td>
+										<td >{{ans.unit}}</td>
+										</tr>
+									{% endfor %}
+
+								</tbody>
+							</table>
+
 						</div>
 					</div>
-				</div>
-			</div>  
-			{% else %}
-			<div class="ui bottom attached tab segment active" data-tab="questions-tab" >
-				<div class="ui grid" >
-					<div class="ten wide column {% if answered_question %} disabled {% endif %} ">
-						{% autoescape off %}
-							<p>{{ question.content }} </p>
-						{% endautoescape %}
+				</div>  
+				{% endif %}
 
-						<form action="" method="POST" id="form" >{% csrf_token %}
-							<input type=hidden name="question_id" value="{{ question.id }}">
-							{% render_form form %}
+			</div>
+		</div>
 
-							{% if question_type == 'ESSAY' %}
-								<p>Answer with {{decimal_cases}} decimal cases</p>
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
+					<div class="ui three column stackable grid">
+						<div class="column">
+							<form class="ui form" action="" method="POST" id="form">{% csrf_token %}
+								<button class="ui green left labeled icon button {% if  not prev_button %} disabled {% endif %}">
+									<i class="left arrow icon"></i>
+									Previous Step
+								</button>
+								<input type=hidden name="previous_step" value="1">
+								<input type=hidden name="next_step" value="0">
+
+							</form>	
+						</div>			
+						<div class="right column">	
+							<form class="ui form" action="" method="POST" id="form">{% csrf_token %}
+								<button id="nextStepButton" class="ui green right labeled icon button {% if  question_type != 'FETCH' and not next_button  %} disabled {% endif %}">
+									<i class="right arrow icon"></i>
+									Next Step
+								</button>
+								<input type=hidden name="previous_step" value="0">
+								<input type=hidden name="next_step" value="1">
+							</form>	
+						</div>
+						<div class="column">	
+							{% if completed_quiz %}	
+							<form class="ui centered form" action="" method="POST" id="form">{% csrf_token %}
+								<button id="completeQuizButton" class="ui green right labeled icon button">
+									Terminate Quiz
+								</button>
+								<input type=hidden name="terminate_quiz" value="true">
+							</form>	
 							{% endif %}
-
-							<input type="submit" value='{% trans "Submit answer" %}' class="ui green button {% if answered_question %} disabled {% endif %}" >
-						</form>
-					</div>
-					<div class="six wide column ">
-						<h3>required answers</h3>
-						<table class="ui celled table">
-							<thead>
-								  <tr>
-									<th>Value</th>
-									<th>Description</th>
-									<th>decimal places</th>
-									<th>Unit</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for ans in multiple_answer_fields %}
-								<tr>
-									<td >{{ans.name}}</td>
-									<td >{{ans.description}}</td> 
-									<td >{{ans.precision}}</td>
-									<td >{{ans.unit}}</td>
-									 </tr>
-								{% endfor %}
-
-							</tbody>
-						</table>
-
+						</div>
 					</div>
 				</div>
-			</div>  
-			{% endif %}
-
-
-			
-	</div>
-	<div class="ui container segment">
-		<div class="ui grid">
-			<div class="four wide column">
-				<form class="ui form" action="" method="POST" id="form">{% csrf_token %}
-					<button class="ui green left labeled icon button {% if  not prev_button %} disabled {% endif %}">
-						<i class="left arrow icon"></i>
-						Previous Step
-					</button>
-					<input type=hidden name="previous_step" value="1">
-					<input type=hidden name="next_step" value="0">
-
-				</form>	
-			</div>			
-			<div class="four wide column">	
-				<form class="ui form" action="" method="POST" id="form">{% csrf_token %}
-					<button id="nextStepButton" class="ui green right labeled icon button {% if  question_type != 'FETCH' and not next_button  %} disabled {% endif %}">
-						<i class="right arrow icon"></i>
-						Next Step
-					</button>
-					<input type=hidden name="previous_step" value="0">
-					<input type=hidden name="next_step" value="1">
-				</form>	
 			</div>
-			{% if completed_quiz %}	
-			<div class="four wide column">	
-				<form class="ui form" action="" method="POST" id="form">{% csrf_token %}
-					<button id="completeQuizButton" class="ui green right labeled icon button">
-						Terminate Quiz
-					</button>
-					<input type=hidden name="terminate_quiz" value="true">
-				</form>	
+		</div>
+	{% comment %}
+		<div class="ui grid" >
+			<div class="four wide column ">
+				<form action="" method="POST" id="form">{% csrf_token %}
+					<input type=hidden name="question_id" value="{{ question.id }}">
+					<input type=hidden name="execution_id" id="form_execution_id" value="{{ execution_id }}">
+					<input type=hidden name="question_type" value="{{ question_type }}">
+
+					
+
+	<!--				<input type="submit" value="{% trans "Continue to Quiz" %}" class="ui disabled green button" id="continueButton" > -->
+
+				</form>
 			</div>
-			{% endif %}
-
-
 		</div>
-	</div>
-	<div class="ui grid" >
-		<div class="four wide column ">
-			<form action="" method="POST" id="form">{% csrf_token %}
-				<input type=hidden name="question_id" value="{{ question.id }}">
-				<input type=hidden name="execution_id" id="form_execution_id" value="{{ execution_id }}">
-				<input type=hidden name="question_type" value="{{ question_type }}">
+	{% endcomment %}
 
-				
-
-<!--				<input type="submit" value="{% trans "Continue to Quiz" %}" class="ui disabled green button" id="continueButton" > -->
-
-			</form>
-		</div>
-	</div>
 	{% if already_answered %}
-	<div class="ui  container segment">
-		<h1> Question already answered</h1>
-	{% if not question_result.evaluated %}
-		<h2> This question is not evaluated and will not count to the final grade</h2>
-	{% else %}
-		<table class="ui celled table">
-            <thead>
-              <tr>
-                <!-- <th>Evaluated</th> -->
-				<th>Answer</th>
-                <th>Expected result</th>
-                <th>Weight</th>
-                <th>Grade</th>
-                <th>Explanation</th>
-              </tr>
-			</thead>
-			<tbody>
-            	<tr>
-					<!--              <td>
-					{% autoescape off %}{{ question_result.evaluated}}{% endautoescape %}
-					</td>-->
-					<td>
-					{% autoescape off %} {{ question_result.answer | pretty_json  }}{% endautoescape %}
-					</td>
-					<td>
-						{% autoescape off %} {{ question_result.expected_result | pretty_json  }}{% endautoescape %}
-					</td>
-					<td>
-					{% autoescape off %}{{ question_result.weight}}{% endautoescape %}
-					</td>
-					<td>
-					{% autoescape off %}{{ question_result.grade}}{% endautoescape %}
-					</td>
-					<td>
-					{% autoescape off %}{{ question_result.explanation}}{% endautoescape %}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	{% endif %}
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
 
-
-	</div>
-	{% endif %}
-	<div class="ui  container ">
-
-		{% if previous.answers %}
-
-			<p class="muted"><small>{% trans "The previous question" %}:</small></p>
-			<p>{{ previous.previous_question }}</p>
-
-			{% if previous.previous_outcome %}
-				<div class="alert alert-success">
-			{% else %}
-				<div class="alert alert-warning">
-			{% endif %}
-					<p><small>
-						{% trans "Your answer was" %} </small>
-						<strong>
-						{{ previous.previous_outcome|yesno:"correct,incorrect" }}
-						</strong>
-					</p>
-
+					<h2> Question already answered</h2>
+				{% if not question_result.evaluated %}
+					<h3> This question is not evaluated and will not count to the final grade</h3>
+				{% else %}
+					<table class="ui celled table">
+						<thead>
+						<tr>
+							<!-- <th>Evaluated</th> -->
+							<th>Answer</th>
+							<th>Expected result</th>
+							<th>Weight</th>
+							<th>Grade</th>
+							<th>Explanation</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<!--              <td>
+								{% autoescape off %}{{ question_result.evaluated}}{% endautoescape %}
+								</td>-->
+								<td>
+								{% autoescape off %} {{ question_result.answer | pretty_json  }}{% endautoescape %}
+								</td>
+								<td>
+									{% autoescape off %} {{ question_result.expected_result | pretty_json  }}{% endautoescape %}
+								</td>
+								<td>
+								{% autoescape off %}{{ question_result.weight}}{% endautoescape %}
+								</td>
+								<td>
+								{% autoescape off %}{{ question_result.grade}}{% endautoescape %}
+								</td>
+								<td>
+								{% autoescape off %}{{ question_result.explanation}}{% endautoescape %}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				{% endif %}
 				</div>
-
-			{% include 'correct_answer.html' %}
-
-			<p><strong>{% trans "Explanation" %}:</strong></p>
-			<div class="well " style="background-color: #fcf8e3;">
-				<p>{{ previous.previous_question.explanation }}</p>
 			</div>
-
-			<hr>
-
-		{% endif %}
-
-		<br />
+		</div>
+	{% endif %}
 
 
-		{% if question.figure %}
-			<img src="{{ question.figure.url }}" alt="{{ question.content }}" />
-		{% endif %}
+{% if previous.answers %}
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
 
+					<p class="muted"><small>{% trans "The previous question" %}:</small></p>
+					<p>{{ previous.previous_question }}</p>
 
+					{% if previous.previous_outcome %}
+						<div class="alert alert-success">
+					{% else %}
+						<div class="alert alert-warning">
+					{% endif %}
+							<p><small>
+								{% trans "Your answer was" %} </small>
+								<strong>
+								{{ previous.previous_outcome|yesno:"correct,incorrect" }}
+								</strong>
+							</p>
 
-		{% if question_type == 'OTHER' %}
+						</div>
 
+					{% include 'correct_answer.html' %}
 
-		{% endif %}	
-
-	</div>
-		{% if question_type == 'CREATE' %}
-				{% if execution_id %}
-					<div class="ui  container ">
-						<iframe src="{% url 'free:execution' execution_id %}" title="execution" width="100%" height="900" id="iframe_execution" >
-						</iframe>
+					<p><strong>{% trans "Explanation" %}:</strong></p>
+					<div class="well " style="background-color: #fcf8e3;">
+						<p>{{ previous.previous_question.explanation }}</p>
 					</div>
-			{% else %}
-				<div class="ui  container ">
-				<h1>Problem contacting an available apparatus</h1>
-					<p> Unfortunately there is not apparatus available for running the experiments</p>
-					<p> Try returning the quiz later</p>
-				</iframe>
 				</div>
+			</div>
+		</div>
 
-			{% endif%}
-		{% else %}
-			{% if previous_executions %}
-				<div class="ui  container ">
-					<h1>Other previous executions</h1>
+{% endif %}
+
+
+
+{% if question.figure %}
+	<img src="{{ question.figure.url }}" alt="{{ question.content }}" />
+{% endif %}
+
+
+
+{% if question_type == 'OTHER' %}
+
+
+{% endif %}	
+
+{% if question_type == 'CREATE' %}
+	{% if execution_id %}
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
+					<iframe src="{% url 'free:stripped-execution' execution_id %}" title="execution" width="100%" height="900" id="iframe_execution" style="border:none;">
+					</iframe>
+				</div>
+			</div>
+		</div>
+	{% else %}
+	<div class="row">
+		<div class="ui sixteen wide column">
+			<div class="ui segment">
+				<h1>Problem contacting an available apparatus</h1>
+					<p> Unfortunately there is not any apparatus available for running the experiments</p>
+					<p> Try returning to the quiz later</p>
+			</div>
+		</div>
+	</div>
+	{% endif%}
+{% else %}
+	{% if previous_executions %}
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
+						<h2>Other previous executions</h2>
 					<div class="ui buttons">
-						{% for ex in previous_executions %}
+			{% for ex in previous_executions %}
 
 						<button  class="ui button ">
-							<a href="{% url 'free:execution' ex %}" target="_blank">
+							<a href="{% url 'free:stripped-execution' ex %}" target="_blank">
 								{% trans "Execution" %} {{ex}}
 							</a>
 						</button>
-						{% endfor %}
+			{% endfor %}
 					</div>
-
 				</div>
-			{% endif%}
+			</div>
+		</div>
+	{% endif%}
 
-			{% if execution_id %}
-				<div class="ui  container ">
-					<h1>Last execution ({{execution_id}})</h1>
-					<iframe src="{% url 'free:stripped-execution' execution_id %}" title="execution" width="100%" height="900" id="iframe_execution" >
+	{% if execution_id %}
+		<div class="row">
+			<div class="ui sixteen wide column">
+				<div class="ui segment">
+					<h2>Last execution ({{execution_id}})</h2>
+					<iframe src="{% url 'free:stripped-execution' execution_id %}" title="execution" width="100%" height="900" id="iframe_execution" style="border:none;" >
 					</iframe>
 				</div>
-			{% endif%}
-		{% endif %}	
+			</div>
+		</div>
+	{% endif%}
+{% endif %}	
+	</div>
 </div>
 
 

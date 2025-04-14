@@ -108,7 +108,7 @@ class LTIRoutingView(LTIAuthMixin, View):
             print("request:",request.POST.get('custom_quiz_url'))
             url = reverse(app_url,args=(request.POST.get('custom_quiz_url'),))
             print("url", url)
-        elif request.POST.get('custom_quiz_name', None) is not None:
+        elif request.POST.get('custom_quiz',None) is not None:
             quiz_name = (f"{request.POST.get('custom_quiz_name')}")
             url = reverse('FREE_quizes:quiz_question',args=(quiz_name,))
             print("url", url)
