@@ -9,13 +9,17 @@
 {% if not user.is_authenticated %}
 
 <style>
-    .p{
-        font-size: 20pt;
+    body{
+        background-color:rgba(255,250, 230, 0.90);
     }
     #page-grid {
         background-image: url('/static/free/images/free-index-bg.png');
         background-repeat: repeat;
         background-size: cover;
+    }
+    .ui.sepia {
+        background-color:rgba(255,250, 230, 0.90);
+
     }
     </style>
 {% endif %}
@@ -24,15 +28,15 @@
 <div class=" ui white sixteen wide column" id="content">
 
     <div class="ui centered grid">
-        <div class="row">
-            <div class=" ui sixteen wide column">
-                <div class="ui header segment">
-                    <div class="ui grid">
-                        <div class="six wide middle aligned column">
-                            <img   class="ui image  right floated"  src="/static/free/images/elab_logo.png">
+        <div class="ui row">
+            <div class="ui sixteen wide column  ">
+                <div class="ui header segment sepia">
+                    <div class="ui grid ">
+                        <div class="ui six wide middle aligned column ">
+                            <img   class="ui image  right floated "  src="/static/free/images/elab_logo.png">
                         </div>
-                        <div class="ten wide middle aligned column">
-                            <div class="ui right floated">
+                        <div class="ui ten wide middle aligned column ">
+                            <div class="ui right floated ">
                                 <h1>elab@Técnico powered by FREE </h1>
                             </div>
                         </div>
@@ -45,7 +49,7 @@
 
         <div class=" ui centered row">
             <div class="eight wide computer twelve wide phone centered column">
-                <div class="ui padded segment">
+                <div class="ui padded segment sepia">
                     <div class="ui grid">
                         <div class="ui two columnn row">
                             <div class="column">
@@ -80,7 +84,7 @@
         <div class="equal height row">
                 
             <div class="eight wide computer eight wide tablet sixteen wide phone centered column">
-                <div class="ui segment">
+                <div class="ui segment sepia">
                     <div class="grid">  
                         <div class ="row">
                             <p>The elab is a space where real scientific experiments can be executed by anyone, anytime, anywhere.
@@ -101,7 +105,7 @@
                 </div>
             </div>
             <div class="eight wide computer eight wide tablet  sixteen wide phone centered column">
-                <div class="ui segment  ">
+                <div class="ui segment sepia ">
                     <div class="grid">  
                         <div class ="row">
                             <p>FREE is the software infrastructrure that supports all the experiments, data and operations, and can be integrated with any LMS (such as Moodle).</p>
@@ -125,7 +129,7 @@
 
         <div class="four column stackable row">
             <div class=" column">
-                <div class="ui center aligned  segment">
+                <div class="ui center aligned  segment sepia">
 
                     <div class="ui statistic">
                         <div class="value">
@@ -139,7 +143,7 @@
                 </div>
             </div>
             <div class=" column">
-                <div class="ui center aligned  segment">
+                <div class="ui center aligned  segment sepia">
 
                     <div class="ui statistic">
                         <div class="value">
@@ -153,7 +157,7 @@
             </div>
             </div>
             <div class=" column">
-                <div class="ui center aligned segment">
+                <div class="ui center aligned segment sepia">
                     <div class="ui statistic">
                         <div class="value">
                         <i class="user icon"></i>
@@ -166,7 +170,7 @@
                 </div>
             </div>
             <div class=" column">
-                <div class="ui center aligned segment">
+                <div class="ui center aligned segment sepia">
 
                     <div class="ui  statistic">
                         <div class="value">
