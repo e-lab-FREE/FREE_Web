@@ -4,22 +4,26 @@
 
 {% block title %} {% trans 'List of Quizzes' %} {% endblock %}
 
+
+
 {% block content %}
+    <div class="ui white sixteen wide column" id="content">
+        <div class="ui centered grid">
+            <div class="row">
+                <div class=" ui sixteen wide column">
+                    <div class="ui header segment">
+                        <h2><i class="edit icon"></i>{% trans 'List of Quizzes' %}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" ui sixteen wide column">
+                    <div class="ui  segment">
+                        <div class="ui green ribbon icon label">{% trans 'List of available Apparatuses'%}</div>
+                        <div class="ui divider"></div>
 
-    <div class="right floated  sixteen wide  column" id="content">
-        <div class="ui container grid">
-            <div class="row"><div class=" sixteen wide centered column">
-    
-                <div class=" sixteen wide centered column">
-                    
-                    <h2><i class="edit icon"></i>{% trans 'List of Quizzes' %}</h2>
-                    <div class="ui divider"></div>     
-                        <div class="ui stacked segment">
-                            <div class="ui green ribbon icon label">{% trans 'List of available Quizzes'%}</div>
-                            <div class="ui divider"></div>
-
-                            {% render_table table %}
-                        </div>
+                        {% render_table table %}
+                    </div>
                 </div>
             </div>
         </div>

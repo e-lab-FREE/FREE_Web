@@ -75,10 +75,6 @@ INSTALLED_APPS = [
     'planck',
     'colisione',
     'mag3d',
-    'polaroid',
-    'five_polarizer',
-    #Quiz apps
-
     #'rosetta',
     'countries_plus',
     'FREE_maps'
