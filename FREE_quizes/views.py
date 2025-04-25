@@ -205,7 +205,7 @@ class QuizLTIPostGrade(LTIAuthMixin, View):
         # meter o codigo de submissão do resultado
         context={}
         context['lti'] = True
-        context['base'] = "free/base_stripped.html"
+        #context['base'] = "free/base_stripped.html"
         self.quiz = get_object_or_404(Quiz, url=self.kwargs['quiz_name'])
         context['quiz'] = self.quiz
         context['lti_submited'] = 'ERROR'
@@ -238,6 +238,8 @@ class QuizLTIPostGrade(LTIAuthMixin, View):
                 context['lti_submited'] = 'OK'
                 context['redirect_url'] = return_url
                 context['final_result'] = self.sitting.final_result
+                group = Group.objects.get(name='lti_user')
+                request.user.groups.remove(group)
                 auth.logout(request) 
             else:
                 context['final_result'] = self.sitting.final_result
@@ -272,11 +274,10 @@ class QuizTake(LoginRequiredMixin, FormView):
 
         context = {}
         if self.request.session.get('lti_login') is not None:
-            context['base'] = "free/base_stripped.html"
             context['lti'] = True
         else:
-            context['base'] = "free/base.html"
             context['lti'] = False
+        context['base'] = "free/base.html"
 
             
 
@@ -460,7 +461,7 @@ class QuizTake(LoginRequiredMixin, FormView):
             pass
         context['quiz'] = self.quiz
         if self.request.session.get('lti_login') is not None:
-            context['base'] = "free/base_stripped.html"
+            #context['base'] = "free/base_stripped.html"
             context['lti'] = True
         else:
             context['base'] = "free/base.html"

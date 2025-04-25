@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     # APPARATUS TYPES BELOW
     'pendulum',
     'dev_MonteCarlo',
-   'inclined_plane',
+    'inclined_plane',
     'langmuir',
     'photovoltaic_panel',
     'cavity',

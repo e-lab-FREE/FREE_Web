@@ -1,11 +1,15 @@
 {% load i18n %}
 {% load static %}
 
-<div class="ui top aligned  image">
-    <h2  class=" item"><img src="{% static 'free/images/elab_logo.png' %}" id="logo-elab"></h2> 
+
+<div class=" item">
+    <img src="{% static 'free/images/elab_logo.png' %}">
 </div>
+{% if user.is_authenticated  and  'lti_user' not in user.groups.get.name %}
+
 <a class="item" href="{% url 'free:index' %}"><i class="home icon"></i>{% trans 'Home' %}</a>
-<a class="item" href="{% url 'free:apparatuses' %}"><i class="table icon"></i>{% trans 'Apparatuses' %}</a>
-<a class="item" href="{% url 'free:executions-configured' %}"><i class="home icon"></i>{% trans 'Configured Executions' %}</a>
-<a class="item" href="{% url 'free:executions-finished' %}"><i class="home icon"></i>{% trans 'Finished Executions' %}</a>
-<a class="item" href="{% url 'FREE_quizes:quiz_index' %}"><i class="table icon"></i>{% trans 'FREE Quizes' %}</a>
+<a class="item" href="{% url 'free:apparatuses' %}"><i class="cogs icon"></i>{% trans 'Apparatuses' %}</a>
+<a class="item" href="{% url 'free:executions-configured' %}"><i class="chart bar icon"></i>{% trans 'Configured Executions' %}</a>
+<a class="item" href="{% url 'free:executions-finished' %}"><i class="chart bar icon"></i>{% trans 'Finished Executions' %}</a>
+<a class="item" href="{% url 'FREE_quizes:quiz_index' %}"><i class="edit icon"></i>{% trans 'FREE Quizes' %}</a>
+{% endif %}

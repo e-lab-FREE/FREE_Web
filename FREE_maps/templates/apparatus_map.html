@@ -1,4 +1,4 @@
-<!-- {% extends 'free/base.html' %} -->
+{% extends 'free/base.html' %}
 {% load static %}
 {% load i18n %}
 
@@ -14,7 +14,7 @@
 
 
     var apparatus_id = JSON.parse(document.getElementById('apparatus-id').textContent);
-    var apparatus_coord = [{{apparatus.lat}}, {{apparatus.long}}]
+    var apparatus_coord = [{{apparatus.lat|stringformat:".4f"}}, {{apparatus.long|stringformat:".4f"}}]
     console.log({{apparatus_id}})
 </script>
 
@@ -47,6 +47,7 @@
     <link rel="stylesheet" href="{% static 'FREE_maps/css/MarkerCluster.css' %}">
     <script src="{% static 'FREE_maps/js/leaflet-heat.js' %}" ></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <style>
       #map { height: 85vh}
       .leaflet-tooltip.my-labels {
@@ -64,22 +65,14 @@
 </style>
 {% endblock %}  
 
-{% block layout %}
-{% endblock %}       
+     
 {% block title %} 
     {{apparatus.apparatus_type.name}} {{apparatus.id}} in {{apparatus.location}}
 {% endblock %}
 
 {% block content %}
-<div class="ui grid">
-  <div class="left three wide column">
-      <div class="ui top aligned  image">
-        <h2  class=" item"><img src="{% static 'free/images/elab_logo.png' %}" id="logo-elab"></h2> 
-    </div>
-      {% include 'free/sponsor_logos.html' %}
-  </div>
 
-  <div class="right floated thirteen wide  column">
+<div class=" ui white sixteen wide column" id="content">
 
     <h1 >{{apparatus.apparatus_type.name}} {{apparatus.id}} in {{apparatus.location}}</h1>  
 
@@ -88,9 +81,8 @@
       <div id="map"></div>
     </div>
 
-  </div>   
+</div>   
 
-</div>
 {% endblock %}
 
 
