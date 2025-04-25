@@ -1,0 +1,188 @@
+{% extends 'free/experiment.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block experiment_head %}
+    <!-- Dev_montecarlo libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js"></script>
+
+    <!-- slider  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/components/slider.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/components/slider.min.css">
+    <!-- Dev_montecarlo libraries -->
+
+{% endblock %}  
+
+{% block configtab %}
+<!-- Begin of the configuration tab-->
+    <div class="ui two column grid container">
+        <div class="column">
+            <div class="ui segment">
+                <h3>{% trans 'Charge Time (s)'%}</h3>
+                <div class="ui labeled slider free-input-aux" id="slider-t_charge"></div>
+                    <br></br>
+                    <div class="ui input">
+                        <input class="free-input" type="number" id="t_charge" placeholder="0">
+                    </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                <h3>{% trans 'Discharge Time (s)'%}</h3>
+                <div class="ui labeled  slider free-input-aux" id="slider-t_discharge"></div>
+                    <br></br>
+                    <div class="ui input">
+                        <input class="free-input" type="number" id="t_discharge" placeholder="0">
+                    </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                <h3>{% trans 'Sampling Interval (ms)'%}</h3>
+                <div class="ui labeled  slider free-input-aux" id="slider-sampling_interval"></div>
+                    <br></br>
+                    <div class="ui input">
+                        <input class="free-input" type="number" id="sampling_interval" placeholder="0">
+                    </div>
+            </div>
+        </div>
+
+    </div>
+<!-- End of the configuration tab-->
+{% endblock %}
+
+
+
+<!-- Begin of the execution tab-->
+{% block executiontab %}
+    <div class=" ten wide column">
+        <canvas id="plot_cap_tension"></canvas>
+    </div>
+
+<div class="ui grid stackable">
+    </div>
+
+    <table id="results_table" class="ui celled table " style="width:100%">
+        <thead>
+            <tr>
+                <th id="time">{% trans "Sample time (ms)" %}</th>
+                <th id="volt">{% trans "Tension (V)" %}</th>
+            </tr>
+        </thead>
+    </table>
+
+{% endblock %}   
+<!-- End of the execution tab-->
+
+
+
+{% block protocol_auxiliary_functions %}
+
+<script>
+
+    var plot_cap_tension
+
+    // should be defined for each experiment
+
+    function process_partial_data(data_line){
+        if (data_line.value.constructor != Array){
+            data_array = [data_line.value]
+        }else{
+            data_array = data_line.value
+        }
+        for (i in data_array){
+            time = parseFloat(data_array[i].time) 
+            volt = parseFloat(data_array[i].volt)
+            plot_cap_tension.data.datasets[0].data.push({
+                x: time, 
+                y: volt
+            });
+            plot_cap_tension.update();
+        }
+    }
+
+
+    function process_experiment_data(data){
+        process_experiment_data_default(data);
+    }
+
+    // should be defined for each experiment
+    function process_final_data(data_line){
+        console.log("final updating plot")
+    }
+    
+    function on_save_experiment_UI(){
+    }
+
+    function on_ready_experiment_UI(){
+
+        configure_slider("t_charge")
+        configure_slider("t_discharge")
+        configure_slider("sampling_interval")
+
+        ctx = $("#plot_cap_tension")[0].getContext('2d');
+        plot_cap_tension = new Chart(ctx, {
+            type: 'scatter',
+            labels: [],
+            data: {
+                datasets: [{
+                    borderColor: "blue",
+                    backgroundColor: "blue",
+                    data: [ ],
+                },],
+            },
+            responsive:true,
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    }, 
+                    autocolors: false,
+                },
+                scales: {
+                    x: {
+                        title:{
+                            display: true, 
+                            text: gettext('Sample Time (ms)'),
+                        }
+                        //min: 8.5,
+                        //max: 9.5,
+                    },
+                    y: {
+                        title:{
+                            display: true, 
+                            text: gettext('Voltage (V)'),
+                        },
+                    },
+                },
+            }
+        });
+    }
+    function configure_slider(name){
+        $('#slider-'+name).slider({
+            min:  protocol_input_arguments[name].minimum,
+            max: protocol_input_arguments[name].maximum, 
+            step: protocol_input_arguments[name].multipleOf,
+            start: protocol_input_arguments[name].default,
+            input: '#'+name,
+            onChange: function(value) {
+                console.log("QQQQQQQQQQQQQQQQQQ "+value)
+                $('#'+name).prop("value", value)
+                onInputChanged()
+           }
+        })
+        $('#'+name).change(function() {
+            if($(this).val() > protocol_input_arguments[name].maximum)
+                $(this).prop("value", protocol_input_arguments[name].maximum)
+            if($(this).val() < protocol_input_arguments[name].minimum)
+                $(this).prop("value", protocol_input_arguments[name].minimum)
+            $("#slider-"+name).slider('set value', $(this).val())
+            });
+    }
+
+</script>
+{% endblock%}
+

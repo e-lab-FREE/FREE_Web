@@ -76,10 +76,10 @@ INSTALLED_APPS = [
     'colisione',
     'mag3d',
     'polaroid',
+    'five_polarizer',
     #Quiz apps
     #'rosetta',
     'countries_plus',
-    'geoip2',
     'FREE_maps'
 ]
 if env.bool('FREE_LTI_PROVIDER'):
