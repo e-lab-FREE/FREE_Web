@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'planck',
     'colisione',
     'mag3d',
+    'five_polarizer',
     #'rosetta',
     'countries_plus',
     'FREE_maps'
