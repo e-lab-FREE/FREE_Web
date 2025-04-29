@@ -4,85 +4,83 @@
 
 
 {% block experiment_head %}
-    <!-- slider led  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+     <!-- slider  -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script> -->
+     
     
+
+    <!-- round sliders  -->
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
+
+
 
     <!-- pendulum libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     
-    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>-->
+ 
+     <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js"></script>
     <script src="https://unpkg.com/chartjs-chart-error-bars@3.7.2/build/index.umd.min.js"></script>
     <script src="https://d3js.org/d3-array.v3.min.js"></script>
 
-    <!-- round sliders  -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.js"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
 
-{% endblock %}   
-
+{% endblock %}  
 
 
 {% block configtab %}
+    <!-- Begin of the configuration tab-->
 
-<div class="ui two column grid container">
-    <div class="column">
-        <div style="margin-bottom:15px" class="ui segment led_intensity">
+    <div class="ui two column grid container">
+        <div class="column">
+                    <div class="ui segment led_intensity-position">
 			<h3>Intensity of led [%]</h3>
-            <div style="margin-top: 8px; margin-bottom: 8px;" id="slider-led_intensity"></div>
-            <div class="ui input">
-                <input class="free-input" type="number" id="led_intensity" step="1" min="0" max="100" value="0" style="margin-top: 15px; width: 100px; text-align: right;">
-            </div>
-        </div>	
-    <!-- <div class="ui segment led-intensity">
-        <h3>Intensity of led [%]</h3>
-            <div class="ui input">
-                <input 
-                class="free-input" 
-                type="number" 
-                id="led_intensity" 
-                step="1" 
-                min="0" 
-                max="100" 
-                placeholder="0" 
-                style="width: 80px; text-align: right;">
-            </div>
-    </div> -->
-    </div>
+                        <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-led_intensity" class="ui blue small bottom aligned labeled slider"></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="led_intensity" step="0.36">
+                        </div>
+                    </div>		
+		<!--<div class="ui segment led-intensity">
+                <h3>Intensity of led</h3>
+                <div style="padding-top: 5%; padding-left: 2%; padding-right: 2%;" id="slider-led_intensity" class="ui blue small bottom aligned labeled slider"></div>
+                	<div class="ui input">
+                        	<input class="free-input" type="number" id="led_intensity" step="1">
+                	</div>
+                </div>-->
+	</div>
 
-    <div class="column">
-            <div style="margin-bottom:15px" class="ui segment">
+	<div class="column">
+            <div class="ui segment">
                 <legend>
                     <h3>{% trans 'Polarizer to perform sweep [#]' %}</h3>
                 </legend>
             
-                <div class="checkboxesdiv" style="margin-top:15px; display: flex; gap: 20px; justify-content: center; align-items: center; padding: 6%;">
-                    <div class="ui toggle checkbox">
-                        <input class="free-input" type="checkbox" name="option" id="sweep_1" value='0'>
+                <div style="display: flex; gap: 20px; justify-content: center; align-items: center; padding: 6%;">
+                    <div class="ui toggle checkbox" onclick="change_Polarized(1)">
+                        <input class="free-input" type="checkbox" name="public" id="sweep_1" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox">
-                        <input class="free-input" type="checkbox" name="option" id="sweep_2" value='0'>
+                    <div class="ui toggle checkbox" onclick="change_Polarized(2)">
+                        <input class="free-input" type="checkbox" name="public" id="sweep_2" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox">
-                        <input class="free-input" type="checkbox" name="option" id="sweep_3" value='0'>
+                    <div class="ui toggle checkbox" onclick="change_Polarized(3)">
+                        <input class="free-input" type="checkbox" name="public" id="sweep_3" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox">
-                        <input class="free-input" type="checkbox" name="option" id="sweep_4" value='0'>
+                    <div class="ui toggle checkbox" onclick="change_Polarized(4)">
+                        <input class="free-input" type="checkbox" name="public" id="sweep_4" value='0'>
                         <label></label>
                     </div>
             
-                    <div class="ui toggle checkbox">
-                        <input class="free-input" type="checkbox" name="option" id="sweep_5" value='0'>
+                    <div class="ui toggle checkbox" onclick="change_Polarized(5)">
+                        <input class="free-input" type="checkbox" name="public" id="sweep_5" value='0'>
                         <label></label>
                     </div>
                 </div>
@@ -91,30 +89,15 @@
         </div>
 
     </div>
+    
 
 
 
-<div class="column">
-    <div class="ui segment" style="flex-wrap: wrap; display: flex; gap: 20px; justify-content: center; align-items: center;">
-        {% for i in "12345" %}
-        <div id="slider-motor{{i}}_position" class="slider"></div>
-        <div style="display:none" class="ui input">
-            <input class="free-input" type="number" id="motor{{i}}_position">
-        </div>
-        <div id="slider-motor{{i}}" class="slider"></div>
-        <div style="display:none" class="ui input">
-            <input class="free-input" type="number" id="motor{{i}}_start_position">
-        </div>
-        <div style="display:none" class="ui input">
-            <input class="free-input" type="number" id="motor{{i}}_end_position">
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
 <!-- End of the configuration tab-->
-{% endblock %}   
-<!-- End of the execution tab-->
+{% endblock %}
+
+
 
 <!-- Begin of the execution tab-->
 {% block executiontab %}
@@ -155,6 +138,15 @@
 	let data_value_c 
     //var period_data = []
 
+    window.onload = function() {
+        for (let i = 1; i <= 5; i++) {
+            let checkbox = document.getElementById(`sweep_${i}`);
+            if (checkbox) {
+                checkbox.checked = false; // Uncheck
+                checkbox.value = "0"; // Ensure value is "0"
+            }
+        }
+    };
 
 
 
@@ -166,6 +158,42 @@ function process_final_data(data_line){
 
 let polarized_light_val = 0;
 
+function change_Polarized(n) {
+    // let elementchange = document.getElementById(`sweep_${n}`);
+    // elementchange.value = 1-elementchange.value;
+    
+    // let divN_sweeping = document.getElementsByClassName(`pol${n}-sweeping`)[0];
+    // let divN_position = document.getElementsByClassName(`pol${n}-position`)[0];
+    
+    // if(elementchange.value == 0){
+    //     // tava ativado e fica desativado
+    //     divN_sweeping.style.display = "None";
+    //     divN_position.style.display = "";
+    // }else{
+    //     // tava desativado e fica ativado
+    //     // console.log("desligar os restantes")
+    //     divN_sweeping.style.display = "";
+    //     divN_position.style.display = "None";
+        
+    //     for (let i = 1; i <= 5; i++) {
+    //         let div_i_sweeping = document.getElementsByClassName(`pol${i}-sweeping`)[0];
+    //         let div_i_position = document.getElementsByClassName(`pol${i}-position`)[0];
+
+    //         if(i!=n){
+    //             let elementchange = document.getElementById(`sweep_${i}`);
+                
+    //             if(elementchange.value == 1){
+    //                 // console.log(`desligar o ${i}`)
+    //                 elementchange.click();
+    //                 elementchange.value = 0
+    //             }
+
+    //             div_i_sweeping.style.display = "None";
+    //             div_i_position.style.display = "";
+    //         }
+    //     }
+    // }
+}
 
 
 
@@ -301,240 +329,6 @@ function on_save_experiment_UI(){
 
 
 function on_ready_experiment_UI(){
-    var slider = document.getElementById('slider-led_intensity');
-    noUiSlider.create(slider, {
-        start: 100,    // default value of the slider
-        connect: [true, false],
-        step: 1,       // step size
-        range: {
-            'min': 0,   // minimum value
-            'max': 100  // maximum value
-        }
-    });
-
-    slider.noUiSlider.set(100);
-
-    // Update the input field when the slider value changes
-    slider.noUiSlider.on('update', function(values, handle) {
-        document.getElementById('led_intensity').value = values[handle];
-    });
-
-    // Update the slider when the input field value changes
-    document.getElementById('led_intensity').addEventListener('input', function () {
-        // Wait until the user finishes typing before rounding and updating the slider
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(function() {
-            var value = Math.round(document.getElementById('led_intensity').value);
-            if (value >= 0 && value <= 100) {
-                document.getElementById('led_intensity').value = value;  // Ensure input is rounded
-                slider.noUiSlider.set(value); // Sync with slider
-            } else {
-                // If value is out of range, reset to nearest boundary (0 or 100)
-                document.getElementById('led_intensity').value = value < 0 ? 0 : 100;
-                slider.noUiSlider.set(document.getElementById('led_intensity').value); // Sync with slider
-            }
-        }, 300); // Delay of 300ms before rounding
-    });
-
-    // noUiSlider.create(slider, {
-    //             start: 100,
-    //             connect: 'lower',
-    //             step: 1,
-    //             range: {
-    //                 'min': 0,
-    //                 'max': 100
-    //             },
-    //             format: {
-    //                 to: function (value) {
-    //                     return Math.round(value);
-    //                 },
-    //                 from: function (value) {
-    //                     return Number(value);
-    //                 }
-    //             },
-    //             tooltips: {
-    //                 to: function(value) {
-    //                     return Math.round(value);
-    //                 }
-    //             }
-    // });
-
-    // slider.noUiSlider.on('update', function (values, handle) {
-    //             var value = parseInt(values[handle]);
-    //             $('#led_intensity').val(value);
-                
-    //             // Update tooltip content
-    //             tooltip.textContent = value;
-    // });
-            
-    // // Update the slider when input changes
-    // $('#led_intensity').on('input', function() {
-    //             var value = parseInt($(this).val());
-    //             if (isNaN(value)) {
-    //                 value = 0;
-    //             }
-                
-    //             // Enforce min and max
-    //             value = Math.max(0, Math.min(100, value));
-                
-    //             slider.noUiSlider.set(value);
-    //             $(this).val(value); // Update input in case value was adjusted
-    // });
-
-    // const intensityInput = document.getElementById('led_intensity');
-
-    // intensityInput.addEventListener('input', function () {
-    //     this.value = this.value.replace(/\D/g, ''); // tirar casas decimais
-    //     if (this.value > 100) this.value = 100;
-    //     if (this.value < 0) this.value = 0;
-    // });
-
-    configure_slider("motor1_position");
-    configure_slider("motor2_position");
-    configure_slider("motor3_position");
-    configure_slider("motor4_position");
-    configure_slider("motor5_position");
-    configure_slider_double("motor1","motor1_start_position","motor1_end_position");
-    configure_slider_double("motor2","motor2_start_position","motor2_end_position");
-    configure_slider_double("motor3","motor3_start_position","motor3_end_position");
-    configure_slider_double("motor4","motor4_start_position","motor4_end_position");
-    configure_slider_double("motor5","motor5_start_position","motor5_end_position");
-    
-
-    
-    function configure_slider(name){
-        $('#slider-'+name).roundSlider({
-            min: 0,
-            max: 324,
-            step: 0.36,
-            value: null,
-            radius: 75,
-            width: 14,
-            handleSize: "24,12",
-            startAngle: 0,
-            endAngle: "+324",
-            animation: true,
-            showTooltip: true,
-            editableTooltip: true,
-            readOnly: false,
-            disabled: false,
-            keyboardAction: true,
-            mouseScrollAction: false,
-            sliderType: "min-range",
-            circleShape: "full",
-            handleShape: "round",
-            lineCap: "butt",
-        
-            // the 'startValue' property decides at which point the slider should start.
-            // otherwise, by default the slider starts with min value. this is mainly used
-            // for min-range slider, where you can customize the min-range start position.
-            startValue: 0,
-        
-            // SVG related properties
-            svgMode: false,
-            borderWidth: 1,
-            borderColor: null,
-            pathColor: null,
-            rangeColor: null,
-            tooltipColor: null,
-        
-            // events
-            beforeCreate: null,
-            create: null,
-            start: null,
-            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
-            beforeValueChange: null,
-            drag: null,
-            change: function (e) {
-                console.log("New Value:", e.value); // logs the new value when you release the slider
-                $('#'+name).val(e.value);
-            },
-            // 'update' event is the combination of 'drag' and 'change'
-            update: null,
-            // 'valueChange' event is similar to 'update' event, in addition it will trigger
-            // even the value was changed through programmatically also.
-            valueChange: null,
-            stop: null,
-            tooltipFormat: null
-        });
-    }
-
-    function configure_slider_double(name, input_1, input_2){
-        $('#slider-'+name).roundSlider({
-            min: 0,
-            max: 324,
-            step: 0.36,
-            value: "0,324",
-            radius: 75,
-            width: 14,
-            handleSize: "24,12",
-            startAngle: 0,
-            endAngle: "+324",
-            animation: true,
-            showTooltip: true,
-            editableTooltip: true,
-            readOnly: false,
-            disabled: false,
-            keyboardAction: true,
-            mouseScrollAction: false,
-            sliderType: "range",
-            circleShape: "full",
-            handleShape: "round",
-            lineCap: "butt",
-        
-            // the 'startValue' property decides at which point the slider should start.
-            // otherwise, by default the slider starts with min value. this is mainly used
-            // for min-range slider, where you can customize the min-range start position.
-            startValue: 0,
-        
-            // SVG related properties
-            svgMode: false,
-            borderWidth: 1,
-            borderColor: null,
-            pathColor: null,
-            rangeColor: null,
-            tooltipColor: null,
-        
-            // events
-            beforeCreate: null,
-            create: null,
-            start: null,
-            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
-            beforeValueChange: null,
-            drag: null,
-            change: function (e) {
-                let values = e.value.split(",");
-                let start = parseFloat(values[0]);
-                let end = parseFloat(values[1]);
-
-                console.log("Start:", start);
-                console.log("End:", end);
-                $('#'+input_1).val(start);
-                $('#'+input_2).val(end);
-            },
-            // 'update' event is the combination of 'drag' and 'change'
-            update: null,
-            // 'valueChange' event is similar to 'update' event, in addition it will trigger
-            // even the value was changed through programmatically also.
-            valueChange: null,
-            stop: null,
-            tooltipFormat: null
-        });
-    }
-
-
-    // var config = retrieve_execution_configuration(); 
-
-    // for (object in config) {
-    //     var id = String(object);
-    //     var elem = document.querySelector('#' + id + '.free-input');
-    //     elem.value = config[object];
-    // }
-
-
-
-
-
     //configure_slider("polarizer_to_sweep_position")
     
     //configure_slider_double("sweeping_angles","sweeping_angles_start_position","sweeping_angles_end_position")
@@ -636,6 +430,141 @@ Number.prototype.countDecimals = function () {
 
 let previous = 0.0;
 let correction = 1.0;
+
+function configure_slider(name){
+        $('#slider-'+name).roundSlider({
+            min: 0,
+            max: 324,
+            step: 0.36,
+            value: null,
+            radius: 70,
+            width: 14,
+            handleSize: "24,12",
+            startAngle: 0,
+            endAngle: "+324",
+            animation: true,
+            showTooltip: true,
+            editableTooltip: true,
+            readOnly: false,
+            disabled: false,
+            keyboardAction: true,
+            mouseScrollAction: false,
+            sliderType: "min-range",
+            circleShape: "full",
+            handleShape: "round",
+            lineCap: "butt",
+        
+            // the 'startValue' property decides at which point the slider should start.
+            // otherwise, by default the slider starts with min value. this is mainly used
+            // for min-range slider, where you can customize the min-range start position.
+            startValue: 0,
+        
+            // SVG related properties
+            svgMode: false,
+            borderWidth: 1,
+            borderColor: null,
+            pathColor: null,
+            rangeColor: null,
+            tooltipColor: null,
+        
+            // events
+            beforeCreate: null,
+            create: null,
+            start: null,
+            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
+            beforeValueChange: null,
+            drag: null,
+            change: function (e) {
+                console.log("New Value:", e.value); // logs the new value when you release the slider
+                $('#'+name).val(e.value);
+            },
+            // 'update' event is the combination of 'drag' and 'change'
+            update: null,
+            // 'valueChange' event is similar to 'update' event, in addition it will trigger
+            // even the value was changed through programmatically also.
+            valueChange: null,
+            stop: null,
+            tooltipFormat: null
+        });
+}
+
+
+function configure_slider_double(name, input_1, input_2){
+        $('#slider-'+name).roundSlider({
+            min: 0,
+            max: 324,
+            step: 0.36,
+            value: "0,324",
+            radius: 70,
+            width: 14,
+            handleSize: "24,12",
+            startAngle: 0,
+            endAngle: "+324",
+            animation: true,
+            showTooltip: true,
+            editableTooltip: true,
+            readOnly: false,
+            disabled: false,
+            keyboardAction: true,
+            mouseScrollAction: false,
+            sliderType: "range",
+            circleShape: "full",
+            handleShape: "round",
+            lineCap: "butt",
+        
+            // the 'startValue' property decides at which point the slider should start.
+            // otherwise, by default the slider starts with min value. this is mainly used
+            // for min-range slider, where you can customize the min-range start position.
+            startValue: 0,
+        
+            // SVG related properties
+            svgMode: false,
+            borderWidth: 1,
+            borderColor: null,
+            pathColor: null,
+            rangeColor: null,
+            tooltipColor: null,
+        
+            // events
+            beforeCreate: null,
+            create: null,
+            start: null,
+            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
+            beforeValueChange: null,
+            drag: null,
+            change: function (e) {
+                let values = e.value.split(",");
+                let start = parseFloat(values[0]);
+                let end = parseFloat(values[1]);
+
+                console.log("Start:", start);
+                console.log("End:", end);
+                $('#'+input_1).val(start);
+                $('#'+input_2).val(end);
+            },
+            // 'update' event is the combination of 'drag' and 'change'
+            update: null,
+            // 'valueChange' event is similar to 'update' event, in addition it will trigger
+            // even the value was changed through programmatically also.
+            valueChange: null,
+            stop: null,
+            tooltipFormat: null
+        });
+}
+
+
+
+    
+function configure_radio() {
+         $('.ui.radio.checkbox').checkbox();
+         gas_selector = $('#radio').find('[name="gas_type"]:checked').val();
+         console.log(gas_selector)
+         if (gas_selector === undefined){
+                 console.log("error")
+                 gas_selector = 1
+            }
+
+}
 
 
 
@@ -894,100 +823,4 @@ var trace4 = {
 
 
 </script>
-
-<script>
-    
-
-    const checkboxes = document.querySelectorAll('.checkboxesdiv .free-input');
-
-    // set them all to 0 and unchecked on page load
-    window.addEventListener('DOMContentLoaded', () => {
-    checkboxes.forEach((cb, index) => {
-        cb.checked = false;
-        cb.value = 0;
-
-        let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
-        let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
-        if (divN_sweeping) divN_sweeping.style.display = "none";
-        if (divN_position) divN_position.style.display = "";
-        });
-    });
-
-
-    // checkboxes behaviour
-    checkboxes.forEach((checkbox, index) => {
-    const n = index + 1; // So first checkbox = 1, second = 2, etc.
-
-    checkbox.addEventListener('change', function () {
-        if (this.checked) {
-            // Uncheck all others
-            checkboxes.forEach((cb, jIndex) => {
-                if (cb !== this) {
-                    cb.checked = false;
-                    cb.value = 0;
-
-                    let divN_sweeping = document.getElementById(`slider-motor${jIndex + 1}`);
-                    let divN_position = document.getElementById(`slider-motor${jIndex + 1}_position`);
-                    if (divN_sweeping) divN_sweeping.style.display = "none";
-                    if (divN_position) divN_position.style.display = "";
-                }
-            });
-
-            // Set this one to 1
-            this.value = 1;
-            let divN_sweeping = document.getElementById(`slider-motor${n}`);
-            let divN_position = document.getElementById(`slider-motor${n}_position`);
-            if (divN_sweeping) divN_sweeping.style.display = "";
-            if (divN_position) divN_position.style.display = "none";
-        } else {
-            // If unchecked manually, set its value to 0
-            this.value = 0;
-            let divN_sweeping = document.getElementById(`slider-motor${n}`);
-            let divN_position = document.getElementById(`slider-motor${n}_position`);
-            if (divN_sweeping) divN_sweeping.style.display = "none";
-            if (divN_position) divN_position.style.display = "";
-        }
-    });
-    });
-
-
-
-    // var config = retrieve_execution_configuration(); 
-
-    // for (object in config) {
-    //     var id = String(object);
-    //     var elem = document.querySelector('#' + id + '.free-input');
-    //     elem.value = config[object];
-    // }
-
-    </script>
-
-    <style>
-        .slider .rs-range-color  {
-            background-color: #5673E7;
-        }
-        .slider .rs-path-color  {
-            background-color: #dedede;
-        }
-        .slider .rs-handle  {
-            background-color: #000000;
-        }
-        .slider .rs-border  {
-            border-color: white;
-        }
-
-        .slider .rs-tooltip-text {
-            font-size: 14px;
-            font-family: system-ui, sans-serif;
-            font-weight: bold;
-        }
-
-        .noUi-connect {
-            background-color: #2185d0;
-        }
-
-
-    </style>
 {% endblock %}
-  
-<!-- End of the execution tab-->
