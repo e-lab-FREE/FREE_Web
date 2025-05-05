@@ -10,6 +10,10 @@ from django.shortcuts import get_object_or_404
 
 from free.views.permissions import ApparatusOnlyAccess
 
+import requests
+from countries_plus.models import Country
+from python_ipware import IpWare
+
 # apparatus_type
 class ApparatusTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,8 +49,8 @@ class ExecutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Execution
-        fields = ['id','name', 'apparatus', 'protocol', 'config', 'status', 'queue_time', 'start', 'end']
-        read_only_fields = ('id', 'apparatus', 'protocol', 'status', 'queue_time', 'start', 'end')
+        fields = ['id','name', 'apparatus', 'protocol', 'config', 'status', 'queue_time', 'order', 'start', 'end']
+        read_only_fields = ('id', 'apparatus', 'protocol', 'status', 'queue_time',  'order', 'start', 'end')
 
 class ExecutionCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
@@ -59,7 +63,27 @@ class ExecutionCreateSerializer(serializers.ModelSerializer):
             validate(instance = adjusted_instance, schema = adjusted_schema)
         except JSONValidationError as e:
             raise serializers.ValidationError(e.message)
-            
+
+
+        ### GEt country from address
+        ipw = IpWare()
+        meta = self.context['request'].META
+
+        ip, trusted_route = ipw.get_client_ip(meta)
+        try:
+            #remote_addr = "192.124.249.9"
+            remote_addr = str(ip)
+            data['client_ip_address']= remote_addr
+            url = "https://api.ipgeolocation.io/ipgeo?apiKey=%s&ip=%s"%(settings.IPGEOLOCATION_API_KEY, remote_addr)
+            response = requests.request("GET", url)
+            country = Country.objects.get(iso=response.json()['country_code2'])
+            data['client_country']=country
+            data['client_city']=response.json()['city']
+            data['client_organization']=response.json()['organization']
+            data['client_lat']= response.json()['latitude']
+            data['client_long']= response.json()['longitude']
+        except:
+            pass
         return data  
 
     class Meta:
@@ -207,13 +231,14 @@ class NextExecution(generics.RetrieveAPIView):
     def get_object(self):
         apparatus = get_object_or_404(Apparatus, pk=self.kwargs['id'])
         self.check_object_permissions(self.request, apparatus)        
-        obj = Execution.objects.filter(status='Q', apparatus=apparatus).order_by('start').first()
+        obj = Execution.objects.filter(status='Q', apparatus=apparatus).order_by('queue_time').first()
         if obj:
             self.check_object_permissions(self.request, obj)
             obj.save()
         return obj   
 
 class ResultSerializer(serializers.ModelSerializer):
+    order = serializers.SerializerMethodField()
     def validate(self, data):
         if data['execution'].status != 'R':
             raise ValidationError('Can only add resuls to a running execution!')
@@ -226,7 +251,9 @@ class ResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Result
-        fields = ['id', 'execution', 'value', 'result_type', 'time']
+        fields = ['id', 'execution', 'value', 'result_type', 'time', 'order']
+    def get_order(self, instance):
+            return 20
 
 class AddResult(generics.CreateAPIView):
     """
@@ -255,7 +282,7 @@ class ResultList(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], result_type='f')
+        return Result.objects.filter(execution_id=self.kwargs['id'], result_type='f').order_by('id')
 
 class ResultListFiltered(generics.ListAPIView):
     """
@@ -266,7 +293,7 @@ class ResultListFiltered(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id'])
+        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('id')
 
 class ResultListFilteredLimited(generics.ListAPIView):
     """
@@ -278,7 +305,7 @@ class ResultListFilteredLimited(generics.ListAPIView):
     serializer_class = ResultSerializer
     
     def get_queryset(self):
-        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('time')[:self.kwargs['limit']]
+        return Result.objects.filter(execution_id=self.kwargs['id'], pk__gte=self.kwargs['last_id']).order_by('id')[:self.kwargs['limit']]
 
 class ExecutionStatusSerializer(serializers.ModelSerializer):
     def validate(self, data):
@@ -322,4 +349,4 @@ class ExecutionQueue(generics.ListAPIView):
     permission_classes = [ApparatusOnlyAccess]
     serializer_class = ExecutionSerializer
     def get_queryset(self):
-        return Execution.objects.filter(state='Q', apparatus_id=self.kwargs['apparatus_id']).order_by('queue_time')
+        return Execution.objects.filter(status__in='QR', apparatus_id=self.kwargs['id']).order_by('queue_time')

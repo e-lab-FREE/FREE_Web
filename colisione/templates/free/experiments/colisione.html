@@ -1,0 +1,404 @@
+{% extends 'free/experiment.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block experiment_head %}
+    <!-- pendulum libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js"></script>
+
+     <!-- slider  -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/components/slider.min.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.4/components/slider.min.css">
+ 
+    <!-- pendulum libraries -->
+
+
+    <script src="https://unpkg.com/chartjs-chart-error-bars@3.7.2/build/index.umd.min.js"></script>
+    <script src="https://d3js.org/d3-array.v3.min.js"></script>
+
+
+{% endblock %}  
+
+
+{% block configtab %}
+<!-- Begin of the configuration tab-->
+    
+    
+        <div class="ui two column grid container">
+            <div class="column">
+                <div class="ui segment">
+                    <legend> <h3>{% trans 'Energy of car A [%]'%}</h3></legend>
+					<div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled  slider"  id="slider-poder_acel1" ></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="poder_acel1">
+                        </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Energy of car B [%]'%}</h3></legend>
+                    <div style="padding-top: 5%;"  class="ui blue small bottom aligned labeled  slider"  id="slider-poder_acel2" ></div>
+                        <div class="ui input">
+                            <input class="free-input" type="number" id="poder_acel2">
+                        </div>
+                </div>
+            </div>
+			<!--2-->
+            <div class="column">
+                <div class="ui segment">
+                    <legend><h3>{% trans 'Camera'%}</h3></legend>
+					 <div  class="field" id="radio">
+                        		<div class="ui  blue radio checkbox langmuir">
+                             			<input class="free-input"  type="radio" id="cam_segue" name="frequency" checked="checked"  value="0">
+                                 		<label>Laboratory</label>
+                        		</div>
+						
+                        		<div class="field">
+                            			<div class="ui radio checkbox langmuir">
+                                			<input class="free-input"  type="radio" id="cam_segue" name="frequency"  value="1">
+                                    			<label>Car A</label>
+                            			</div>
+                       			</div>		
+						
+					            <div class="field">
+                            			<div class="ui radio checkbox langmuir">
+                                			<input class="free-input" type="radio" id="cam_segue"  name="frequency" value="2">
+                                    			<label>Car B</label>
+                            			</div>
+                        		</div>
+								
+								<div class="field">
+                            			<div class="ui radio checkbox langmuir">
+                                			<input class="free-input" type="radio" id="cam_segue"  name="frequency" value="3">
+                                    			<label>Center of mass</label>
+                            			</div>
+                        		</div>
+								
+								
+							 
+				</div>
+                    
+                </div>
+            </div>
+        </div>
+<!-- End of the configuration tab-->
+{% endblock %}
+
+
+
+<!-- Begin of the execution tab-->
+{% block executiontab %}
+<div class="ui grid stackable">
+   <div class="row">
+        
+        <div class="eight wide column">
+            <h3>Initial and final speed of car 1</h3>
+                <div >
+                    <div id="plot_time_velocity"></div>
+                </div>
+        </div>
+        <div class="eight wide column">
+            <h3>Initial and final speed of car 2</h3>
+                <div >
+                    <div id="plot_time_velocity2"></div>
+                </div>
+        </div>
+    </div>
+    
+</div>
+
+    <table id="results_table" class="ui celled table display" style="width:100%">
+        <thead>
+            <tr>
+                <th id="tempo">{% trans "Time [ms]" %}</th>
+                <th id="delta_tempo_carro1">{% trans "Delta T1 [ms]" %}</th>
+                <th id="delta_tempo_carro2">{% trans "Delta T2 [ms]" %}</th>
+              
+            </tr>
+        </thead>
+    </table>
+{% endblock %}   
+<!-- End of the execution tab-->
+
+{% block protocol_auxiliary_functions %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+ 
+function process_experiment_data(data){
+    process_experiment_data_default(data)
+}
+    
+function table_insert_partial_data(data){
+    table_insert_partial_data_default(data)
+}
+
+
+function process_final_data(data_line){
+		 velocidade_inicial = Inivelocity(data_line, 0,4)
+		 velocity_car1_initial = velocidade_inicial.vel_array1
+		 velocity_car2_initial = velocidade_inicial.vel_array2
+		 
+		 //console.log('p', velocity_car1_initial, velocity_car2_initial)
+		 
+		 velocidade_final = Inivelocity(data_line, 4,8)
+		 velocity_car1_final = velocidade_final.vel_array1
+		 velocity_car2_final = velocidade_final.vel_array2	
+		 
+		 //console.log('pp', velocity_car1_final, velocity_car2_final)
+		 
+		 v1_ida = get_velocity(velocity_car1_initial).toFixed(4)
+         v1_volta = get_velocity(velocity_car1_final).toFixed(4)
+         v2_ida = get_velocity(velocity_car2_initial).toFixed(4)
+         v2_volta = get_velocity(velocity_car2_final).toFixed(4)
+		 
+		 
+		 buildPlot1(0,'plot_time_velocity',v1_ida,v1_volta)
+	     buildPlot2(0,'plot_time_velocity2',v2_ida, v2_volta)
+											 
+		 //Plotly.update('plot_time_velocity', {value: v1_ida}, {}, [0]);
+         //Plotly.update('plot_time_velocity2', {value: v2_ida}, {}, [0]);
+		 
+		 	 
+}
+
+function on_save_experiment_UI(){
+
+}
+
+function on_ready_experiment_UI(){
+   
+    configure_slider("poder_acel1")
+    configure_slider("poder_acel2")
+	configure_radio()
+	
+	//buildPlot1(0,'plot_time_velocity',2.44,1.36)
+	//buildPlot2(0,'plot_time_velocity2',1.80, 2.12)
+	
+	
+}
+
+function configure_slider(name){
+        $('#slider-'+name).slider({
+            min:  protocol_input_arguments[name].minimum,
+            max: protocol_input_arguments[name].maximum, 
+            step: protocol_input_arguments[name].multipleOf,
+            start: protocol_input_arguments[name].default,
+            input: '#'+name,
+            onChange: function(value) {
+                console.log("QQQQQQQQQQQQQQQQQQ "+value)
+                $('#'+name).prop("value", value)
+                onInputChanged()
+           }
+        })
+        $('#'+name).change(function() {
+            if($(this).val() > protocol_input_arguments[name].maximum)
+                $(this).prop("value", protocol_input_arguments[name].maximum)
+            if($(this).val() < protocol_input_arguments[name].minimum)
+                $(this).prop("value", protocol_input_arguments[name].minimum)
+            $("#slider-"+name).slider('set value', $(this).val())
+            });
+    }
+	
+function configure_radio() {
+         $('.ui.radio.checkbox').checkbox();
+         camera = $('#radio').find('[name="frequency"]:checked').val();
+         console.log(camera)
+         if (camera === undefined){
+                 console.log("error")
+                 camera = 1
+            }
+
+}
+	
+	
+/* build plots*/
+
+function Inivelocity(data, n1,n2) {
+    /*
+	This function returns two arrays of time between samples (delta time).
+	    data : arrays of data 
+		n1, n2 : indexes between which we want to slice the array
+	     return {
+			 array_1 : array of the first 4 samples 
+			 array_2 : array of the remaining samples
+		}
+	*/
+	
+     // Sort array by 'tempo' attribute
+	 data_sorted = data.value.sort(
+	           (x,y) => parseFloat(x.tempo) - parseFloat(y.tempo)
+	  );
+	 
+	 var iniData = data_sorted.slice(n1,n2)
+	 var vel_array1 = []
+	 var vel_array2 = []
+	 
+	 for(i = 0 ; i < iniData.length; i++) {
+	      let obj = iniData[i]
+		  vel_array1.push(parseFloat(obj.delta_tempo_carro1))
+		  vel_array2.push(parseFloat(obj.delta_tempo_carro2))
+		  //console.log(vel_array)
+	 }
+	 
+	 return {
+	      vel_array1, vel_array2
+		 }
+	 
+}
+		 
+function get_velocity(Data) {
+    /*
+    This function calculates and returns the average velocity of the car
+	Receives as argument time between samples
+	Velocity_avg = distance between photogates / Sum(Data) = 20 [mm] / Sum (Data) [ms] = velocity [m/s]
+	 returns Velocity_avg                   
+	*/
+     sum = 0
+     for (var i = 0 ; i < Data.length; i++) {
+	       sum += Data[i]
+	 }
+	 
+	 return (20/sum) 
+	 
+}
+
+function process_partial_data(data_line){
+}
+
+
+function buildPlot1(res, plotdiv, vel_inicial, vel_final) {
+     //------------------------------------------------------//
+     // Gauge Chart
+     //------------------------------------------------------//
+     //  Var for Guage Chart
+	 
+	 var gaugeData =  {
+	     domain: {x:[0,1], y:[0,1]},
+		 value: vel_inicial,
+		 title: {text: "Speed [m/s]"},
+		 mode: "gauge+number+delta",
+		 type: "indicator",
+		 name: "res[1]",
+		 delta: { reference: (2*vel_inicial-vel_final)}, 
+		 gauge:{'axis': {'range': [null, 0.6]},
+           'steps': [
+               {'range': [0, vel_final], 'color': "lightgreen"}],
+			tickmode: 'linear',
+                    tickfont: {
+                        size: 15
+                    }
+		}
+		 
+	 };
+	    
+	  var layoutGauge = {
+	     
+            font: {
+                family: 'Quicksand'
+            },
+            hoverlabel: {
+                font: {
+                    family: 'Quicksand',
+                    size: 16
+                }
+            },
+		   width: 500,
+		   height: 400,
+            xaxis: {
+                zeroline: false,
+                showticklabels: false,
+                showgrid: false,
+                range: [-1, 1],
+                fixedrange: true // disable zoom
+            },
+            yaxis: {
+                zeroline: false,
+                showticklabels: false,
+                showgrid: false,
+                range: [-0.5, 1.5],
+                fixedrange: true // disable zoom
+            },
+		   margin: { t: 0, b: 0 },
+		   font: {size: 16}
+		  
+         
+	  };
+	  var output_data = [gaugeData];
+	  
+	  // Render plot
+      Plotly.newPlot(plotdiv, output_data, layoutGauge);
+ 
+}
+
+
+
+
+function buildPlot2(res, plotdiv, vel_inicial,vel_final) {
+
+console.log(res);
+var trace2 = {
+    domain: {x:[0,1], y:[0,1]},
+      value: vel_inicial,
+      title: {text: "Speed [m/s]"},
+      mode: 'gauge+number+delta',
+      type:"indicator",
+      name: "res[2]",
+	   delta: { reference: (2*vel_inicial-vel_final)},
+		 gauge:{'axis': {'range': [null, 0.6]},
+           'steps': [
+               {'range': [0, vel_final], 'color': "lightgreen"}],
+			tickmode: 'linear',
+                    tickfont: {
+                        size: 15
+                    }
+		}
+    };
+
+  var output_data = [trace2];
+
+  var layout = {
+   font: {
+                family: 'Quicksand'
+            },
+            hoverlabel: {
+                font: {
+                    family: 'Quicksand',
+                    size: 16
+                }
+            },
+		   width: 500,
+		   height: 400,
+            xaxis: {
+                zeroline: false,
+                showticklabels: false,
+                showgrid: false,
+                range: [-1, 1],
+                fixedrange: true // disable zoom
+            },
+            yaxis: {
+                zeroline: false,
+                showticklabels: false,
+                showgrid: false,
+                range: [-0.5, 1.5],
+                fixedrange: true // disable zoom
+            },
+   margin: { t: 0, b: 0 },
+  font: {size: 16}
+
+   
+  }
+  // Render Plot
+   Plotly.newPlot(plotdiv, output_data, layout);
+ 
+}
+
+
+</script>
+{% endblock %}   
+
+
