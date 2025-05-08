@@ -1,10 +1,3 @@
-<!--
-NOTAS:
-WINDOW ON LOAD CARREGAR DADOS DA EXPERIENCIA EFETUADA PARA O UI
-ASSOCIAR CONDIG DO PROTOCOLO PARA OS SLIDERS!
--->
-
-
 {% extends 'free/experiment.html' %}
 {% load static %}
 {% load i18n %}
@@ -306,6 +299,129 @@ function on_save_experiment_UI(){
 
 
 
+function configure_slider(name){
+        $('#slider-'+name).roundSlider({
+            min: protocol_input_arguments[name].minimum,
+            max: protocol_input_arguments[name].maximum,
+            step: 0.36,
+            value: protocol_input_arguments[name].default,
+            radius: 75,
+            width: 14,
+            handleSize: "24,12",
+            startAngle: 0,
+            endAngle: "+324",
+            animation: true,
+            showTooltip: true,
+            editableTooltip: true,
+            readOnly: false,
+            disabled: false,
+            keyboardAction: true,
+            mouseScrollAction: false,
+            sliderType: "min-range",
+            circleShape: "full",
+            handleShape: "round",
+            lineCap: "butt",
+        
+            // the 'startValue' property decides at which point the slider should start.
+            // otherwise, by default the slider starts with min value. this is mainly used
+            // for min-range slider, where you can customize the min-range start position.
+            startValue: protocol_input_arguments[name].default,
+        
+            // SVG related properties
+            svgMode: false,
+            borderWidth: 1,
+            borderColor: null,
+            pathColor: null,
+            rangeColor: null,
+            tooltipColor: null,
+        
+            // events
+            beforeCreate: null,
+            create: null,
+            start: null,
+            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
+            beforeValueChange: null,
+            drag: null,
+            change: function (e) {
+                console.log("New Value:", e.value); // logs the new value when you release the slider
+                $('#'+name).val(e.value);
+            },
+            // 'update' event is the combination of 'drag' and 'change'
+            update: null,
+            // 'valueChange' event is similar to 'update' event, in addition it will trigger
+            // even the value was changed through programmatically also.
+            valueChange: null,
+            stop: null,
+            tooltipFormat: null
+        });
+    }
+
+    function configure_slider_double(name, input_1, input_2){
+        $('#slider-'+name).roundSlider({
+            min: protocol_input_arguments[input_1].minimum,
+            max: protocol_input_arguments[input_2].maximum,
+            step: protocol_input_arguments[input_1].multipleOf,
+            value:  protocol_input_arguments[input_1].default + "," + protocol_input_arguments[input_2].default,
+            radius: 75,
+            width: 14,
+            handleSize: "24,12",
+            startAngle: 0,
+            endAngle: "+324",
+            animation: true,
+            showTooltip: true,
+            editableTooltip: true,
+            readOnly: false,
+            disabled: false,
+            keyboardAction: true,
+            mouseScrollAction: false,
+            sliderType: "range",
+            circleShape: "full",
+            handleShape: "round",
+            lineCap: "butt",
+        
+            // the 'startValue' property decides at which point the slider should start.
+            // otherwise, by default the slider starts with min value. this is mainly used
+            // for min-range slider, where you can customize the min-range start position.
+            startValue: 0,
+        
+            // SVG related properties
+            svgMode: false,
+            borderWidth: 1,
+            borderColor: null,
+            pathColor: null,
+            rangeColor: null,
+            tooltipColor: null,
+        
+            // events
+            beforeCreate: null,
+            create: null,
+            start: null,
+            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
+            beforeValueChange: null,
+            drag: null,
+            change: function (e) {
+                let values = e.value.split(",");
+                let start = parseFloat(values[0]);
+                let end = parseFloat(values[1]);
+
+                console.log("Start:", start);
+                console.log("End:", end);
+                $('#'+input_1).val(start);
+                $('#'+input_2).val(end);
+            },
+            // 'update' event is the combination of 'drag' and 'change'
+            update: null,
+            // 'valueChange' event is similar to 'update' event, in addition it will trigger
+            // even the value was changed through programmatically also.
+            valueChange: null,
+            stop: null,
+            tooltipFormat: null
+        });
+    }
+
+
+
+
 
 function on_ready_experiment_UI(){
     var slider = document.getElementById('slider-led_intensity');
@@ -319,7 +435,13 @@ function on_ready_experiment_UI(){
         }
     });
 
-    slider.noUiSlider.set(100);
+    try{
+        slider.noUiSlider.set(current_execution.config.led_intensity);
+    }
+    catch{
+        slider.noUiSlider.set(100);
+    }
+    // slider.noUiSlider.set(current_execution.config.led_intensity);
 
     // Update the input field when the slider value changes
     slider.noUiSlider.on('update', function(values, handle) {
@@ -408,126 +530,113 @@ function on_ready_experiment_UI(){
     configure_slider_double("motor5","motor5_start_position","motor5_end_position");
     
 
+    // load slider execution values
+    const checkboxes = document.querySelectorAll('.checkboxesdiv .free-input');
+
+    // set them all to 0 and unchecked on page load
+    // window.addEventListener('DOMContentLoaded', () => {
+    // checkboxes.forEach((cb, index) => {
+    //     cb.checked = false;
+    //     cb.value = 0;
+
+    //     let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
+    //     let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
+    //     if (divN_sweeping) divN_sweeping.style.display = "none";
+    //     if (divN_position) divN_position.style.display = "";
+    //     });
+    // });
+
+
+    // checkboxes behaviour
+
+
+    checkboxes.forEach((checkbox, index) => {
+        const n = index + 1; // So first checkbox = 1, second = 2, etc.
+
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                // Uncheck all others
+                checkboxes.forEach((cb, jIndex) => {
+                    if (cb !== this) {
+                        cb.checked = false;
+                        cb.value = 0;
+
+                        let divN_sweeping = document.getElementById(`slider-motor${jIndex + 1}`);
+                        let divN_position = document.getElementById(`slider-motor${jIndex + 1}_position`);
+                        if (divN_sweeping) divN_sweeping.style.display = "none";
+                        if (divN_position) divN_position.style.display = "";
+                    }
+                });
+
+                // Set this one to 1
+                this.value = 1;
+                let divN_sweeping = document.getElementById(`slider-motor${n}`);
+                let divN_position = document.getElementById(`slider-motor${n}_position`);
+                if (divN_sweeping) divN_sweeping.style.display = "";
+                if (divN_position) divN_position.style.display = "none";
+            } else {
+                // If unchecked manually, set its value to 0
+                this.value = 0;
+                let divN_sweeping = document.getElementById(`slider-motor${n}`);
+                let divN_position = document.getElementById(`slider-motor${n}_position`);
+                if (divN_sweeping) divN_sweeping.style.display = "none";
+                if (divN_position) divN_position.style.display = "";
+            }
+        });
+    });
+
+    // set them all to 0 and unchecked on page load
+    checkboxes.forEach((cb, index) => {
+        const n = index + 1; // So first checkbox = 1, second = 2, etc.
+
+        cb.checked = false;
+        cb.value = 0;
+
+        let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
+        let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
+        if (divN_sweeping) divN_sweeping.style.display = "none";
+        if (divN_position) divN_position.style.display = "";
+
+
+        // var slider_position = document.getElementById(`slider-motor${index + 1}_position`);
+        // var slider_range = document.getElementById(`slider-motor${index + 1}`);
+
+        try{
+            $(`#slider-motor${index + 1}_position`).roundSlider("option", "value", current_execution.config[`motor${index + 1}_position`]);
+            $(`#slider-motor${index + 1}`).roundSlider("option", "value", current_execution.config[`motor${index + 1}_start_position`] + "," + current_execution.config[`motor${index + 1}_end_position`]);
+
+            if(current_execution.config[`sweep_${index + 1}`] == 1){
+                cb.click();
+            }
+        }
+        catch{
+            // slider_position.noUiSlider.set(0);
+        }
+
+
+        // protocol_input_arguments
+        // current_execution.config["sweep_"+index]
+        // if (current_execution.config["sweep_"+index] == 1){
+        //     // POR ALGUMA RAZAO OS FREE INPUT ESTA A IR AUTOMATICO PARA A CONFIG CERTA?
+        //     cb.click();
+        //     console.log("É1");
+        //     console.log(index);
+        // }
+        
+
+        // cb.checked = false;
+        // cb.value = 0;
+
+        // let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
+        // let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
+        // if (divN_sweeping) divN_sweeping.style.display = "none";
+        // if (divN_position) divN_position.style.display = "";
+    });
+
+
+
+
     
-    function configure_slider(name){
-        $('#slider-'+name).roundSlider({
-            min: 0,
-            max: 324,
-            step: 0.36,
-            value: null,
-            radius: 75,
-            width: 14,
-            handleSize: "24,12",
-            startAngle: 0,
-            endAngle: "+324",
-            animation: true,
-            showTooltip: true,
-            editableTooltip: true,
-            readOnly: false,
-            disabled: false,
-            keyboardAction: true,
-            mouseScrollAction: false,
-            sliderType: "min-range",
-            circleShape: "full",
-            handleShape: "round",
-            lineCap: "butt",
-        
-            // the 'startValue' property decides at which point the slider should start.
-            // otherwise, by default the slider starts with min value. this is mainly used
-            // for min-range slider, where you can customize the min-range start position.
-            startValue: 0,
-        
-            // SVG related properties
-            svgMode: false,
-            borderWidth: 1,
-            borderColor: null,
-            pathColor: null,
-            rangeColor: null,
-            tooltipColor: null,
-        
-            // events
-            beforeCreate: null,
-            create: null,
-            start: null,
-            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
-            beforeValueChange: null,
-            drag: null,
-            change: function (e) {
-                console.log("New Value:", e.value); // logs the new value when you release the slider
-                $('#'+name).val(e.value);
-            },
-            // 'update' event is the combination of 'drag' and 'change'
-            update: null,
-            // 'valueChange' event is similar to 'update' event, in addition it will trigger
-            // even the value was changed through programmatically also.
-            valueChange: null,
-            stop: null,
-            tooltipFormat: null
-        });
-    }
-
-    function configure_slider_double(name, input_1, input_2){
-        $('#slider-'+name).roundSlider({
-            min: 0,
-            max: 324,
-            step: 0.36,
-            value: "0,324",
-            radius: 75,
-            width: 14,
-            handleSize: "24,12",
-            startAngle: 0,
-            endAngle: "+324",
-            animation: true,
-            showTooltip: true,
-            editableTooltip: true,
-            readOnly: false,
-            disabled: false,
-            keyboardAction: true,
-            mouseScrollAction: false,
-            sliderType: "range",
-            circleShape: "full",
-            handleShape: "round",
-            lineCap: "butt",
-        
-            // the 'startValue' property decides at which point the slider should start.
-            // otherwise, by default the slider starts with min value. this is mainly used
-            // for min-range slider, where you can customize the min-range start position.
-            startValue: 0,
-        
-            // SVG related properties
-            svgMode: false,
-            borderWidth: 1,
-            borderColor: null,
-            pathColor: null,
-            rangeColor: null,
-            tooltipColor: null,
-        
-            // events
-            beforeCreate: null,
-            create: null,
-            start: null,
-            // 'beforeValueChange' will be triggered before 'valueChange', and it can be cancellable
-            beforeValueChange: null,
-            drag: null,
-            change: function (e) {
-                let values = e.value.split(",");
-                let start = parseFloat(values[0]);
-                let end = parseFloat(values[1]);
-
-                console.log("Start:", start);
-                console.log("End:", end);
-                $('#'+input_1).val(start);
-                $('#'+input_2).val(end);
-            },
-            // 'update' event is the combination of 'drag' and 'change'
-            update: null,
-            // 'valueChange' event is similar to 'update' event, in addition it will trigger
-            // even the value was changed through programmatically also.
-            valueChange: null,
-            stop: null,
-            tooltipFormat: null
-        });
-    }
 
 
     // var config = retrieve_execution_configuration(); 
@@ -905,58 +1014,72 @@ var trace4 = {
 <script>
     
 
-    const checkboxes = document.querySelectorAll('.checkboxesdiv .free-input');
+    // const checkboxes = document.querySelectorAll('.checkboxesdiv .free-input');
 
     // set them all to 0 and unchecked on page load
-    window.addEventListener('DOMContentLoaded', () => {
-    checkboxes.forEach((cb, index) => {
-        cb.checked = false;
-        cb.value = 0;
+    // window.addEventListener('DOMContentLoaded', () => {
+    // checkboxes.forEach((cb, index) => {
+    //     cb.checked = false;
+    //     cb.value = 0;
 
-        let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
-        let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
-        if (divN_sweeping) divN_sweeping.style.display = "none";
-        if (divN_position) divN_position.style.display = "";
-        });
-    });
+    //     let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
+    //     let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
+    //     if (divN_sweeping) divN_sweeping.style.display = "none";
+    //     if (divN_position) divN_position.style.display = "";
+    //     });
+    // });
 
 
     // checkboxes behaviour
-    checkboxes.forEach((checkbox, index) => {
-    const n = index + 1; // So first checkbox = 1, second = 2, etc.
+    // checkboxes.forEach((checkbox, index) => {
+    // const n = index + 1; // So first checkbox = 1, second = 2, etc.
 
-    checkbox.addEventListener('change', function () {
-        if (this.checked) {
-            // Uncheck all others
-            checkboxes.forEach((cb, jIndex) => {
-                if (cb !== this) {
-                    cb.checked = false;
-                    cb.value = 0;
+    // checkbox.addEventListener('change', function () {
+    //     if (this.checked) {
+    //         // Uncheck all others
+    //         checkboxes.forEach((cb, jIndex) => {
+    //             if (cb !== this) {
+    //                 cb.checked = false;
+    //                 cb.value = 0;
 
-                    let divN_sweeping = document.getElementById(`slider-motor${jIndex + 1}`);
-                    let divN_position = document.getElementById(`slider-motor${jIndex + 1}_position`);
-                    if (divN_sweeping) divN_sweeping.style.display = "none";
-                    if (divN_position) divN_position.style.display = "";
-                }
-            });
+    //                 let divN_sweeping = document.getElementById(`slider-motor${jIndex + 1}`);
+    //                 let divN_position = document.getElementById(`slider-motor${jIndex + 1}_position`);
+    //                 if (divN_sweeping) divN_sweeping.style.display = "none";
+    //                 if (divN_position) divN_position.style.display = "";
+    //             }
+    //         });
 
-            // Set this one to 1
-            this.value = 1;
-            let divN_sweeping = document.getElementById(`slider-motor${n}`);
-            let divN_position = document.getElementById(`slider-motor${n}_position`);
-            if (divN_sweeping) divN_sweeping.style.display = "";
-            if (divN_position) divN_position.style.display = "none";
-        } else {
-            // If unchecked manually, set its value to 0
-            this.value = 0;
-            let divN_sweeping = document.getElementById(`slider-motor${n}`);
-            let divN_position = document.getElementById(`slider-motor${n}_position`);
-            if (divN_sweeping) divN_sweeping.style.display = "none";
-            if (divN_position) divN_position.style.display = "";
-        }
-    });
-    });
+    //         // Set this one to 1
+    //         this.value = 1;
+    //         let divN_sweeping = document.getElementById(`slider-motor${n}`);
+    //         let divN_position = document.getElementById(`slider-motor${n}_position`);
+    //         if (divN_sweeping) divN_sweeping.style.display = "";
+    //         if (divN_position) divN_position.style.display = "none";
+    //     } else {
+    //         // If unchecked manually, set its value to 0
+    //         this.value = 0;
+    //         let divN_sweeping = document.getElementById(`slider-motor${n}`);
+    //         let divN_position = document.getElementById(`slider-motor${n}_position`);
+    //         if (divN_sweeping) divN_sweeping.style.display = "none";
+    //         if (divN_position) divN_position.style.display = "";
+    //     }
+    // });
+    // });
 
+
+    // window.addEventListener('DOMContentLoaded', () => {
+    // checkboxes.forEach((cb, index) => {
+    //     cb.checked = false;
+    //     cb.value = 0;
+        
+        
+
+    //     let divN_sweeping = document.getElementById(`slider-motor${index + 1}`);
+    //     let divN_position = document.getElementById(`slider-motor${index + 1}_position`);
+    //     if (divN_sweeping) divN_sweeping.style.display = "";
+    //     if (divN_position) divN_position.style.display = "none";
+    //     });
+    // });
 
 
     // var config = retrieve_execution_configuration(); 
