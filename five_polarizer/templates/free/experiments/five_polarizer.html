@@ -1,3 +1,10 @@
+<!--
+NOTAS:
+WINDOW ON LOAD CARREGAR DADOS DA EXPERIENCIA EFETUADA PARA O UI
+ASSOCIAR CONDIG DO PROTOCOLO PARA OS SLIDERS!
+-->
+
+
 {% extends 'free/experiment.html' %}
 {% load static %}
 {% load i18n %}
@@ -301,10 +308,10 @@ function on_save_experiment_UI(){
 
 function configure_slider(name){
         $('#slider-'+name).roundSlider({
-            min: protocol_input_arguments[name].minimum,
-            max: protocol_input_arguments[name].maximum,
+            min: parseFloat(protocol_input_arguments[name].minimum),
+            max: parseFloat(protocol_input_arguments[name].maximum),
             step: 0.36,
-            value: protocol_input_arguments[name].default,
+            value: parseFloat(protocol_input_arguments[name].default),
             radius: 75,
             width: 14,
             handleSize: "24,12",
@@ -325,7 +332,7 @@ function configure_slider(name){
             // the 'startValue' property decides at which point the slider should start.
             // otherwise, by default the slider starts with min value. this is mainly used
             // for min-range slider, where you can customize the min-range start position.
-            startValue: protocol_input_arguments[name].default,
+            startValue: parseFloat(protocol_input_arguments[name].default),
         
             // SVG related properties
             svgMode: false,
@@ -344,7 +351,7 @@ function configure_slider(name){
             drag: null,
             change: function (e) {
                 console.log("New Value:", e.value); // logs the new value when you release the slider
-                $('#'+name).val(e.value);
+                $('#'+name).val(parseFloat(e.value).toFixed(2));
             },
             // 'update' event is the combination of 'drag' and 'change'
             update: null,
@@ -355,6 +362,7 @@ function configure_slider(name){
             tooltipFormat: null
         });
     }
+
 
     function configure_slider_double(name, input_1, input_2){
         $('#slider-'+name).roundSlider({
@@ -418,6 +426,7 @@ function configure_slider(name){
             tooltipFormat: null
         });
     }
+
 
 
 
@@ -549,7 +558,7 @@ function on_ready_experiment_UI(){
 
     // checkboxes behaviour
 
-
+    
     checkboxes.forEach((checkbox, index) => {
         const n = index + 1; // So first checkbox = 1, second = 2, etc.
 
@@ -584,6 +593,7 @@ function on_ready_experiment_UI(){
             }
         });
     });
+    
 
     // set them all to 0 and unchecked on page load
     checkboxes.forEach((cb, index) => {
@@ -614,12 +624,12 @@ function on_ready_experiment_UI(){
         }
 
 
-        // protocol_input_arguments
-        // current_execution.config["sweep_"+index]
+        // parseFloat(protocol_input_arguments
+        // current_execution.config[")sweep_"+index]
         // if (current_execution.config["sweep_"+index] == 1){
         //     // POR ALGUMA RAZAO OS FREE INPUT ESTA A IR AUTOMATICO PARA A CONFIG CERTA?
         //     cb.click();
-        //     console.log("É1");
+        //     console.log("Ã‰1");
         //     console.log(index);
         // }
         
@@ -632,7 +642,6 @@ function on_ready_experiment_UI(){
         // if (divN_sweeping) divN_sweeping.style.display = "none";
         // if (divN_position) divN_position.style.display = "";
     });
-
 
 
 
@@ -813,7 +822,7 @@ var trace1 = {
                //rangeslider: {}
           },
     yaxis: {
-          title: gettext('Current [µA]'),
+          title: gettext('Current [ÂµA]'),
           fixedrange: true,
           titlefont:{
                 color: 'black',
@@ -934,7 +943,7 @@ var trace3 = {
           },
     yaxis: {
       //range:[0.19,0.21],
-          title: gettext('Current [µA]'),
+          title: gettext('Current [ÂµA]'),
           titlefont:{
                 color: 'black',
                 size: 14
