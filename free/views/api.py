@@ -94,12 +94,15 @@ class ExecutionUpdateSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         data = super().validate(data)
-            
+        adjusted_schema = json.loads(json.dumps(self.instance.protocol.config), parse_float=decimal.Decimal)
+        instance = data['config'] if 'config' in data else {}
+        adjusted_instance = json.loads(json.dumps(instance), parse_float=decimal.Decimal)
+        
         if not self.instance.status in ['C','N']:
             raise serializers.ValidationError("Can only update configuration of not enqueued executions.")
         
         try:
-            validate(instance = data['config'] if 'config' in data else {}, schema = self.instance.protocol.config)
+            validate(instance = adjusted_schema, schema = adjusted_instance)
         except JSONValidationError as e:
             raise serializers.ValidationError(e.message)
             
