@@ -837,11 +837,11 @@ $( document ).ready(function() {
             'buttons': [ 'copy',
                 {
                     extend: 'csv',
-                    title: document.getElementById('apparatus-name').textContent+' | Execution # '+String(current_execution.id)+' | Config- '+JSON.stringify(current_execution.config)
+                    title: String(current_execution.protocol.name)+'_'+String(current_execution.id)+"_"+String(current_execution.start)
                 },
                 {
                     extend: 'excel',
-                    title: document.getElementById('apparatus-name').textContent+' | Execution # '+String(current_execution.id)+' | Config- '+JSON.stringify(current_execution.config)
+                    title: String(current_execution.protocol.name)+'_'+String(current_execution.id)+"_"+String(current_execution.start)
                 },
             ], 
             order: [[0, 'desc']],
