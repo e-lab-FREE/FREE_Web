@@ -824,7 +824,6 @@ window.location.href = '/execution/'+String(response.data.id)+'/bare'
 }
 
 function formatTimestampForFilename(timestamp) {
-  console.log(timestamp)
   const datePart = timestamp.slice(0, 10);
   const timePartRaw = timestamp.slice(11, timestamp.indexOf('.'));
 
@@ -846,7 +845,7 @@ function give_the_name_of_the_file() {
         const name = protocol?.name || "unknown";
         if (start !==  "unknown"){
            string_date =  formatTimestampForFilename(String(start))
-            return `${String(name)}_ExecutionID_${String(id)}_${String(string_date)}`;
+            return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
         }
         return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
     } else {
