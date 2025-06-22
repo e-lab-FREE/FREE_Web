@@ -5,6 +5,7 @@
 {% block headscript%}
 <script id="csrf_token" type="application/json">{{csrf_token}}</script>
 {{apparatus.config|json_script:"apparatus-config"}}
+{{apparatus.location|json_script:"apparatus-location"}}
 {{apparatus.id|json_script:"apparatus-id"}}
 {{protocol.config|json_script:"protocol-config"}}
 {{protocol.id|json_script:"protocol-id"}}
@@ -24,6 +25,7 @@
     protocol_input_arguments = protocol_config.properties
 
     current_execution = JSON.parse(document.getElementById('execution-config').textContent);
+    apparatus_location = JSON.parse(document.getElementById('apparatus-location').textContent);
 
     var execution_status;
     execution_status = current_execution['status']
@@ -847,7 +849,7 @@ function give_the_name_of_the_file() {
         const name = protocol?.name || "unknown";
         if (start !==  "unknown"){
            string_date =  formatTimestampForFilename(String(start))
-            return `${String(name)}_ExecutionID_${String(id)}_${String(string_date)}`;
+            return `${String(name)}_${String(apparatus_location)}_ExecutionID_${String(id)}_${String(string_date)}`;
         }
         return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
     } else {
