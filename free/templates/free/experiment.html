@@ -827,9 +827,9 @@ function formatTimestampForFilename(timestamp) {
   const timePartRaw = timestamp.slice(11, timestamp.indexOf('.'));
 
   const [year, month, day] = datePart.split("-");
-  const hours = timePartRaw.slice(0, 2);
-  const minutes = timePartRaw.slice(2, 4);
-  const seconds = timePartRaw.slice(4, 6);
+  const hours = timePartRaw.slice(0, 2).padStart(2, '0');
+  const minutes = timePartRaw.slice(2, 4).padStart(2, '0');
+  const seconds = timePartRaw.slice(4, 6).padStart(2, '0');
 
   return `${year}-${month}-${day}_${hours}h${minutes}m${seconds}s`;
 }
