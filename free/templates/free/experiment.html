@@ -823,6 +823,17 @@ window.location.href = '/execution/'+String(response.data.id)+'/bare'
   
 }
 
+function give_the_name_of_the_file() {
+    if (current_execution !== null && current_execution !== undefined) {
+        const { protocol, id, start } = current_execution;
+        const name = protocol?.name || "unknown";
+        return `${String(name)}_${String(id)}_${String(start)}`;
+    } else {
+        return "File_not_available";
+    }
+}
+
+
 
 $( document ).ready(function() {
  
@@ -837,11 +848,11 @@ $( document ).ready(function() {
             'buttons': [ 'copy',
                 {
                     extend: 'csv',
-                    title: String(current_execution.protocol.name)+'_'+String(current_execution.id)+"_"+String(current_execution.start)
+                    title: give_the_name_of_the_file()
                 },
                 {
                     extend: 'excel',
-                    title: String(current_execution.protocol.name)+'_'+String(current_execution.id)+"_"+String(current_execution.start)
+                    title: give_the_name_of_the_file()
                 },
             ], 
             order: [[0, 'desc']],
