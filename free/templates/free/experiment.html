@@ -824,6 +824,7 @@ window.location.href = '/execution/'+String(response.data.id)+'/bare'
 }
 
 function formatTimestampForFilename(timestamp) {
+  console.log(timestamp)
   const datePart = timestamp.slice(0, 10);
   const timePartRaw = timestamp.slice(11, timestamp.indexOf('.'));
 
