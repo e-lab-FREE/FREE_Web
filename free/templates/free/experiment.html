@@ -849,9 +849,9 @@ function replaceSpacesWithUnderscores(str) {
 
 function give_the_name_of_the_file() {
     if (current_execution !== null && current_execution !== undefined && apparatus_location  !== undefined && apparatus_location!== null ) {
-        const { protocol, id, start } = current_execution;
+        const { protocol, id = "unknown", start = "unknown" } = current_execution;
         const name = protocol?.name || "unknown";
-        if (name !==  "unknown"){
+        if (start !==  "unknown"){
            string_date =  formatTimestampForFilename(String(start))
             return `${String(replaceSpacesWithUnderscores(name))}_${String(apparatus_location)}_ExecutionID_${String(id)}_${String(string_date)}`;
         }
