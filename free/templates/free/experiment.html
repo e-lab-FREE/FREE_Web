@@ -822,17 +822,23 @@ window.location.href = '/execution/'+String(response.data.id)+'/bare'
     }).catch(console);  
   
 }
+
 function formatTimestampForFilename(timestamp) {
   const datePart = timestamp.slice(0, 10);
   const timePartRaw = timestamp.slice(11, timestamp.indexOf('.'));
 
   const [year, month, day] = datePart.split("-");
-  const hours = timePartRaw.slice(0, 2).padStart(2, '0');
-  const minutes = timePartRaw.slice(2, 4).padStart(2, '0');
-  const seconds = timePartRaw.slice(4, 6).padStart(2, '0');
+
+  // Make sure timePartRaw has length 6 by padding right if necessary
+  const time = timePartRaw.padEnd(6, '0');
+
+  const hours = time.slice(0, 2).padStart(2, '0');
+  const minutes = time.slice(2, 4).padStart(2, '0');
+  const seconds = time.slice(4, 6).padStart(2, '0');
 
   return `${year}-${month}-${day}_${hours}h${minutes}m${seconds}s`;
 }
+
 function give_the_name_of_the_file() {
     if (current_execution !== null && current_execution !== undefined) {
         const { protocol, id, start } = current_execution;
