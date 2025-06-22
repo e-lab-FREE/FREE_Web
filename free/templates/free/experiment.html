@@ -824,17 +824,19 @@ window.location.href = '/execution/'+String(response.data.id)+'/bare'
 }
 
 function formatTimestampForFilename(timestamp) {
-  const datePart = timestamp.slice(0, 10);
-  const timePartRaw = timestamp.slice(11, timestamp.indexOf('.'));
+  // Extract date and time parts
+  const [datePart, timeWithMs] = timestamp.split('T');
+  const timePartRaw = timeWithMs.split('.')[0]; // get time without milliseconds
+
+  // Remove colons from time (e.g. "14:40:53" -> "144053")
+  const timeNoColons = timePartRaw.replace(/:/g, '');
 
   const [year, month, day] = datePart.split("-");
 
-  // Make sure timePartRaw has length 6 by padding right if necessary
-  const time = timePartRaw.padEnd(6, '0');
-
-  const hours = time.slice(0, 2).padStart(2, '0');
-  const minutes = time.slice(2, 4).padStart(2, '0');
-  const seconds = time.slice(4, 6).padStart(2, '0');
+  // Pad in case any are missing (unlikely with colons though)
+  const hours = timeNoColons.slice(0, 2).padStart(2, '0');
+  const minutes = timeNoColons.slice(2, 4).padStart(2, '0');
+  const seconds = timeNoColons.slice(4, 6).padStart(2, '0');
 
   return `${year}-${month}-${day}_${hours}h${minutes}m${seconds}s`;
 }
@@ -845,7 +847,7 @@ function give_the_name_of_the_file() {
         const name = protocol?.name || "unknown";
         if (start !==  "unknown"){
            string_date =  formatTimestampForFilename(String(start))
-            return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
+            return `${String(name)}_ExecutionID_${String(id)}_${String(string_date)}`;
         }
         return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
     } else {
