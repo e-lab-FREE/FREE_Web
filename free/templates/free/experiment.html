@@ -855,7 +855,7 @@ function give_the_name_of_the_file() {
            string_date =  formatTimestampForFilename(String(start))
             return `${String(replaceSpacesWithUnderscores(name))}_${String(apparatus_location)}_ExecutionID_${String(id)}_${String(string_date)}`;
         }
-        return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
+        return "File_not_available";
     } else {
         return "File_not_available";
     }
