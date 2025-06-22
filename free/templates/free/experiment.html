@@ -848,7 +848,7 @@ function replaceSpacesWithUnderscores(str) {
 }
 
 function give_the_name_of_the_file() {
-    if (current_execution !== null && current_execution !== undefined) {
+    if (current_execution !== null && current_execution !== undefined && apparatus_location  !== undefined && apparatus_location!== null ) {
         const { protocol, id, start } = current_execution;
         const name = protocol?.name || "unknown";
         if (start !==  "unknown"){
