@@ -843,15 +843,19 @@ function formatTimestampForFilename(timestamp) {
   return `${year}-${month}-${day}_${hours}h${minutes}m${seconds}s`;
 }
 
+function replaceSpacesWithUnderscores(str) {
+  return str.replace(/ /g, '_');
+}
+
 function give_the_name_of_the_file() {
     if (current_execution !== null && current_execution !== undefined) {
         const { protocol, id, start } = current_execution;
         const name = protocol?.name || "unknown";
         if (start !==  "unknown"){
            string_date =  formatTimestampForFilename(String(start))
-            return `${String(name)}_${String(apparatus_location)}_ExecutionID_${String(id)}_${String(string_date)}`;
+            return `${String(replaceSpacesWithUnderscores(name))}_${String(apparatus_location)}_ExecutionID_${String(id)}_${String(string_date)}`;
         }
-        return `${String(name)}_ExecutionID_${String(id)}_${String(start)}`;
+        return `${String(replaceSpacesWithUnderscores(name))}_ExecutionID_${String(id)}_${String(start)}`;
     } else {
         return "File_not_available";
     }
