@@ -5,41 +5,25 @@
 
 {% block title %} {% trans 'List of executions' %} {% endblock %}
 
-{% block head %}
-{% endblock %}  
-
 {% block content %}
-    <!--content of this page-->
-    <div class="right floated thirteen wide computer sixteen wide phone column" id="content">
-        <div class="ui container grid">
+    <div class="right floated sixteen wide  column" id="content">
+        <div class="ui centered grid">
             <div class="row">
-                <div class="fifteen wide computer sixteen wide phone centered column">
-                    <h2><i class="home icon"></i>{% trans 'List of Executions' %}</h2>
-                    
-                        <div class="right floated thirteen wide computer sixteen wide phone column" id="content">
-                            <div class="ui container grid">
-                                <div class="row">
-                                    <div class="fifteen wide computer sixteen wide phone centered column">
-                                        
-                                        <div class="ui divider"></div>
-                                        <div class="ui grid">
-                                            <!--<div class="sixteen wide computer sixteen wide phone centered column">-->
-                                                <h4></h4>
-    
-                                                <!-- BEGIN DATATABLE -->
-                                                <div class="ui stacked segment">
-                                                    <div class="ui blue ribbon icon label">{% trans 'List of your executions' %}</div>
-                                                    <br><br>
-                                                    {% render_table table %}
-                                                </div>
-                                                <!-- END DATATABLE -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class=" ui sixteen wide column">
+                    <div class="ui header segment">
+                        <h2><i class="chart bar icon"></i>{% trans 'List of Executions' %}</h2>
+                    </div>
                 </div>
-                
+            </div>
+            <div class="row">
+                <div class=" ui sixteen wide column">
+                    <div class="ui segment">
+                        <div class="ui blue ribbon icon label">{% trans 'List of your executions' %}</div>
+                        <div class="ui divider"></div>
+
+                        {% render_table table %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

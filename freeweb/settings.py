@@ -13,6 +13,7 @@ import environ
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import sys
 
 env = environ.Env()
 environ.Env.read_env()
@@ -20,8 +21,13 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(BASE_DIR, 'FREE_apparatus_code'))
 
-FREE_VERSION = '0.5.1'
+
+FREE_VERSION = '0.6.0'
+
+SERVER_NAME = env.str('SERVER_NAME')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if env.bool('FREE_PRODUCTION'):
@@ -38,6 +44,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+CSRF_TRUSTED_ORIGINS = ['https://elab.vps.tecnico.ulisboa.pt:8000']
 
 # Application definition
 
@@ -56,10 +63,29 @@ INSTALLED_APPS = [
     'django_summernote',
     'social_django', # required for oauth (Google, ...) athentication
     'free.videoConfig',
+    'free.userAdmin',
+    'sortedm2m',
     # APPARATUS TYPES BELOW
     'pendulum',
     'dev_MonteCarlo',
+   'inclined_plane',
+    'langmuir',
+    'photovoltaic_panel',
+    'cavity',
+    'planck',
+    'colisione',
+    'mag3d',
+    'five_polarizer',
+    #'rosetta',
+    'countries_plus',
+    'FREE_maps'
 ]
+if env.bool('FREE_LTI_PROVIDER'):
+    INSTALLED_APPS +=     [
+        'FREE_quizes',
+        'lti_provider',
+        'semanticuiforms',
+    ]
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -74,6 +100,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'freeweb.urls'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 TEMPLATES = [
     {
@@ -98,12 +126,25 @@ WSGI_APPLICATION = 'freeweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if env.str('DB_TYPE') == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+if env.str('DB_TYPE') == 'postgres':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env.str('POSTGRES_DB_NAME'),
+            'USER' : env.str('POSTGRES_DB_USER'),
+            'PASSWORD' : env.str('POSTGRES_DB_PASSWORD'),
+            'HOST' : env.str('POSTGRES_DB_HOST'),
+            'PORT' : env.str('POSTGRES_DB_PORT'),
+            'CONN_MAX_AGE' : None
+        }
+    }
 
 # Support reverse proxy in https 
 if env.bool('FREE_REVERSE_PROXY'):
@@ -172,8 +213,8 @@ DJANGO_TABLES2_TEMPLATE = 'django_tables2/semantic.html'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/images/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'free/media')
 
 STATICFILES_DIRS = []
 
@@ -205,6 +246,27 @@ SWAGGER_SETTINGS = {
 AUTHENTICATION_BACKENDS = (
    'django.contrib.auth.backends.ModelBackend',
 )
+    
+if env.bool('FREE_MS_OAUTH'):
+    AUTHENTICATION_BACKENDS += ('social_core.backends.microsoft.MicrosoftOAuth2',)
+
+    SOCIAL_AUTH_MICROSOFT_GRAPH_KEY = env.str('SOCIAL_AUTH_MICROSOFT_GRAPH_KEY')
+    SOCIAL_AUTH_MICROSOFT_GRAPH_SECRET = env.str('SOCIAL_AUTH_MICROSOFT_GRAPH_SECRET')
+    SOCIAL_AUTH_MICROSOFT_GRAPH_PIPELINE = (
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.social_auth.associate_by_email',
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
+    )
+
+
+
+   
 
 if env.bool('FREE_GOOGLE_OAUTH'):
     AUTHENTICATION_BACKENDS += ('social_core.backends.google.GoogleOAuth2',)
@@ -212,6 +274,17 @@ if env.bool('FREE_GOOGLE_OAUTH'):
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
+    SOCIAL_AUTH_GOOGLE_OAUTH2_PIPELINE = (
+        'social_core.pipeline.social_auth.social_details',
+        'social_core.pipeline.social_auth.social_uid',
+        'social_core.pipeline.social_auth.social_user',
+        'social_core.pipeline.user.get_username',
+        'social_core.pipeline.social_auth.associate_by_email',
+        'social_core.pipeline.user.create_user',
+        'social_core.pipeline.social_auth.associate_user',
+        'social_core.pipeline.social_auth.load_extra_data',
+        'social_core.pipeline.user.user_details',
+    )
 if env.bool('FREE_FENIX_OAUTH'):
 
     AUTHENTICATION_BACKENDS += ('free.auth_backends.fenix_auth.fenixOAuth2',)
@@ -233,6 +306,43 @@ if env.bool('FREE_FENIX_OAUTH'):
     SOCIAL_AUTH_FENIX_AUTH_KEY=env.str('SOCIAL_AUTH_FENIX_AUTH_KEY')
     SOCIAL_AUTH_FENIX_AUTH_SECRET=env.str('SOCIAL_AUTH_FENIX_AUTH_SECRET')
 
+if env.bool('FREE_LTI_PROVIDER'):
+
+    AUTHENTICATION_BACKENDS += ('lti_provider.auth.LTIBackend',)
+
+    LTI_TOOL_CONFIGURATION = {
+        'title': '<your lti provider title>',
+        'description': '<your description>',
+        'launch_url': 'lti/',
+        'embed_url': '', #'<the view endpoint for an embed tool>' 
+        'embed_icon_url': '', #'<the icon url to use for an embed tool>' 
+        'embed_tool_id': '', #'<the embed tool id>'
+        'landing_url': '/', #<the view landing page>
+        'course_aware': False,
+        'course_navigation': True,
+        'new_tab': False,
+        'frame_width': 2048,
+        'frame_height': 2048,
+        'custom_fields': '',
+        'allow_ta_access': True,
+        'assignments': {
+            '<name>': '<landing_url>',
+            '<name>': '<landing_url>',
+            '<name>': '<landing_url>',
+            },
+    }
+
+PYLTI_CONFIG = {
+    'consumers': {
+        'abcdefghijklmnopqrst': {
+            'secret': 'uvwxyz1234567890ABCD'
+        },
+        'uvwxyz1234567890ABCD':{
+            'secret':'abcdefghijklmnopqrst'
+        }
+    }
+}
+
 JANUS_SERVER_ADDRESS=env.str('JANUS_SERVER_ADDRESS')
 JANUS_STREAM_ADMIN_KEY = env.str('JANUS_STREAM_ADMIN_KEY')
 
@@ -240,3 +350,20 @@ JANUS_STREAM_ADMIN_KEY = env.str('JANUS_STREAM_ADMIN_KEY')
 PROJECT_NAME=env.str('PROJECT_NAME','World Pendulum Alliance')
 PROJECT_ACRONYMUM=env.str('PROJECT_ACRONYMUM', 'WPA')
 SITE_NAME=env.str('SITE_NAME','') 
+if env.bool('CACHE'):
+    if env.str('CACHE_TYPE') == 'locmemc':
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                'LOCATION': 'unique-snowflake',
+            }
+        }
+    if env.str('CACHE_TYPE') == 'memcached':
+        CACHES = {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+                'LOCATION': '127.0.0.1:11211',
+            }
+        }
+
+IPGEOLOCATION_API_KEY=env.str('IPGEOLOCATION_API_KEY')

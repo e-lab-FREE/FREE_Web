@@ -1,15 +1,25 @@
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, TemplateView
+from django.views.generic import TemplateView, TemplateView, DetailView
 from free.views.api import ExecutionSerializer, ResultSerializer
 from free.models import *
 from django_tables2 import Table, TemplateColumn, Column
 from django_tables2.views import SingleTableView
-
+from django.views.generic.base import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+
 class IndexView(TemplateView):
     template_name='free/index.html'
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["n_experiments"] = len(Apparatus.objects.all().values_list('protocols'))
+        context["n_executions"] = len(Execution.objects.filter(status='F'))
+        context["n_users"] = len(User.objects.all())
+        context["n_countries"] = len(Execution.objects.all().values_list('client_country').distinct())
+        
+        return context
 # EXPERIMENT CONTROL & EXECUTIONS
 
 class ExecutionView(LoginRequiredMixin, TemplateView):
@@ -20,6 +30,7 @@ class ExecutionView(LoginRequiredMixin, TemplateView):
         context['execution_json'] = ExecutionSerializer(self.execution).data
         context['apparatus'] = self.execution.apparatus
         context['protocol'] = self.execution.protocol
+        context['base'] = "free/base.html"
         try:
             context['final_result'] = ResultSerializer(Result.objects.get(result_type='f', execution=self.execution)).data
         except:
@@ -29,21 +40,51 @@ class ExecutionView(LoginRequiredMixin, TemplateView):
     def get_template_names(self):
         return ['free/experiments/' + self.execution.apparatus.apparatus_type.slug + '.html']
 
+
+class ExecutionStrippedView(ExecutionView):
+    def get_context_data(self, **kwargs):
+        context = ExecutionView.get_context_data(self, **kwargs)
+        context['base'] = "free/base_stripped.html"
+        context['STRIPPED'] = True
+        return context
+
+class ApparatusVideoView(LoginRequiredMixin, DetailView):
+    template_name = 'free/apparatus_video.html'
+    def get_queryset(self):
+        print(self.kwargs['pk'])
+        return Apparatus.objects.filter(id=self.kwargs['pk'])
+        #.get(pk=self.kwargs['pk'])
+
 class CreateExecutionView(LoginRequiredMixin, TemplateView):    
-    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.apparatus = Apparatus.objects.get(pk=kwargs['apparatus_id'])
+        context['base'] = "free/base.html"
         
+        apparatus_id = kwargs['apparatus_id']
+        protocol_id = kwargs['protocol_id']
+        
+
+        self.apparatus = get_object_or_404(Apparatus, pk=apparatus_id)
+
+        if not self.apparatus.protocols.filter(id=protocol_id).exists():
+            raise Http404("Apparatus type does implement such protocol")
+
         context['execution_json'] = {}
         context['apparatus'] = self.apparatus
-        context['protocol'] = Protocol.objects.get(pk=kwargs['protocol_id'])
+        context['protocol'] = Protocol.objects.get(pk=protocol_id)
         context['final_result'] = {}
         return context
 
     def get_template_names(self):
         return ['free/experiments/' + self.apparatus.apparatus_type.slug + '.html']
+
+class CreateExecutionStrippedView(CreateExecutionView):
+    def get_context_data(self, **kwargs):
+        context = CreateExecutionView.get_context_data(self, **kwargs)
+        context['base'] = "free/base_stripped.html"
+        context['STRIPPED'] = True
+        return context
 
 
 class ExecutionsTable(Table):
@@ -51,7 +92,7 @@ class ExecutionsTable(Table):
 
     class Meta:
         model = Execution
-        fields = ['apparatus', 'name', 'protocol', 'status', 'start', 'end']
+        fields = ['id', 'apparatus', 'name', 'protocol', 'status', 'order', 'start', 'end']
 
 class ExecutionsListView(LoginRequiredMixin,SingleTableView):
     template_name = 'free/executions.html'
@@ -71,7 +112,7 @@ class ExecutionsFinishedListView(ExecutionsListView):
 class ApparatusTable(Table):
 
     protocols = TemplateColumn(template_name='free/protocols.html')
-    current_status = TemplateColumn(verbose_name=_('Current status'), template_name='free/current_status.html')
+    current_status = TemplateColumn(verbose_name=_('Current status'), template_name='free/current_status.html', order_by='last_online')
 
     class Meta:
         model = Apparatus
@@ -80,4 +121,17 @@ class ApparatusTable(Table):
 class ApparatusesView(LoginRequiredMixin,SingleTableView):
     template_name = 'free/apparatuses.html'
     table_class = ApparatusTable
-    queryset = Apparatus.objects.all()
+    queryset = Apparatus.objects.filter(visible=True)
+
+class ApparatusesRedirectNewExperiment(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        apparatus_id = kwargs['apparatus_id']
+        protocol_id = kwargs['protocol_id']
+        apparatus_type_slug = kwargs['apparatus_type_slug']
+
+        obj = get_object_or_404(Apparatus, pk=apparatus_id)
+
+        if obj.apparatus_type.slug != apparatus_type_slug:
+            raise Http404("Apparatus type does not match")
+
+        return reverse_lazy('free:execution-create', kwargs={'apparatus_id': apparatus_id, 'protocol_id': protocol_id})

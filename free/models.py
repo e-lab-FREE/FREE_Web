@@ -5,6 +5,13 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.postgres.fields import JSONField
+from countries_plus.models import Country
+
+import environ
+env = environ.Env()
+environ.Env.read_env()
+from django.core.cache import cache
 
 class ApparatusType(models.Model):
     name = models.CharField(_('Name'), max_length=64)
@@ -25,6 +32,9 @@ class Apparatus(models.Model):
     apparatus_type = models.ForeignKey(ApparatusType, on_delete=models.PROTECT, help_text=_('After setting/changing the apparatus_type, press "%(button_name)s" to see the list of protocols.') % {'button_name' : _('Save and continue editing')})
     protocols = models.ManyToManyField('Protocol', blank=True)
     location = models.CharField(_('Location'), max_length=64)
+    country = models.ForeignKey(Country, related_name='apparatuses', on_delete=models.RESTRICT, null = True)
+    long = models.DecimalField(max_digits=8, decimal_places=3, null=True)
+    lat = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     description = models.TextField(_('Description'), blank=True, default='')
     secret = models.CharField(_('Secret'), max_length=32)
     owner = models.CharField(_('Owner'), max_length=32)
@@ -32,16 +42,25 @@ class Apparatus(models.Model):
     config = models.JSONField(_('Configuration'), default=dict, blank=True)
     video_config = models.JSONField(_('Video configuration'), null=True, blank=True)
     last_online = models.DateTimeField(_('Last ping'), auto_now=True)
+    image = models.ImageField(upload_to='apparatus/', default='apparatus/missing_image.jpg')
+    parameters = models.JSONField(_('Parameters'), default=dict, blank=True)
+    visible = models.BooleanField(_('Visible'), default=False, blank=False)
 
     def __str__(self):
         return _('%(apparatus_type)s in %(location)s') % {'apparatus_type': self.apparatus_type.name, 'location': self.location}
 
     @property
     def current_status(self):
-        if (timezone.now() - self.last_online).total_seconds() < self.timeout:
-            return 'Online'
+        if env.bool('CACHE'):
+            if cache.get('apparatus_status_'+str(self.id)) == None:
+                return 'Offline'
+            else:
+                return 'Online'
         else:
-            return 'Offline'
+            if (timezone.now() - self.last_online).total_seconds() < self.timeout:
+                return 'Online'
+            else:
+                return 'Offline'
 
     class Meta:
         verbose_name = _('Apparatus')
@@ -86,12 +105,27 @@ class Execution(models.Model):
     protocol = models.ForeignKey(Protocol, on_delete=models.PROTECT)
     config = models.JSONField(_('Configuration'), default=dict, blank=True)
     status = models.CharField(_('Status'), max_length=1, choices=EXECUTION_STATUS_CHOICES)
+    created_at = models.DateField(auto_now_add=True)
     queue_time = models.DateTimeField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
+    client_country = models.ForeignKey(Country, related_name='executions', on_delete=models.RESTRICT, null = True)
+    client_city = models.CharField(max_length=100, null=True)
+    client_organization = models.CharField(max_length=200, null=True)
+    client_long = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    client_lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    client_ip_address = models.GenericIPAddressField(null=True) 
+
+    @property
+    def order(self):
+        if self.status == 'Q':
+            lst_exec = Execution.objects.filter(status='Q', apparatus=self.apparatus, queue_time__lte= self.queue_time)
+            return len(lst_exec)
+        else:
+            return None
 
     def __str__(self):
-        return _('Execution of %(protocol)s') % {'protocol': str(self.protocol)}
+         return _('Execution of %(protocol)s') % {'protocol': str(self.protocol)}
 
     class Meta:
         verbose_name = _('Execution')

@@ -14,11 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.i18n import JavaScriptCatalog
 
+from FREE_quizes.admin import FREE_quizes_admin_site
 urlpatterns = [
     path('', include('free.urls')),
     path('admin/', admin.site.urls, name='administration'),
@@ -27,7 +28,18 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('', include('social_django.urls', namespace='social')),
     path('', include('free.videoConfig.urls')),
+    path('', include('free.userAdmin.urls')),
+    path('lti/', include('lti_provider.urls')),
+    path('FREE_quizes_admin/', FREE_quizes_admin_site.urls, name='FREE_quizes_admin'),
+    path('FREE_quizes/',include('FREE_quizes.urls'),name='FREE_quizes'),
+    path('FREE_maps/',include('FREE_maps.urls'),name='FREE_maps'),
+
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    if 'rosetta' in settings.INSTALLED_APPS:
+        urlpatterns += [
+            re_path(r'^rosetta/', include('rosetta.urls'))
+        ]
